@@ -5,13 +5,11 @@ build/
 dist/
 # external references (RE1-Mod-SDK, biorand, evilresource pages): download locally, see README
 refs/
-# extracted from the game files / third-party pages, or generated from them: rebuilt by build.py
+# raw extraction (game scripts, third-party pages) and intermediates: rebuilt by build.py --extract;
+# the extracted results the build uses (annotated, room_xform, map_rooms) are committed
 data/rdt.json
-data/map_rooms.json
 data/evilresource.json
-data/annotated.json
 data/room_match.json
-data/room_xform.json
 data/slot_names.json
 src/overlay_data.h
 docs/wiki/img/
@@ -22,3 +20,6 @@ mod_annotated_map/*.pdb
 mod_annotated_map/*.lib
 mod_annotated_map/*.ini
 mod_annotated_map/*.log
+# CI inputs (decrypted game files never land in git)
+local/
+.ci-inputs/

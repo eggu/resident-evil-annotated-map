@@ -10,8 +10,10 @@ from PIL import Image, ImageDraw, ImageFont
 ROOT = Path(__file__).parent.parent
 S = 8   # texels per PSX pixel (REbirth wraps sprite UVs at 256, so overlay textures stay 256 = 32 PSX px; S=16 needed 512 and broke, 2026-10-20)
 TILE = 32 * S   # overlay tile texture size (32 PSX pixels per tile)
-FONT = '/System/Library/Fonts/AppleSDGothicNeo.ttc'
-FACE, OUTLINE = 2, S // 4   # Medium face, 1-texel outline: Bold + 2-texel outline was blurry at map resolution
+FONTS = Path(__file__).resolve().parents[1] / 'fonts'   # bundled OFL fonts: same output on any OS / CI
+FONT = str(FONTS / 'Pretendard-Medium.otf')
+LATIN_SCALE = 0.92   # Pretendard's Latin runs ~8 % wider than its Hangul (and than the old Apple SD Gothic Neo)
+FACE, OUTLINE = 0, S // 4   # Medium weight, 1-texel outline: Bold + 2-texel outline was blurry at map resolution
 d = json.loads((ROOT / 'data/annotated.json').read_text())
 
 # palette index -> RGB (0 = transparent)
@@ -58,6 +60,8 @@ def text_bitmap(text, size, color, face=None, left=False):
             out.paste(part, (0 if left else (w - part.width) // 2, y), part.point(lambda v: 255 if v else 0))
             y += part.height - 2
         return out
+    if not face and text.isascii():
+        size = round(size * LATIN_SCALE)
     font = ImageFont.truetype(*(face or (FONT, )), size, **({} if face else dict(index=FACE)))
     l, t, r, b = font.getbbox(text, stroke_width=OUTLINE)
     w, h = r - l + 2, b - t + 2
@@ -470,7 +474,7 @@ def layout_view(vi, lang):
             if r is None:   # nowhere free: centre on the room anchor
                 cx, cy = to_tex(view, page, m['x'], m['y'])
                 m.setdefault('lab', {})[(vi, lang)] = (bid[id(m)], round(cx - w / 2), round(cy - h / 2))
-                stats['failed'] += 1
+                stats['failed'] += 1; print('  no room for name:', m['text'][lang])
                 continue
             (bx, by, bw, bh), line = r
             m.setdefault('lab', {})[(vi, lang)] = (bid[id(m)], bx * S + (bw * S - w) // 2, by * S + (bh * S - h) // 2)
@@ -533,7 +537,7 @@ for k, (variants, col) in enumerate(FULL_ROWS):
     full_legend.append(rows)
 full_legend_title = (label('DISPLAY STATUS', FULL_LEGEND_SIZE, PURE), label('표시 상태', FULL_LEGEND_SIZE, PURE))
 # RE2-style area title: large serif, two lines, top-left
-TITLE_EN, TITLE_KO = ('/System/Library/Fonts/Supplemental/Times New Roman Italic.ttf',), ('/System/Library/Fonts/Supplemental/AppleMyungjo.ttf',)
+TITLE_EN, TITLE_KO = (str(FONTS / 'NotoSerif-Italic.ttf'),), (str(FONTS / 'NanumMyeongjo-Regular.ttf'),)
 TITLE_SIZE = 40 * S // 4
 # navigation arrows (floor up/down, area left/right) and the player arrow (16 headings)
 def triangle(w, h, pts, fill=GREEN):

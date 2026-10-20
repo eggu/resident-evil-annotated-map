@@ -1,0 +1,57 @@
+{
+  "ciphertext_sha256": "4f30291d46434db9dd0834a75024e1c4d5d5c7c16d8f77ddf48c1f9137eea001",
+  "files": {
+    "game/Biohazard.exe": {
+      "sha256": "9fd220aa2e8f336629edb1545cd172a5229b6c73d57e3f900e91e17785e8aad8",
+      "size": 962560
+    },
+    "game/jpn/Item_m2/MAP01.TIM": {
+      "sha256": "e4e92e4fb358f5acd9a71be8547b2c62b60b8f1b4f173a45746f4ac6bd4c2372",
+      "size": 16928
+    },
+    "game/jpn/Item_m2/MAP02.TIM": {
+      "sha256": "74ae5a3452deb7ff870a9e4ca9d17a81f6b2f57829f961b418f1d3ecbd3c3db8",
+      "size": 16928
+    },
+    "game/jpn/Item_m2/MAP03.TIM": {
+      "sha256": "d9ef82302418d9463df267e594aa90b3008c86ccd1f4cf7defef55ef75d5858f",
+      "size": 16928
+    },
+    "game/jpn/Item_m2/MAP04.TIM": {
+      "sha256": "ff713cd9fbc373d2301e8073950f59ee730c737e70e08d4adbfd023965239b98",
+      "size": 16928
+    },
+    "game/jpn/Item_m2/MAP05.TIM": {
+      "sha256": "f67670c2041acd85e7624f225d08f6b1bdd42c91e12a5ccb270ac22e91178364",
+      "size": 16928
+    },
+    "game/jpn/Item_m2/MAP06.TIM": {
+      "sha256": "117cb326e3ce1289fc49638652f8833510d835af02afc34071f3796f9ac4682f",
+      "size": 16928
+    },
+    "game/jpn/Item_m2/MAP07.TIM": {
+      "sha256": "65907541f5aadb94ac6acea2e588f5d4c7d8459ba8bef8393e421d6c353a024b",
+      "size": 16928
+    },
+    "game/jpn/Item_m2/MAP08.TIM": {
+      "sha256": "623a6bba795656d87e364bb0b61b8c5d6598413a6cdc404be1b62cf7838ed091",
+      "size": 16928
+    },
+    "game/jpn/Item_m2/MAP09.TIM": {
+      "sha256": "16d915283a4e110aca01271622eceec8235886612a883e479659600262cbfbbb",
+      "size": 16928
+    },
+    "game/jpn/Item_m2/MAP0A.TIM": {
+      "sha256": "d892dd93d95233e43a82ba073f9c7404be1a8b7e67bab59f19fc180822c6c601",
+      "size": 16928
+    },
+    "game/jpn/Item_m2/MAP0B.TIM": {
+      "sha256": "47392b41d837b6bdcdcd7f312612cc0cca99373f7d88b9c2b795cda1338ee70b",
+      "size": 16928
+    },
+    "game/jpn/Item_m2/Map_blue.tim": {
+      "sha256": "196f3f07cd3a5bbfb7b8a1b17b1d6de2cb6062fb13aa7d6ec808faebc8709955",
+      "size": 16928
+    }
+  }
+}

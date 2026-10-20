@@ -53,20 +53,21 @@
 
 ## 빌드
 
-게임 파일과 외부 참고 자료에서 데이터를 추출하므로 저장소에는 게임 파일, 추출 데이터, 생성된 헤더가 들어 있지 않습니다.
+저장소에는 게임 파일이 없습니다. 이미 추출한 데이터(`data/annotated.json`, `room_xform.json`, `map_rooms.json`)를 사용하므로 빌드에는 게임 폴더의 `Biohazard.exe`(네이티브 테스트)와 `jpn/Item_m2`의 지도 TIM만 필요합니다. 글꼴은 `fonts/`의 오픈 라이선스 글꼴(Pretendard, 나눔명조, Noto Serif)을 사용합니다.
 
 ```sh
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
 export RE1_GAME_DIR="/path/to/Resident Evil"   # Biohazard.exe와 jpn/이 있는 GOG 일본어판 폴더
-.venv/bin/python build.py --package           # 추출 → 위키 → 에셋 → DLL → 네이티브 테스트 → dist/ ZIP
+.venv/bin/python build.py --package           # 위키 → 에셋 → DLL → 네이티브 테스트 → dist/ ZIP
 ```
 
-- `refs/`(git 제외)에 [RE1-Mod-SDK](https://github.com/Gemini-Loboto3/RE1-Mod-SDK), [biorand/classic](https://github.com/biorand/classic), [biorand/biohazard-utils](https://github.com/biorand/biohazard-utils)와 [evilresource.com/resident-evil](https://www.evilresource.com/resident-evil) 방 페이지(`refs/evilresource/pages/*.html`)를 받아 둡니다.
+- 데이터를 다시 추출하려면 `--extract`를 붙입니다. 이때는 모든 `ROOM*.RDT`와 `refs/evilresource/pages/*.html`([evilresource.com/resident-evil](https://www.evilresource.com/resident-evil) 방 페이지)이 필요합니다. 참고 자료: [RE1-Mod-SDK](https://github.com/Gemini-Loboto3/RE1-Mod-SDK), [biorand/classic](https://github.com/biorand/classic), [biorand/biohazard-utils](https://github.com/biorand/biohazard-utils).
 - 손으로 관리하는 데이터는 `data/curated.json`(퍼즐, 이벤트 아이템, 방 이름 보정)과 `data/items.json`(아이템 이름)입니다.
 - `tests/test_native.py`는 실제 EXE와 빌드한 DLL을 Unicorn으로 실행해 패치, 플래그 판정, 지도 입력, 그리기 명령을 확인합니다. `tools/audit_fit.py`는 방별 월드→지도 변환을 점검합니다.
+- GitHub Actions(`.github/workflows/package.yml`)는 `main`에 푸시할 때 암호화된 비공개 입력(EXE, 지도 TIM)을 풀어 같은 빌드와 테스트를 실행하고 배포 ZIP을 아티팩트로 올립니다.
 
 조사 자료와 구현 근거는 [위키](docs/wiki/README.md)에 있습니다.
 
-## 고지
+## 라이선스
 
-비공식 팬 모드입니다. Capcom 및 Classic REbirth와 관련이 없습니다. 방 이름·퍼즐 정보는 [Evil Resource](https://www.evilresource.com/resident-evil)를 참고했습니다.
+소스는 [MIT License](LICENSE)입니다. 비공식 팬 모드이며 Capcom 및 Classic REbirth와 관련이 없습니다. 참고 자료와 글꼴 라이선스는 [NOTICE](NOTICE.md)에 있습니다.

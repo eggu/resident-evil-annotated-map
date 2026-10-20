@@ -9,7 +9,7 @@ ROOT = Path(__file__).parent.parent
 ITEM_M2 = Path(os.environ.get('RE1_GAME_DIR') or sys.exit('Set RE1_GAME_DIR to the game folder (Biohazard.exe, jpn/); see README')) / 'jpn/Item_m2'
 S = 5
 d = json.loads((ROOT / 'data/annotated.json').read_text())
-font = ImageFont.truetype('/System/Library/Fonts/AppleSDGothicNeo.ttc', 11)
+font = ImageFont.truetype(str(Path(__file__).resolve().parents[1] / 'fonts/Pretendard-Medium.otf'), 11)
 COL = dict(key=(60, 220, 255), document=(240, 240, 240), common=(150, 150, 150), lock=(255, 205, 70), puzzle=(255, 150, 30), save=(170, 200, 120))
 out = ROOT / 'docs/wiki/img'
 out.mkdir(parents=True, exist_ok=True)

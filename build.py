@@ -1,6 +1,9 @@
-"""Rebuild everything from the installed game files: data -> wiki -> assets -> ASI -> native test.
+"""Build from the committed extracted data: wiki -> assets -> DLL -> native test [-> release ZIP].
 
-Usage: RE1_GAME_DIR=<game folder> .venv/bin/python build.py [--skip-data] [--package]
+Usage: RE1_GAME_DIR=<game folder> .venv/bin/python build.py [--extract] [--package]
+  --extract  re-run data extraction first (needs every ROOM*.RDT and refs/evilresource pages)
+  --package  write dist/RE1-Annotated-Map-<VERSION>.zip
+The build itself reads only Biohazard.exe (native test) and jpn/Item_m2 MAP*.TIM / Map_blue.tim.
 """
 import os, subprocess, sys
 from pathlib import Path
@@ -16,7 +19,7 @@ def run(cmd):
     subprocess.run(cmd, cwd=ROOT, check=True)
 
 
-if '--skip-data' not in sys.argv:
+if '--extract' in sys.argv:
     for step in DATA_STEPS:
         run(PY + [ROOT / 'tools' / step])
 run(PY + [ROOT / 'tools/gen_wiki.py'])

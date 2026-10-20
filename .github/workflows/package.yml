@@ -1,0 +1,40 @@
+name: Build release package
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write # GitHub requires write access to read unpublished draft releases.
+
+jobs:
+  package:
+    runs-on: ubuntu-latest
+    env:
+      RE1_GAME_DIR: ${{ github.workspace }}/.ci-inputs/game
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.12'
+          cache: pip
+          cache-dependency-path: requirements.txt
+      - name: Install build and test dependencies
+        run: python -m pip install -r requirements.txt
+      - name: Download private CI game inputs
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release download ci-build-inputs --pattern ci-build-inputs.tar.gz.enc --dir local
+      - name: Prepare verified CI inputs
+        env:
+          BUILD_INPUTS_KEY: ${{ secrets.BUILD_INPUTS_KEY }}
+        run: python scripts/prepare_ci_inputs.py
+      - name: Build, run native tests, package
+        run: python build.py --package
+      - name: Upload copy-only package
+        uses: actions/upload-artifact@v4
+        with:
+          name: RE1-Annotated-Map-${{ github.sha }}
+          path: dist/*
+          if-no-files-found: error
