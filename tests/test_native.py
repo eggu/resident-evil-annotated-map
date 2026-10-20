@@ -503,6 +503,7 @@ for y in range(240 * S):
         if v:
             c = colors[v]
             preview.putpixel((x, y), ((c & 31)*255//31, ((c>>5)&31)*255//31, ((c>>10)&31)*255//31))
+(ROOT / 'build').mkdir(exist_ok=True)
 preview.save(ROOT / 'build/native-layout-preview.png')
 from PIL import Image
 preview = Image.new('RGB', (WIDTH, 240*S), (8, 8, 12))
