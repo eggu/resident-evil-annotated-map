@@ -1,3 +1,3 @@
 [MOD]
-Name = Annotated Map: Survivor's Notes 1.0.0
+Name = Annotated Map: Survivor's Notes 1.0.1
 Module = RE1.AnnotatedMap.dll

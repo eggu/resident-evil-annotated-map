@@ -1,4 +1,4 @@
-# Annotated Map: Survivor's Notes — 1.0.0
+# Annotated Map: Survivor's Notes — 1.0.1
 
 ## 한국어
 
@@ -8,8 +8,9 @@
 - M / 패드 RB로 전체 화면 지도를 열고, 숫자 9로 한국어·영어를 전환합니다.
 - 수집·해결 상태와 크리스·질의 아이템 배치 차이를 반영합니다.
 - 빌드 시 본문·영문 제목·한글 제목 글꼴을 각각 지정할 수 있습니다. 생략하면 포함된 오픈소스 글꼴을 사용합니다.
+- 연결선을 이름보다 먼저 그려 글자를 덮지 않도록 수정했습니다.
 - 방 이름 연결선은 겹침 검사에서 제외하고, 외부 이름은 주변 여백이 넓은 위치부터 배치합니다.
-- 저장소 README와 다음 패키지용 설치 안내를 한국어·영어로 제공합니다.
+- 저장소 README와 ZIP 설치 안내를 한국어·영어로 제공합니다.
 
 ### 설치
 
@@ -29,8 +30,9 @@ Adds Korean and English annotations to the original Resident Evil PC map.
 - Open the full-screen map with M / controller RB and switch Korean / English with number key 9.
 - Reflects collection and puzzle state, with Chris and Jill item placements.
 - Supports separate build-time fonts for body text, the English title and the Korean title. Bundled open-source fonts are used when options are omitted.
+- Draws leader lines before labels so they cannot overwrite text.
 - Leader lines are excluded from collision checks; external room labels prefer positions with more surrounding space.
-- Repository READMEs and installation instructions for the next package are available in Korean and English.
+- Repository READMEs and ZIP installation instructions are available in Korean and English.
 
 ### Installation
 

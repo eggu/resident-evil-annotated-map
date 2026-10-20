@@ -1,4 +1,4 @@
-Annotated Map: Survivor's Notes 1.0.0
+Annotated Map: Survivor's Notes 1.0.1
 For Classic REbirth 1.1.4 (GOG Biohazard.exe).
 
 Map overlay: room names, typewriters/item boxes, locked doors and their keys, key items, files/maps, puzzles, common items.
