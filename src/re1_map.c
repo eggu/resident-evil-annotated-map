@@ -420,6 +420,18 @@ static void compose(unsigned page, int ox, int oy) {
         upload_tile(&terrain, terrain_px, ov_terrain_palette, BG_TEX);
         upload_tile(&outline, outline_px, ov_terrain_palette, BG_TEX);
     }
+    /* Lines may cross labels: draw them first so names remain readable. */
+    if (toggles[T_ALL] && toggles[T_ROOMS])
+        for (unsigned i = 0; i < OV_LINE_COUNT; i++) {   /* leader lines of names placed outside their room */
+            const OvLine *ln = &ov_lines[i];
+            const OvMarker *m = &ov_markers[ln->marker];
+            if (ln->view != (ov_fullscreen ? 1 : 0) || ln->lang != (english ? 0 : 1) || !marker_visible(m, page)) continue;
+            int bx = ov_fullscreen ? 0 : ox, by = ov_fullscreen ? 0 : oy;
+            layer = 1;
+            fill_rect(bx + (ln->x0 < ln->x1 ? ln->x0 : ln->x1) - OV_SCALE / 4, by + (ln->y0 < ln->y1 ? ln->y0 : ln->y1) - OV_SCALE / 4,
+                      bx + (ln->x0 > ln->x1 ? ln->x0 : ln->x1), by + (ln->y0 > ln->y1 ? ln->y0 : ln->y1), 7);
+            layer = 0;
+        }
     if (toggles[T_ALL]) {
         for (unsigned i = 0; i < OV_MARKER_COUNT; i++) {
             const OvMarker *m = &ov_markers[i];
@@ -432,17 +444,6 @@ static void compose(unsigned page, int ox, int oy) {
             layer = 0;
         }
     }
-    if (toggles[T_ALL] && toggles[T_ROOMS])
-        for (unsigned i = 0; i < OV_LINE_COUNT; i++) {   /* leader lines of names placed outside their room */
-            const OvLine *ln = &ov_lines[i];
-            const OvMarker *m = &ov_markers[ln->marker];
-            if (ln->view != (ov_fullscreen ? 1 : 0) || ln->lang != (english ? 0 : 1) || !marker_visible(m, page)) continue;
-            int bx = ov_fullscreen ? 0 : ox, by = ov_fullscreen ? 0 : oy;
-            layer = 1;
-            fill_rect(bx + (ln->x0 < ln->x1 ? ln->x0 : ln->x1) - OV_SCALE / 4, by + (ln->y0 < ln->y1 ? ln->y0 : ln->y1) - OV_SCALE / 4,
-                      bx + (ln->x0 > ln->x1 ? ln->x0 : ln->x1), by + (ln->y0 > ln->y1 ? ln->y0 : ln->y1), 7);
-            layer = 0;
-        }
     if (ov_fullscreen) {
         /* RE2-style: area title top-left, DISPLAY STATUS block bottom-left, blinking green floor/area arrows */
         blit(ov_page_titles[page][english ? 0 : 1], 10 * OV_SCALE, 8 * OV_SCALE);

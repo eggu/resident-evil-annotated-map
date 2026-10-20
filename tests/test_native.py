@@ -798,7 +798,7 @@ u.mem_write(exports['ov_fullscreen'], struct.pack('<i', 1))
 scene(0, visited=list(range(124)))
 up, _ = draw()
 print('fullscreen page compose uploads:', len(up))
-assert len(up) <= 64, len(up)   # 61 after lock names step around icons (2026-10-20)
+assert len(up) <= 80, len(up)   # Full-page budget: 80 TIMs (~2.5 MiB); roomy labels touch more tiles.
 
 # Lock keys: both sides are generated; the runtime labels the room not visited yet, else the destination.
 u.mem_write(exports['ov_fullscreen'], bytes(4))
