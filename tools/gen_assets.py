@@ -3,7 +3,7 @@
 All overlay geometry is in hi-res texels: S texels per PSX pixel. The runtime composes these bitmaps
 into 256x256 4bpp TIM tiles and draws them as native sprites with UVs scaled by S.
 """
-import json, os, struct, sys
+import argparse, json, os, struct, sys
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
@@ -11,7 +11,14 @@ ROOT = Path(__file__).parent.parent
 S = 8   # texels per PSX pixel (REbirth wraps sprite UVs at 256, so overlay textures stay 256 = 32 PSX px; S=16 needed 512 and broke, 2026-10-20)
 TILE = 32 * S   # overlay tile texture size (32 PSX pixels per tile)
 FONTS = Path(__file__).resolve().parents[1] / 'fonts'   # bundled OFL fonts: same output on any OS / CI
-FONT = str(FONTS / 'Pretendard-Medium.otf')
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--font', default=str(FONTS / 'Pretendard-Medium.otf'))
+parser.add_argument('--title-font-en', default=str(FONTS / 'NotoSerif-Italic.ttf'))
+parser.add_argument('--title-font-ko', default=str(FONTS / 'NanumMyeongjo-Regular.ttf'))
+args = parser.parse_args()
+for path in (args.font, args.title_font_en, args.title_font_ko):
+    ImageFont.truetype(path, 16)  # Fail before generating assets if a font cannot be loaded.
+FONT = args.font
 LATIN_SCALE = 0.92   # Pretendard's Latin runs ~8 % wider than its Hangul (and than the old Apple SD Gothic Neo)
 FACE, OUTLINE = 0, S // 4   # Medium weight, 1-texel outline: Bold + 2-texel outline was blurry at map resolution
 d = json.loads((ROOT / 'data/annotated.json').read_text())
@@ -537,7 +544,7 @@ for k, (variants, col) in enumerate(FULL_ROWS):
     full_legend.append(rows)
 full_legend_title = (label('DISPLAY STATUS', FULL_LEGEND_SIZE, PURE), label('표시 상태', FULL_LEGEND_SIZE, PURE))
 # RE2-style area title: large serif, two lines, top-left
-TITLE_EN, TITLE_KO = (str(FONTS / 'NotoSerif-Italic.ttf'),), (str(FONTS / 'NanumMyeongjo-Regular.ttf'),)
+TITLE_EN, TITLE_KO = (args.title_font_en,), (args.title_font_ko,)
 TITLE_SIZE = 40 * S // 4
 # navigation arrows (floor up/down, area left/right) and the player arrow (16 headings)
 def triangle(w, h, pts, fill=GREEN):

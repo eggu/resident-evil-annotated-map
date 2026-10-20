@@ -1,5 +1,7 @@
 # Annotated Map: Survivor's Notes — Resident Evil (1996)
 
+[English](README.en.md) | 한국어
+
 **주석 달린 지도: 생존자의 메모** — 원작 Resident Evil PC판(GOG 일본어판 `Biohazard.exe` + [Classic REbirth 1.1.4](https://classicrebirth.com/index.php/re1cb-changelog/))의 지도에 방 이름, 잠긴 문과 필요한 열쇠, 핵심 아이템, 문서·지도, 퍼즐, 일반 아이템, 타자기·아이템 상자를 표시하는 비공식 REbirth 모드입니다. 한국어/영어를 지원합니다.
 
 - 상태 화면 지도에는 아이콘만, **M**(패드 **RB**)으로 여는 전체 화면 지도에는 이름까지 표시합니다.
@@ -51,9 +53,10 @@
 | `[Calibration] OffsetX/OffsetY/Z` | | 상태창 지도 주석 위치·깊이 보정 |
 | `[Calibration] ArrowRotation` | `0` | 캐릭터 화살표 방향 보정(도) |
 
+릴리스 변경 사항과 검증 상태: [한글·영문 릴리스 노트](RELEASE_NOTES.md).
+
 ## 빌드
 
-저장소에는 게임 파일이 없습니다. 이미 추출한 데이터(`data/annotated.json`, `room_xform.json`, `map_rooms.json`)를 사용하므로 빌드에는 게임 폴더의 `Biohazard.exe`(네이티브 테스트)와 `jpn/Item_m2`의 지도 TIM만 필요합니다. 글꼴은 `fonts/`의 오픈 라이선스 글꼴(Pretendard, 나눔명조, Noto Serif)을 사용합니다.
 
 ```sh
 python3 -m venv .venv && .venv/bin/pip install -r requirements.txt
@@ -61,10 +64,18 @@ export RE1_GAME_DIR="/path/to/Resident Evil"   # Biohazard.exe와 jpn/이 있는
 .venv/bin/python build.py --package           # 위키 → 에셋 → DLL → 네이티브 테스트 → dist/ ZIP
 ```
 
+글꼴 옵션을 생략하면 포함된 오픈소스 글꼴을 사용합니다: 본문 Pretendard, 영문 제목 Noto Serif, 한글 제목 나눔명조. 빌드할 때 각 글꼴을 바꿀 수 있습니다.
+
+```sh
+.venv/bin/python build.py --package --font "/path/to/body.ttf" \
+  --title-font-en "/path/to/title-en.ttf" --title-font-ko "/path/to/title-ko.ttf"
+```
+
+필요한 옵션만 지정하면 나머지는 기본값을 사용합니다. 한글에는 한글 글리프를 포함한 글꼴을 선택하세요. 글꼴은 빌드 시 이미지로 만들어지므로 변경 후 다시 빌드해야 합니다. 잘못된 경로나 읽을 수 없는 글꼴은 빌드를 중단합니다. 사용자 지정 글꼴을 배포할 때는 해당 라이선스를 확인하세요.
+
 - 데이터를 다시 추출하려면 `--extract`를 붙입니다. 이때는 모든 `ROOM*.RDT`와 `refs/evilresource/pages/*.html`([evilresource.com/resident-evil](https://www.evilresource.com/resident-evil) 방 페이지)이 필요합니다. 참고 자료: [RE1-Mod-SDK](https://github.com/Gemini-Loboto3/RE1-Mod-SDK), [biorand/classic](https://github.com/biorand/classic), [biorand/biohazard-utils](https://github.com/biorand/biohazard-utils).
 - 손으로 관리하는 데이터는 `data/curated.json`(퍼즐, 이벤트 아이템, 방 이름 보정)과 `data/items.json`(아이템 이름)입니다.
 - `tests/test_native.py`는 실제 EXE와 빌드한 DLL을 Unicorn으로 실행해 패치, 플래그 판정, 지도 입력, 그리기 명령을 확인합니다. `tools/audit_fit.py`는 방별 월드→지도 변환을 점검합니다.
-- GitHub Actions(`.github/workflows/package.yml`)는 `main`에 푸시할 때 암호화된 비공개 입력(EXE, 지도 TIM)을 풀어 같은 빌드와 테스트를 실행하고 배포 ZIP을 아티팩트로 올립니다.
 
 조사 자료와 구현 근거는 [위키](docs/wiki/README.md)에 있습니다.
 

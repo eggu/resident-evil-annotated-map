@@ -22,3 +22,35 @@ Annotated Map: Survivor's Notes - Resident Evil (1996)
 
 비공식 팬 모드입니다. Capcom과 관련이 없으며 게임 파일을 포함하지 않습니다.
 https://github.com/eggu/resident-evil-annotated-map
+
+================================================================
+English
+================================================================
+
+Supported: GOG Japanese Resident Evil (Biohazard.exe) + Classic REbirth 1.1.4.
+Shows room names, locked doors and required keys, key items, documents and maps,
+puzzles, common items, typewriters and item boxes on the map.
+
+Installation
+1. Close the game.
+2. Copy the ZIP contents into the folder containing Biohazard.exe, preserving
+   the directory structure (mod_annotated_map/ and RE1.AnnotatedMap.dll).
+3. Launch the game and enable "Annotated Map: Survivor's Notes" in REbirth MOD SELECTION.
+
+Controls
+- While exploring, press M or controller RB to open the full-screen map.
+  Press M, RB, Esc or the cancel button to close it.
+- On the map: move forward/backward to select a floor; left/right to select an area.
+- Number keys: 0 all annotations, 1 room names/typewriters/item boxes, 2 doors/keys,
+  3 key items, 4 documents/maps, 5 puzzles, 6 common items,
+  7 full-screen/status-screen map, 8 visibility (visited/revealed/all rooms),
+  9 Korean/English.
+- Settings are saved in mod_annotated_map/RE1.AnnotatedMap.ini.
+  Configure opening and closing controls under [Keys].
+
+Uninstall
+Remove mod_annotated_map/ and RE1.AnnotatedMap.dll from the game folder.
+The EXE and save files are not modified.
+
+Unofficial fan mod, unaffiliated with Capcom. No game files are included.
+https://github.com/eggu/resident-evil-annotated-map

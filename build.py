@@ -5,7 +5,7 @@ Usage: RE1_GAME_DIR=<game folder> .venv/bin/python build.py [--extract] [--packa
   --package  write dist/RE1-Annotated-Map-<VERSION>.zip
 The build itself reads only Biohazard.exe (native test) and jpn/Item_m2 MAP*.TIM / Map_blue.tim.
 """
-import os, subprocess, sys
+import argparse, os, subprocess, sys
 from pathlib import Path
 import ziglang
 
@@ -19,18 +19,33 @@ def run(cmd):
     subprocess.run(cmd, cwd=ROOT, check=True)
 
 
-if '--extract' in sys.argv:
+parser = argparse.ArgumentParser(description=__doc__)
+parser.add_argument('--extract', action='store_true')
+parser.add_argument('--package', action='store_true')
+for option in ('font', 'title-font-en', 'title-font-ko'):
+    parser.add_argument('--' + option, type=Path, help='Custom font file (defaults to the bundled open-source font)')
+args = parser.parse_args()
+font_args = []
+for option in ('font', 'title-font-en', 'title-font-ko'):
+    path = getattr(args, option.replace('-', '_'))
+    if path is not None:
+        path = path.expanduser().resolve()
+        if not path.is_file():
+            parser.error(f'Font file not found: {path}')
+        font_args += ['--' + option, str(path)]
+
+if args.extract:
     for step in DATA_STEPS:
         run(PY + [ROOT / 'tools' / step])
 run(PY + [ROOT / 'tools/gen_wiki.py'])
 run(PY + [ROOT / 'tools/preview.py'])
-run(PY + [ROOT / 'tools/gen_assets.py'])
+run(PY + [ROOT / 'tools/gen_assets.py'] + font_args)
 inc = Path(ziglang.__file__).parent / 'lib/libc/include/any-windows-any'
 run([sys.executable, '-m', 'ziglang', 'cc', '-target', 'x86-windows-gnu', '-shared', '-O2', '-fno-stack-protector',
      '-DWIN32_LEAN_AND_MEAN', '-nostdlib', f'-I{inc}', '-Wall', '-Wextra', '-Wl,--entry,DllMain@12',
      'src/re1_map.c', '-lkernel32', '-luser32', '-o', 'mod_annotated_map/RE1.AnnotatedMap.dll'])
 run([sys.executable, 'tests/test_native.py'])
-if '--package' in sys.argv:
+if args.package:
     # release ZIP: copy-into-game-folder layout (the DLL also sits in the game root, like other REbirth mods)
     import zipfile
     ver = (ROOT / 'VERSION').read_text().strip()
