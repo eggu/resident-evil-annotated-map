@@ -64,7 +64,7 @@ def fit_inside(cells, lw, lh, placed):
 
 
 def leader(cells, occ, blocked, lw, lh, placed, lines, bounds, walls=frozenset(), kmax=40):
-    """Shortest axis-aligned leader from an edge cell of the room to a label box in free space."""
+    """Shortest axis-aligned leader from an edge cell of the room to a label box in free space (the line itself is not checked)."""
     best = None
     bx0, by0, bx1, by1 = bounds
     cx = (min(c[0] for c in cells) + max(c[0] for c in cells)) / 2
@@ -91,12 +91,8 @@ def leader(cells, occ, blocked, lw, lh, placed, lines, bounds, walls=frozenset()
                         continue
                     if any(hit(box, b) for b in placed):
                         continue
-                    lo_x, hi_x = sorted((sx, ex)); lo_y, hi_y = sorted((sy, ey))
-                    if any(b[0] <= hi_x and lo_x < b[0] + b[2] and b[1] <= hi_y and lo_y < b[1] + b[3] for b in placed):
-                        continue
-                    if any(box[0] <= max(a, e) and min(a, e) < box[0] + box[2] and box[1] <= max(c, f) and min(c, f) < box[1] + box[3]
-                           for a, c, e, f in lines):
-                        continue
+                    # the leader line itself ignores collisions (may run under names, icons and other lines): a room ringed
+                    # by neighbouring names (1F Tiger Statue Room) still gets its name outside
                     align = abs(sx - cx) if dy else 0
                     cost = k + abs(sh) * 0.1 + align * 0.05
                     if best is None or cost < best[0]:
