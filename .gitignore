@@ -1,0 +1,24 @@
+.venv/
+__pycache__/
+.DS_Store
+build/
+dist/
+# external references (RE1-Mod-SDK, biorand, evilresource pages): download locally, see README
+refs/
+# extracted from the game files / third-party pages, or generated from them: rebuilt by build.py
+data/rdt.json
+data/map_rooms.json
+data/evilresource.json
+data/annotated.json
+data/room_match.json
+data/room_xform.json
+data/slot_names.json
+src/overlay_data.h
+docs/wiki/img/
+docs/PENDING-MEMORY.md
+# build output (published as the release ZIP)
+mod_annotated_map/*.dll
+mod_annotated_map/*.pdb
+mod_annotated_map/*.lib
+mod_annotated_map/*.ini
+mod_annotated_map/*.log

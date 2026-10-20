@@ -1,0 +1,4 @@
+capstone
+unicorn
+ziglang==0.17.0
+pillow

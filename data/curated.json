@@ -1,0 +1,808 @@
+{
+ "_about": "Hand-curated data. Room English names follow evilresource.com; Korean names reuse the terms approved for the HD Remaster map mod where the same room exists. Puzzle list is from evilresource puzzle guides and key-item usage pages, cross-checked with main-SCD testitem conditions.",
+ "slug_names": {
+  "guardhouse-residence_guardhouse-b1_control-room": "Control Room",
+  "mansion_mansion-1f_elevator-stairway": "Elevator Stairway",
+  "mansion_mansion-1f_isolated-passage": "Isolated Passage",
+  "mansion_mansion-1f_trap-room": "Trap Room",
+  "mansion_mansion-1f_wardrobe-closet": "Wardrobe Closet",
+  "mansion_mansion-b1_elevator-stairway": "Elevator Stairway B1",
+  "underground-laboratory_laboratory-b1_laboratory-entry": "Laboratory Entry"
+ },
+ "room_ko": {
+  "'C' Passage": "C자 복도",
+  "'L' Passage": "L자 복도",
+  "'O' Room": "O자 통로",
+  "Armor Room": "갑옷실",
+  "Arms Storage": "무기 창고",
+  "Art Room": "미술실",
+  "Attic": "다락",
+  "Attic Entry": "다락 입구",
+  "Back Passage": "뒤쪽 복도",
+  "Bar": "바",
+  "Bathroom": "욕실",
+  "Bedroom": "침실",
+  "Beehive Passage": "벌집 복도",
+  "Black Tiger Room": "검은 거미 방",
+  "Boulder Passage 1": "바위 통로 1",
+  "Boulder Passage 2": "바위 통로 2",
+  "Branched Passage": "갈림길",
+  "Cell": "감방",
+  "Cell Entry": "감방 입구",
+  "Central Corridor": "중앙 복도",
+  "Closet": "벽장",
+  "Control Room": "제어실",
+  "Courtyard Garden": "중앙 정원",
+  "Courtyard Study": "정원 서재",
+  "Deer Room": "사슴 방",
+  "Dining Room": "식당",
+  "Dining Room 2F": "식당 위층",
+  "Dressing Room": "탈의실",
+  "Drug Storeroom": "약품 창고",
+  "East Stairway 1F": "동쪽 계단",
+  "East Stairway 2F": "동쪽 계단",
+  "Elevator 2F": "승강기 복도",
+  "Elevator Entry": "승강기 입구",
+  "Elevator Stairway": "승강기 계단",
+  "Elevator Stairway B1": "승강기 계단",
+  "Emergency Tunnel": "비상 통로",
+  "Enrico Room": "엔리코의 방",
+  "Falls": "폭포",
+  "Fountain": "분수",
+  "Generator Room": "발전기실",
+  "Greenhouse": "온실",
+  "Guardhouse Entry": "기숙사 입구",
+  "Guardhouse Gate": "기숙사 정문",
+  "Guardhouse Save Room": "기숙사 세이브 룸",
+  "Heliport": "헬기장",
+  "Heliport Lookout": "헬기장 전망대",
+  "Isolated Passage": "고립된 통로",
+  "Item Chamber": "지하 석상실",
+  "Keeper's Bedroom": "사육사 침실",
+  "Kitchen": "주방",
+  "Lab Save Room": "연구소 세이브 룸",
+  "Laboratory Entry": "연구소 입구",
+  "Ladder Room": "사다리 방",
+  "Large Gallery": "대미술관",
+  "Large Library": "서재",
+  "Lesson Room": "강의실",
+  "Lesson Room Entry": "강의실 입구",
+  "Living Room": "거실",
+  "Main Hall 1F": "중앙 홀",
+  "Main Hall 2F": "중앙 홀",
+  "Main Lab": "중앙 연구실",
+  "Main Lab Entry": "중앙 연구실 입구",
+  "Mansion Save Room": "저택 세이브 룸",
+  "Mansion Storeroom": "저택 창고",
+  "Meeting Room": "회의실",
+  "Morgue": "시체 안치실",
+  "Operating Room": "수술실",
+  "Outside Boiler": "실외 보일러",
+  "Pillar Passage": "기둥 복도",
+  "Plant 42 Room": "식물 42 방",
+  "Power Maze 1": "동력 미로 1",
+  "Power Maze 2": "동력 미로 2",
+  "Power Room": "동력실",
+  "Private Corridor": "개인 복도",
+  "Private Library": "개인 서재",
+  "Private Room": "개인실",
+  "Rec Room": "오락실",
+  "Roofed Passage": "지붕 통로",
+  "Room 001": "001호실",
+  "Room 001 Bathroom": "001호 욕실",
+  "Room 002": "002호실",
+  "Room 002 Bathroom": "002호 욕실",
+  "Room 003": "003호실",
+  "Room 003 Bathroom": "003호 욕실",
+  "Rough Passage": "거친 통로",
+  "Small Dining Room": "작은 식당",
+  "Small Lab": "작은 실험실",
+  "Small Library": "작은 서재",
+  "Stairway": "계단",
+  "Store Room": "창고",
+  "Straight Passage": "직선 통로",
+  "Study": "서재",
+  "Tea Room": "다실",
+  "Terrace": "테라스",
+  "Terrace Entry": "테라스 입구",
+  "Tiger Statue Room": "호랑이 석상실",
+  "Trap Room": "함정 방",
+  "Trophy Room": "박제실",
+  "Underground Entry": "지하 입구",
+  "Underground Passage 1": "지하 통로 1",
+  "Underground Passage 2": "지하 통로 2",
+  "Underground Save Room": "지하 세이브 룸",
+  "Vacant Room": "빈 방",
+  "Visual Data Room": "영상 자료실",
+  "Wardrobe": "옷장",
+  "Wardrobe Closet": "숨겨진 옷장",
+  "Water Gate": "수문",
+  "Water Tank": "대형 수조",
+  "Water Tank Entry": "대형 수조 입구",
+  "West Stairway 1F": "서쪽 계단",
+  "West Stairway 2F": "서쪽 계단",
+  "Winding Passage": "굽은 복도",
+  "X-Ray Room": "X선실"
+ },
+ "item_names": {
+  "77": {
+   "en": "Comm. Radio",
+   "ko": "무전기"
+  },
+  "78": {
+   "en": "Map of 1F",
+   "ko": "1층 지도"
+  },
+  "79": {
+   "en": "Map of 2F",
+   "ko": "2층 지도"
+  },
+  "80": {
+   "en": "Map of the Garden",
+   "ko": "정원 지도"
+  },
+  "81": {
+   "en": "Map of the Underground",
+   "ko": "지하 지도"
+  },
+  "82": {
+   "en": "Map of the Dormitory",
+   "ko": "기숙사 지도"
+  },
+  "83": {
+   "en": "Map of the Laboratory",
+   "ko": "연구소 지도"
+  },
+  "31": {
+   "en": "Emblem",
+   "ko": "엠블럼"
+  }
+ },
+ "puzzles": [
+  {
+   "room": "0-05",
+   "items": [
+    32
+   ],
+   "note": "Gold Emblem in the fireplace hollow -> clock compartment (Shield Key)",
+   "at": [
+    2900,
+    8100
+   ],
+   "source": "RDT 1050 useitem event 4/5 (fireplace hollow; ER: west side)",
+   "name_en": "Emblem hollow",
+   "name_ko": "엠블럼 홈",
+   "solved_when": [
+    [
+     1,
+     167,
+     1
+    ]
+   ],
+   "solved_source": "RDT 1050 useitem guard: active while ck(1,167)=0 and ck(1,168)=0; 167 set when the Gold Emblem is placed"
+  },
+  {
+   "room": "0-0F",
+   "items": [
+    35
+   ],
+   "note": "Music Score on the piano -> secret room",
+   "at": [
+    10500,
+    8050
+   ],
+   "source": "RDT 10F0 useitem event 8 (piano)",
+   "name_en": "Piano",
+   "name_ko": "피아노",
+   "solved_when": [
+    [
+     7,
+     21,
+     0
+    ]
+   ],
+   "solved_source": "reward Gold Emblem (pickup flag 21) taken"
+  },
+  {
+   "room": "0-0F",
+   "items": [
+    31
+   ],
+   "note": "Emblem replaces the Gold Emblem in the secret room",
+   "at": [
+    8850,
+    19300
+   ],
+   "source": "RDT 10F0 useitem event 4/5 (statue in the hidden passage)",
+   "name_en": "Bar passage statue",
+   "name_ko": "바 비밀통로 석상",
+   "solved_when": [
+    [
+     1,
+     164,
+     1
+    ]
+   ],
+   "solved_source": "RDT 10F0 item guard ck(1,164): set when the Emblem replaces the Gold Emblem"
+  },
+  {
+   "room": "0-0D",
+   "items": [
+    33,
+    34
+   ],
+   "note": "Blue and Red Jewel in the tiger's eyes",
+   "at": [
+    3800,
+    4256
+   ],
+   "source": "RDT 10D0 useitem (tiger statue)",
+   "name_en": "Tiger eyes",
+   "name_ko": "호랑이 눈",
+   "solved_when": [
+    [
+     7,
+     174,
+     0
+    ],
+    [
+     7,
+     175,
+     0
+    ]
+   ],
+   "solved_source": "rewards Wind Crest (174) and Colt Python (175) taken"
+  },
+  {
+   "room": "0-16",
+   "items": [
+    28
+   ],
+   "chars": [
+    0
+   ],
+   "note": "Broken Shotgun replaces the rack shotgun (Chris)",
+   "at": [
+    10900,
+    6400
+   ],
+   "source": "RDT 1160 shotgun item_aot_set (wall rack)",
+   "name_en": "Shotgun rack",
+   "name_ko": "산탄총 걸이",
+   "solved_when": [
+    [
+     7,
+     0,
+     0
+    ],
+    [
+     7,
+     1,
+     1
+    ]
+   ],
+   "solved_source": "shotgun (0) taken and Broken Shotgun (1) on the rack"
+  },
+  {
+   "room": "0-1A",
+   "items": [
+    41,
+    44,
+    45,
+    46
+   ],
+   "note": "Four crests on the mount -> courtyard door",
+   "at": [
+    7500,
+    27700
+   ],
+   "source": "RDT 11A0 useitem events 14/17/18/19 (crest mount)",
+   "name_en": "Crest mount",
+   "name_ko": "문장 받침대"
+  },
+  {
+   "room": "0-0C",
+   "items": [
+    38
+   ],
+   "note": "Herbicide into the greenhouse water pump",
+   "at": [
+    16200,
+    5400
+   ],
+   "source": "RDT 10C0 useitem event 11 (water pump)",
+   "name_en": "Water pump",
+   "name_ko": "급수 펌프",
+   "solved_when": [
+    [
+     7,
+     27,
+     0
+    ]
+   ],
+   "solved_source": "Armor Key (27) behind the plant taken"
+  },
+  {
+   "room": "1-0F",
+   "items": [
+    48
+   ],
+   "note": "Lighter on the candles",
+   "at": [
+    8650,
+    7700
+   ],
+   "source": "RDT 20F0 useitem event 21 (candles)",
+   "name_en": "Candles",
+   "name_ko": "촛대"
+  },
+  {
+   "room": "1-0B",
+   "items": [
+    48
+   ],
+   "note": "Lighter on the fireplace -> Map of 2F",
+   "at": [
+    5300,
+    2300
+   ],
+   "source": "RDT 20B0 useitem event 21 (fireplace)",
+   "name_en": "Fireplace",
+   "name_ko": "벽난로",
+   "solved_when": [
+    [
+     7,
+     17,
+     0
+    ]
+   ],
+   "solved_source": "Map of 2F (17) taken"
+  },
+  {
+   "room": "1-0D",
+   "items": [
+    66
+   ],
+   "note": "Serum for Richard",
+   "at": [
+    8400,
+    3400
+   ],
+   "source": "RDT 20D0 event AOT (Richard; ER: lying on the floor)",
+   "name_en": "Serum (Richard)",
+   "name_ko": "혈청(리처드)"
+  },
+  {
+   "room": "2-01",
+   "items": [
+    29
+   ],
+   "note": "Square Crank raises/lowers the floodgate",
+   "at": [
+    12100,
+    17950
+   ],
+   "source": "RDT 3010 useitem event 2 (crank socket)",
+   "name_en": "Crank socket",
+   "name_ko": "크랭크 구멍"
+  },
+  {
+   "room": "2-02",
+   "items": [
+    39
+   ],
+   "note": "Battery powers the falls elevator",
+   "at": [
+    17700,
+    2050
+   ],
+   "source": "RDT 3020 useitem event 12 (elevator)",
+   "name_en": "Elevator battery",
+   "name_ko": "엘리베이터 배터리"
+  },
+  {
+   "room": "2-05",
+   "items": [
+    36,
+    37
+   ],
+   "note": "Wolf and Eagle Medals in the fountain",
+   "at": [
+    21700,
+    11100
+   ],
+   "source": "RDT 3050 useitem events 9/10: midpoint of the east (eagle) and west (wolf) hollows; marker at the fountain centre (hole of the drawn ring)",
+   "place": "center",
+   "name_en": "Medal hollows",
+   "name_ko": "메달 홈"
+  },
+  {
+   "room": "2-07",
+   "items": [
+    30
+   ],
+   "note": "Hexagonal Crank",
+   "at": [
+    6100,
+    14750
+   ],
+   "source": "RDT 3070 useitem event 3",
+   "name_en": "Hex crank",
+   "name_ko": "육각 크랭크"
+  },
+  {
+   "room": "2-0F",
+   "items": [
+    30
+   ],
+   "note": "Hexagonal Crank",
+   "at": [
+    18450,
+    20650
+   ],
+   "source": "RDT 30F0 useitem event 3 (item-check areas excluded)",
+   "name_en": "Hex crank",
+   "name_ko": "육각 크랭크"
+  },
+  {
+   "room": "2-06",
+   "items": [
+    30
+   ],
+   "note": "Hexagonal Crank",
+   "at": [
+    5750,
+    10450
+   ],
+   "source": "RDT 3060 useitem event 3",
+   "name_en": "Hex crank",
+   "name_ko": "육각 크랭크"
+  },
+  {
+   "room": "2-03",
+   "items": [
+    42
+   ],
+   "note": "Flare on the heliport",
+   "at": null,
+   "source": "heliport has no map slot",
+   "name_en": "Flare",
+   "name_ko": "신호탄"
+  },
+  {
+   "room": "3-0F",
+   "items": [
+    27
+   ],
+   "note": "V-Jolt on Plant 42's roots",
+   "at": [
+    6700,
+    4000
+   ],
+   "source": "RDT 40F0 useitem event 0 (Plant 42's roots; ER: meeting room)",
+   "name_en": "Plant 42 roots",
+   "name_ko": "식물 42 뿌리"
+  },
+  {
+   "room": "4-01",
+   "items": [
+    39
+   ],
+   "note": "Battery powers the heliport elevator",
+   "at": [
+    4000,
+    30200
+   ],
+   "source": "RDT 5010 useitem event 12 (elevator)",
+   "name_en": "Elevator battery",
+   "name_ko": "엘리베이터 배터리"
+  },
+  {
+   "room": "4-04",
+   "items": [
+    43
+   ],
+   "note": "Slides in the projector",
+   "at": [
+    7400,
+    5950
+   ],
+   "source": "RDT 5040 useitem event 16 (projector)",
+   "name_en": "Projector",
+   "name_ko": "영사기",
+   "solved_when": [
+    [
+     7,
+     137,
+     0
+    ]
+   ],
+   "solved_source": "Power Room Key (137) taken"
+  },
+  {
+   "room": "4-07",
+   "items": [
+    40
+   ],
+   "note": "MO-Disk terminal (Morgue)",
+   "at": [
+    3670,
+    6620
+   ],
+   "source": "RDT 5070 useitem event 20 (MO terminal; ER: south west desk of the morgue); Morgue is a camera slot without doors, placed by ER: desk in the south west corner",
+   "place": "sw",
+   "slot": 22,
+   "name_en": "MO terminal",
+   "name_ko": "MO 단말기",
+   "solved_when": [
+    [
+     7,
+     98,
+     0
+    ]
+   ],
+   "solved_source": "Pass Code (98) taken"
+  },
+  {
+   "room": "4-10",
+   "items": [
+    40
+   ],
+   "note": "MO-Disk terminal (Power Maze 2)",
+   "at": [
+    19500,
+    2250
+   ],
+   "source": "RDT 5100 useitem event 13 (MO terminal)",
+   "name_en": "MO terminal",
+   "name_ko": "MO 단말기",
+   "solved_when": [
+    [
+     7,
+     90,
+     0
+    ]
+   ],
+   "solved_source": "Pass Code (90) taken"
+  },
+  {
+   "room": "4-09",
+   "items": [
+    40
+   ],
+   "note": "MO-Disk terminal (Private Room)",
+   "at": [
+    10900,
+    2750
+   ],
+   "source": "RDT 5090 useitem event 13 (MO terminal)",
+   "name_en": "MO terminal",
+   "name_ko": "MO 단말기",
+   "solved_when": [
+    [
+     7,
+     82,
+     0
+    ]
+   ],
+   "solved_source": "Pass Code (82) taken"
+  },
+  {
+   "room": "1-05",
+   "items": [],
+   "note": "Armor Room: push both statues onto the floor vents, then press the switch (Sun Crest cabinet)",
+   "at": [
+    9735,
+    7236
+   ],
+   "source": "RDT 2050 event 0 switch; vents = useitem type-4 targets at x 4785/13635",
+   "guide": true,
+   "name_en": "Vent statues",
+   "name_ko": "환기구 석상",
+   "solved_when": [
+    [
+     7,
+     36,
+     0
+    ]
+   ],
+   "solved_source": "Sun Crest (36) taken"
+  },
+  {
+   "room": "0-17",
+   "items": [],
+   "note": "Large Gallery: press the picture switches from newborn to old man, then the last picture (Star Crest)",
+   "at": [
+    1850,
+    4100
+   ],
+   "source": "RDT 1170 event 12 (last picture)",
+   "guide": true,
+   "name_en": "Picture switches",
+   "name_ko": "그림 스위치",
+   "solved_when": [
+    [
+     7,
+     31,
+     0
+    ]
+   ],
+   "solved_source": "Star Crest (31) taken"
+  },
+  {
+   "room": "1-17",
+   "items": [],
+   "note": "Private Library: push the statue to the spotlight spot -> secret bookcase (MO Disk)",
+   "at": [
+    3450,
+    14180
+   ],
+   "source": "RDT 2170 event 1 (light spot; ER: north west corner); switch = event 0 on the west wall",
+   "guide": true,
+   "name_en": "Statue spotlight",
+   "name_ko": "석상·조명",
+   "solved_when": [
+    [
+     7,
+     77,
+     0
+    ]
+   ],
+   "solved_source": "MO-Disk (77) taken"
+  },
+  {
+   "room": "1-15",
+   "items": [],
+   "note": "Trophy Room: switch the light off, push the steps under the deer head (Red Jewel)",
+   "at": [
+    4950,
+    11430
+   ],
+   "source": "RDT 2150 event 4 (deer head)",
+   "guide": true,
+   "name_en": "Deer head",
+   "name_ko": "사슴 머리",
+   "solved_when": [
+    [
+     7,
+     30,
+     0
+    ]
+   ],
+   "solved_source": "Red Jewel (30) taken"
+  },
+  {
+   "room": "3-08",
+   "items": [],
+   "note": "Drug storeroom door code: light all nine lamps",
+   "at": [
+    7000,
+    10300
+   ],
+   "source": "RDT 4080 door to the Drug Storeroom",
+   "guide": true,
+   "name_en": "Door code",
+   "name_ko": "문 암호"
+  },
+  {
+   "room": "3-09",
+   "items": [],
+   "note": "Mix V-JOLT (Water, UMB No.2/3/4/7, NP-003...) at the chemicals",
+   "at": [
+    7448,
+    5874
+   ],
+   "source": "RDT 4090 event 6/17",
+   "guide": true,
+   "name_en": "Mix V-JOLT",
+   "name_ko": "V-JOLT 조합"
+  },
+  {
+   "room": "4-07",
+   "items": [],
+   "note": "Poison gas: push both crates onto the floor vents before moving the steps to the air duct",
+   "at": [
+    17450,
+    8500
+   ],
+   "source": "RDT 5070 useitem type-4 targets (vents at z 6430/9820)",
+   "guide": true,
+   "name_en": "Poison gas vents",
+   "name_ko": "독가스 환기구"
+  },
+  {
+   "room": "4-06",
+   "items": [],
+   "note": "Small Lab computer: user/password from the X-Ray room unlock the electronic doors",
+   "at": [
+    16500,
+    8200
+   ],
+   "source": "RDT 5060 event 0 (computer)",
+   "guide": true,
+   "name_en": "Lock computer",
+   "name_ko": "잠금 컴퓨터"
+  },
+  {
+   "room": "4-0F",
+   "items": [],
+   "note": "Power Maze 1 terminal (south west): restore power",
+   "at": [
+    2053,
+    4394
+   ],
+   "source": "RDT 50F0 event 0",
+   "guide": true,
+   "name_en": "Power terminal",
+   "name_ko": "전력 단말기"
+  },
+  {
+   "room": "4-11",
+   "items": [],
+   "note": "Power Room terminal (east side): connect elevator power",
+   "at": [
+    9000,
+    3726
+   ],
+   "source": "ER: terminal on the east side (one-door room; message AOTs project west of the door)",
+   "guide": true,
+   "place": "e",
+   "name_en": "Elevator power",
+   "name_ko": "엘리베이터 전원"
+  },
+  {
+   "room": "3-0D",
+   "items": [],
+   "note": "Push the three crates into the pool to cross to the water tank",
+   "at": null,
+   "source": "whole passage (pool = useitem type-4 areas); room anchor",
+   "guide": true,
+   "name_en": "Crate bridge",
+   "name_ko": "상자 다리"
+  }
+ ],
+ "event_items": [
+  {
+   "item": 79,
+   "flag": 17,
+   "stage": 1,
+   "room": 11,
+   "folders": [
+    2,
+    7
+   ],
+   "chars": [
+    0,
+    1
+   ],
+   "x": 5300,
+   "z": 2300,
+   "source": "RDT 20B0/20B1 init: event AOT 2 (x 5050 z 1400 w 500 h 1800) guarded by ck(7,17) set after the Lighter useitem; no item_aot_set exists; event AOT guards: else-of ck(0,8)=clear (fire lit) and ck(7,17) set",
+   "note": "Light the fireplace with the Lighter, then take the map from the frame (evilresource: Lesson Room Entry)",
+   "guards": [
+    {
+     "negated": true,
+     "conds": [
+      [
+       0,
+       8,
+       0
+      ]
+     ],
+     "exact": true
+    },
+    {
+     "negated": false,
+     "conds": [
+      [
+       7,
+       17,
+       1
+      ]
+     ],
+     "exact": true
+    }
+   ]
+  }
+ ]
+}

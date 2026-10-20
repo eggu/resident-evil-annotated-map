@@ -1,0 +1,518 @@
+{
+ "0": {
+  "en": "-Nothing-",
+  "ko": ""
+ },
+ "1": {
+  "en": "Combat Knife",
+  "ko": "생존용 단검"
+ },
+ "2": {
+  "en": "Beretta",
+  "ko": "권총"
+ },
+ "3": {
+  "en": "Shotgun",
+  "ko": "산탄총"
+ },
+ "4": {
+  "en": "Colt Python",
+  "ko": "매그넘 리볼버"
+ },
+ "5": {
+  "en": "Colt Python",
+  "ko": "매그넘 리볼버"
+ },
+ "6": {
+  "en": "Flamethrower",
+  "ko": "화염방사기"
+ },
+ "7": {
+  "en": "Grenade Gun",
+  "ko": "유탄 발사기"
+ },
+ "8": {
+  "en": "Grenade Gun",
+  "ko": "유탄 발사기"
+ },
+ "9": {
+  "en": "Grenade Gun",
+  "ko": "유탄 발사기"
+ },
+ "10": {
+  "en": "Rocket Launcher",
+  "ko": "로켓 발사기"
+ },
+ "11": {
+  "en": "Hand Gun Bullets",
+  "ko": "권총 탄창"
+ },
+ "12": {
+  "en": "Shotgun Shells",
+  "ko": "산탄총 탄약"
+ },
+ "13": {
+  "en": "DumDum Rounds",
+  "ko": "덤덤탄"
+ },
+ "14": {
+  "en": "Magnum Rounds",
+  "ko": "매그넘 탄약"
+ },
+ "15": {
+  "en": "Fuel",
+  "ko": "연료"
+ },
+ "16": {
+  "en": "Explosive Rounds",
+  "ko": "유탄"
+ },
+ "17": {
+  "en": "Acid Rounds",
+  "ko": "유산탄"
+ },
+ "18": {
+  "en": "Flame Rounds",
+  "ko": "소이탄"
+ },
+ "19": {
+  "en": "Empty Bottle",
+  "ko": "빈 병"
+ },
+ "20": {
+  "en": "Water",
+  "ko": "물"
+ },
+ "21": {
+  "en": "UMB No.2",
+  "ko": "UMB No.2"
+ },
+ "22": {
+  "en": "UMB No.4",
+  "ko": "UMB No.4"
+ },
+ "23": {
+  "en": "UMB No.7",
+  "ko": "UMB No.7"
+ },
+ "24": {
+  "en": "UMB No.13",
+  "ko": "UMB No.13"
+ },
+ "25": {
+  "en": "Yellow-6",
+  "ko": "Yellow-6"
+ },
+ "26": {
+  "en": "NP-003",
+  "ko": "NP-003"
+ },
+ "27": {
+  "en": "V-Jolt",
+  "ko": "V-JOLT"
+ },
+ "28": {
+  "en": "Broken Shotgun",
+  "ko": "망가진 산탄총"
+ },
+ "29": {
+  "en": "Square Crank",
+  "ko": "사각 크랭크"
+ },
+ "30": {
+  "en": "Hexagonal Crank",
+  "ko": "육각 크랭크"
+ },
+ "31": {
+  "en": "Emblem",
+  "ko": "엠블럼"
+ },
+ "32": {
+  "en": "Gold Emblem",
+  "ko": "황금 엠블럼"
+ },
+ "33": {
+  "en": "Blue Jewel",
+  "ko": "푸른 보석"
+ },
+ "34": {
+  "en": "Red Jewel",
+  "ko": "붉은 보석"
+ },
+ "35": {
+  "en": "Music Score",
+  "ko": "악보"
+ },
+ "36": {
+  "en": "Wolf Medal",
+  "ko": "늑대 메달"
+ },
+ "37": {
+  "en": "Eagle Medal",
+  "ko": "독수리 메달"
+ },
+ "38": {
+  "en": "Herbicide",
+  "ko": "제초제"
+ },
+ "39": {
+  "en": "Battery",
+  "ko": "배터리"
+ },
+ "40": {
+  "en": "MO-Disk",
+  "ko": "MO 디스크"
+ },
+ "41": {
+  "en": "Wind Crest",
+  "ko": "바람 문장"
+ },
+ "42": {
+  "en": "Flare",
+  "ko": "신호탄"
+ },
+ "43": {
+  "en": "Slides",
+  "ko": "슬라이드"
+ },
+ "44": {
+  "en": "Moon Crest",
+  "ko": "달 문장"
+ },
+ "45": {
+  "en": "Star Crest",
+  "ko": "별 문장"
+ },
+ "46": {
+  "en": "Sun Crest",
+  "ko": "태양 문장"
+ },
+ "47": {
+  "en": "Ink Ribbon",
+  "ko": "잉크 리본"
+ },
+ "48": {
+  "en": "Lighter",
+  "ko": "라이터"
+ },
+ "49": {
+  "en": "Lockpick",
+  "ko": "락픽"
+ },
+ "50": {
+  "en": "Oil Tank",
+  "ko": "기름통"
+ },
+ "51": {
+  "en": "Sword Key",
+  "ko": "검 열쇠"
+ },
+ "52": {
+  "en": "Armor Key",
+  "ko": "갑옷 열쇠"
+ },
+ "53": {
+  "en": "Shield Key",
+  "ko": "방패 열쇠"
+ },
+ "54": {
+  "en": "Helmet Key",
+  "ko": "투구 열쇠"
+ },
+ "55": {
+  "en": "Master Key",
+  "ko": "마스터 키"
+ },
+ "56": {
+  "en": "Closet Key",
+  "ko": "옷장 열쇠"
+ },
+ "57": {
+  "en": "Key for Room 002",
+  "ko": "002호실 열쇠"
+ },
+ "58": {
+  "en": "Key for Room 003",
+  "ko": "003호실 열쇠"
+ },
+ "59": {
+  "en": "Control Room Key",
+  "ko": "제어실 열쇠"
+ },
+ "60": {
+  "en": "Power Room Key",
+  "ko": "동력 구역 열쇠"
+ },
+ "61": {
+  "en": "Desk Key",
+  "ko": "책상 열쇠"
+ },
+ "62": {
+  "en": "Blank Book",
+  "ko": "백지 책"
+ },
+ "63": {
+  "en": "Doom Book 2",
+  "ko": "최후의 책(하편)"
+ },
+ "64": {
+  "en": "Doom Book 1",
+  "ko": "최후의 책(상편)"
+ },
+ "65": {
+  "en": "First Aid Spray",
+  "ko": "구급 스프레이"
+ },
+ "66": {
+  "en": "Serum",
+  "ko": "혈청"
+ },
+ "67": {
+  "en": "Red Herb",
+  "ko": "적색 약초"
+ },
+ "68": {
+  "en": "Green Herb",
+  "ko": "녹색 약초"
+ },
+ "69": {
+  "en": "Blue Herb",
+  "ko": "청색 약초"
+ },
+ "70": {
+  "en": "Mixed Herbs",
+  "ko": "조합한 약초"
+ },
+ "71": {
+  "en": "Mixed Herbs",
+  "ko": "조합한 약초"
+ },
+ "72": {
+  "en": "Mixed Herbs",
+  "ko": "조합한 약초"
+ },
+ "73": {
+  "en": "Mixed Herbs",
+  "ko": "조합한 약초"
+ },
+ "74": {
+  "en": "Mixed Herbs",
+  "ko": "조합한 약초"
+ },
+ "75": {
+  "en": "Mixed Herbs",
+  "ko": "조합한 약초"
+ },
+ "76": {
+  "en": "Pickaxe",
+  "ko": "곡괭이"
+ },
+ "77": {
+  "en": "Comm. Radio",
+  "ko": "무전기"
+ },
+ "78": {
+  "en": "",
+  "ko": ""
+ },
+ "79": {
+  "en": "",
+  "ko": ""
+ },
+ "80": {
+  "en": "",
+  "ko": ""
+ },
+ "81": {
+  "en": "",
+  "ko": ""
+ },
+ "82": {
+  "en": "",
+  "ko": ""
+ },
+ "83": {
+  "en": "",
+  "ko": ""
+ },
+ "84": {
+  "en": "",
+  "ko": ""
+ },
+ "85": {
+  "en": "",
+  "ko": ""
+ },
+ "86": {
+  "en": "",
+  "ko": ""
+ },
+ "87": {
+  "en": "",
+  "ko": ""
+ },
+ "88": {
+  "en": "",
+  "ko": ""
+ },
+ "89": {
+  "en": "",
+  "ko": ""
+ },
+ "90": {
+  "en": "",
+  "ko": ""
+ },
+ "91": {
+  "en": "",
+  "ko": ""
+ },
+ "92": {
+  "en": "",
+  "ko": ""
+ },
+ "93": {
+  "en": "",
+  "ko": ""
+ },
+ "94": {
+  "en": "",
+  "ko": ""
+ },
+ "95": {
+  "en": "Researcher's Will",
+  "ko": "어느 연구원의 유서"
+ },
+ "96": {
+  "en": "Researcher's Will",
+  "ko": "어느 연구원의 유서"
+ },
+ "97": {
+  "en": "Keeper's Diary",
+  "ko": "사육사의 일지"
+ },
+ "98": {
+  "en": "Orders",
+  "ko": "보안 부장의 메일"
+ },
+ "99": {
+  "en": "Pass Number",
+  "ko": "패스 넘버"
+ },
+ "100": {
+  "en": "Plant-42 Report",
+  "ko": "식물 42 보고서"
+ },
+ "101": {
+  "en": "Fax",
+  "ko": "팩스"
+ },
+ "102": {
+  "en": "Scrapbook",
+  "ko": "스크랩북"
+ },
+ "103": {
+  "en": "Security System",
+  "ko": "연구소 경비 시스템 자료"
+ },
+ "104": {
+  "en": "Researcher's Letter",
+  "ko": "어느 연구원의 편지"
+ },
+ "105": {
+  "en": "V-Jolt Report",
+  "ko": "유기화학 실험 문서"
+ },
+ "106": {
+  "en": "Barry's Picture",
+  "ko": "배리의 사진"
+ },
+ "107": {
+  "en": "Pass Code 01",
+  "ko": "패스 코드 01"
+ },
+ "108": {
+  "en": "Pass Code 02",
+  "ko": "패스 코드 02"
+ },
+ "109": {
+  "en": "Pass Code 03",
+  "ko": "패스 코드 03"
+ },
+ "110": {
+  "en": "Botany Book",
+  "ko": "식물도감"
+ },
+ "111": {
+  "en": "Ingram",
+  "ko": "잉그램"
+ },
+ "112": {
+  "en": "Minimi",
+  "ko": "미니미"
+ },
+ "113": {
+  "en": "Crank",
+  "ko": "크랭크"
+ },
+ "114": {
+  "en": "Crank",
+  "ko": "크랭크"
+ },
+ "115": {
+  "en": "Chemical",
+  "ko": "식물용 약품"
+ },
+ "116": {
+  "en": "Mansion Key",
+  "ko": "저택 열쇠"
+ },
+ "117": {
+  "en": "Mansion Key",
+  "ko": "저택 열쇠"
+ },
+ "118": {
+  "en": "Mansion Key",
+  "ko": "저택 열쇠"
+ },
+ "119": {
+  "en": "Mansion Key",
+  "ko": "저택 열쇠"
+ },
+ "120": {
+  "en": "Laboratory Key",
+  "ko": "연구소 열쇠"
+ },
+ "121": {
+  "en": "Special Key",
+  "ko": "특수 열쇠"
+ },
+ "122": {
+  "en": "Guardhouse Key",
+  "ko": "기숙사 열쇠"
+ },
+ "123": {
+  "en": "Guardhouse Key",
+  "ko": "기숙사 열쇠"
+ },
+ "124": {
+  "en": "Laboratory Key",
+  "ko": "연구소 열쇠"
+ },
+ "125": {
+  "en": "Small Key",
+  "ko": "작은 열쇠"
+ },
+ "126": {
+  "en": "Red Book",
+  "ko": "빨간 책"
+ },
+ "127": {
+  "en": "Doom Book 2",
+  "ko": "최후의 책(하편)"
+ },
+ "128": {
+  "en": "Doom Book 1",
+  "ko": "최후의 책(상편)"
+ }
+}
