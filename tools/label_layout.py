@@ -63,7 +63,7 @@ def fit_inside(cells, lw, lh, placed):
     return None
 
 
-def leader(cells, occ, blocked, lw, lh, placed, lines, bounds, walls=frozenset(), kmax=40):
+def leader(cells, occ, blocked, lw, lh, placed, lines, bounds, walls=frozenset(), kmax=40, pad=0):
     """Shortest axis-aligned leader from an edge cell of the room to a label box in free space (the line itself is not checked)."""
     best = None
     bx0, by0, bx1, by1 = bounds
@@ -87,9 +87,10 @@ def leader(cells, occ, blocked, lw, lh, placed, lines, bounds, walls=frozenset()
                         box = (ex - lw + 1 if dx < 0 else ex, ey - lh // 2 + sh, lw, lh)
                     if box[0] < bx0 or box[1] < by0 or box[0] + lw > bx1 or box[1] + lh > by1:
                         continue
-                    if any((x, y) in blocked for y in range(box[1], box[1] + lh) for x in range(box[0], box[0] + lw)):
+                    # pad: free margin kept around the name (roomy spots first)
+                    if any((x, y) in blocked for y in range(box[1] - pad, box[1] + lh + pad) for x in range(box[0] - pad, box[0] + lw + pad)):
                         continue
-                    if any(hit(box, b) for b in placed):
+                    if any(hit((box[0] - pad, box[1] - pad, lw + 2 * pad, lh + 2 * pad), b) for b in placed):
                         continue
                     # the leader line itself ignores collisions (may run under names, icons and other lines): a room ringed
                     # by neighbouring names (1F Tiger Statue Room) still gets its name outside
@@ -121,11 +122,18 @@ def place_rooms(rooms, walls, bounds, obstacles=()):
     for r in sorted(rooms, key=lambda r: min(c[1] for c in r['cells'])):
         if r['key'] in out:
             continue
-        best = leader(r['cells'], occ, blocked, r['lw'], r['lh'], placed, lines, bounds, walls)
-        if not best:   # crowded map: let the name sit over wall lines, never over another room or name
-            best = leader(r['cells'], occ, rooms_only, r['lw'], r['lh'], placed, lines, bounds, walls)
-        if not best:   # last resort: anywhere clear of other names and icons (may cover other rooms' floor)
-            best = leader(r['cells'], {}, set(), r['lw'], r['lh'], placed, lines, bounds, walls, kmax=60)
+        # passes: free space off the floor; crowded map: over wall lines, never another room or name; a ringed room:
+        # the line may cross other rooms but the name still sits off every floor; last resort: anywhere clear of other
+        # names and icons (may cover other rooms' floor). Within each, a roomy spot (2-cell margin) wins over a tight
+        # one, even if its leader line is longer.
+        best = None
+        for occ_, blk, km in ((occ, blocked, 40), (occ, rooms_only, 40), ({}, blocked, 60), ({}, rooms_only, 60), ({}, set(), 60)):
+            for pad in (2, 1, 0):
+                best = leader(r['cells'], occ_, blk, r['lw'], r['lh'], placed, lines, bounds, walls, kmax=km, pad=pad)
+                if best:
+                    break
+            if best:
+                break
         if best:
             out[r['key']] = (best[1], best[2])
             placed.append(best[1])
