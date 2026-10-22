@@ -1,5 +1,5 @@
 Annotated Map: Survivor's Notes - Resident Evil (1996)
-주석 달린 지도: 생존자의 메모
+상세 지도: 생존자의 메모
 
 지원: GOG 일본어판 Resident Evil(Biohazard.exe) + Classic REbirth 1.1.4.
 지도 화면에 방 이름, 잠긴 문과 열쇠, 핵심 아이템, 문서·지도, 퍼즐, 일반 아이템, 타자기·아이템 상자를 표시합니다.

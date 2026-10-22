@@ -500,7 +500,7 @@ for vi in range(2):
 # ---- legends
 # status screen: compact, 2 rows x 5 columns inside the map panel below the floor drawing
 # short forms: all ten keys share one line on the status screen
-LEGEND = [('Annotated Map', '주석 지도'), ('0 All', '0 전체'), ('1 Rooms', '1 방'),
+LEGEND = [('Annotated Map', '상세 지도'), ('0 All', '0 전체'), ('1 Rooms', '1 방'),
           ('2 Locks', '2 문'), ('3 Keys', '3 주요템'), ('4 Files', '4 문서'),
           ('5 Puzzles', '5 퍼즐'), ('6 Items', '6 일반템'), ('8 Visited', '8 방문'),
           ('8 All', '8 전체 방'), ('9 KO', '9 EN'), ('7 Zoom', '7 확대'), ('7 Back', '7 원래'), ('M Close', 'M 닫기'),

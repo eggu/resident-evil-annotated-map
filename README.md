@@ -2,7 +2,7 @@
 
 [English](README.en.md) | 한국어
 
-**주석 달린 지도: 생존자의 메모** — 원작 Resident Evil PC판(GOG 일본어판 `Biohazard.exe` + [Classic REbirth 1.1.4](https://classicrebirth.com/index.php/re1cb-changelog/))의 지도에 방 이름, 잠긴 문과 필요한 열쇠, 핵심 아이템, 문서·지도, 퍼즐, 일반 아이템, 타자기·아이템 상자를 표시하는 비공식 REbirth 모드입니다. 한국어/영어를 지원합니다.
+**상세 지도: 생존자의 메모** — 원작 Resident Evil PC판(GOG 일본어판 `Biohazard.exe` + [Classic REbirth 1.1.4](https://classicrebirth.com/index.php/re1cb-changelog/))의 지도에 방 이름, 잠긴 문과 필요한 열쇠, 핵심 아이템, 문서·지도, 퍼즐, 일반 아이템, 타자기·아이템 상자를 표시하는 비공식 REbirth 모드입니다. 한국어/영어를 지원합니다.
 
 - 상태 화면 지도에는 아이콘만, **M**(패드 **RB**)으로 여는 전체 화면 지도에는 이름까지 표시합니다.
 - 주운 아이템, 연 문, 푼 퍼즐은 지도에서 사라집니다. 아이템이 남은 방은 호박색으로 칠합니다.
@@ -58,7 +58,7 @@
 | `[Keys] CloseOnCancel` | `1` | 게임의 취소 버튼으로 닫기 |
 | `[AnnotatedMap] RoomTint` | `1` | `0`이면 아이템이 남은 방 색칠 끄기 |
 | `[AnnotatedMap] NameOpacity` | `70` | 이름 불투명도(10–100) |
-| `[Calibration] OffsetX/OffsetY/Z` | | 상태창 지도 주석 위치·깊이 보정 |
+| `[Calibration] OffsetX/OffsetY/Z` | | 상태창 지도 표시 위치·깊이 보정 |
 | `[Calibration] ArrowRotation` | `0` | 캐릭터 화살표 방향 보정(도) |
 
 릴리스 변경 사항과 검증 상태: [한글·영문 릴리스 노트](RELEASE_NOTES.md).
