@@ -9,6 +9,14 @@ An unofficial bilingual map mod for the original Resident Evil PC release (GOG J
 - Required keys appear on the unvisited side of locked doors. The full-screen map shows your position and facing direction.
 - Supports Chris and Jill item placements, with Korean and English labels.
 
+## Screenshots
+
+![Full-screen map — all annotations](docs/screenshots/full_screen_map_all.png)
+
+| Full-screen map — visited rooms | Status-screen map |
+|---|---|
+| ![Full-screen map — visited rooms only](docs/screenshots/full_screen_map_visited.png) | ![Status-screen map](docs/screenshots/in_status_screen_map.png) |
+
 ## Installation
 
 1. Download `RE1-Annotated-Map-<version>.zip` from [Releases](https://github.com/eggu/resident-evil-annotated-map/releases). The `Source code` archives are not installable packages.

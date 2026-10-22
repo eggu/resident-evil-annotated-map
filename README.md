@@ -9,6 +9,14 @@
 - 잠긴 문의 열쇠는 아직 가지 않은 쪽 방에 표시합니다. 전체 화면 지도에는 현재 위치와 바라보는 방향을 화살표로 표시합니다.
 - 크리스/질의 아이템 배치 차이를 반영합니다.
 
+## 스크린샷
+
+![전체 화면 지도 — 모든 표시](docs/screenshots/full_screen_map_all.png)
+
+| 전체 화면 지도 — 방문한 방 | 상태 화면 지도 |
+|---|---|
+| ![전체 화면 지도 — 방문한 방만](docs/screenshots/full_screen_map_visited.png) | ![상태 화면 지도](docs/screenshots/in_status_screen_map.png) |
+
 ## 설치
 
 1. [Releases](https://github.com/eggu/resident-evil-annotated-map/releases)에서 `RE1-Annotated-Map-<버전>.zip`을 받습니다. `Source code`는 설치 파일이 아닙니다.
