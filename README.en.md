@@ -11,11 +11,19 @@ An unofficial bilingual map mod for the original Resident Evil PC release (GOG J
 
 ## Screenshots
 
-![Full-screen map — all annotations](docs/screenshots/full_screen_map_all.png)
+### Full-screen map
 
-| Full-screen map — visited rooms | Status-screen map |
-|---|---|
-| ![Full-screen map — visited rooms only](docs/screenshots/full_screen_map_visited.png) | ![Status-screen map](docs/screenshots/in_status_screen_map.png) |
+| | Visited rooms | All rooms |
+|---|---|---|
+| Mansion 1F | ![Full-screen map — Mansion 1F — Visited rooms](docs/screenshots/en/full_map_mansion_1f_visited.png) | ![Full-screen map — Mansion 1F — All rooms](docs/screenshots/en/full_map_mansion_1f_all.png) |
+| Mansion 2F | ![Full-screen map — Mansion 2F — Visited rooms](docs/screenshots/en/full_map_mansion_2f_visited.png) | ![Full-screen map — Mansion 2F — All rooms](docs/screenshots/en/full_map_mansion_2f_all.png) |
+
+### Status-screen map
+
+| | Visited rooms | All rooms |
+|---|---|---|
+| Mansion 1F | — | ![Status-screen map — Mansion 1F — All rooms](docs/screenshots/en/mini_map_mansion_1f_all.png) |
+| Mansion 2F | ![Status-screen map — Mansion 2F — Visited rooms](docs/screenshots/en/mini_map_mansion_2f_visited.png) | ![Status-screen map — Mansion 2F — All rooms](docs/screenshots/en/mini_map_mansion_2f_all.png) |
 
 ## Installation
 

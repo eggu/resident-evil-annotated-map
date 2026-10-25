@@ -11,11 +11,19 @@
 
 ## 스크린샷
 
-![전체 화면 지도 — 모든 표시](docs/screenshots/full_screen_map_all.png)
+### 전체 화면 지도
 
-| 전체 화면 지도 — 방문한 방 | 상태 화면 지도 |
-|---|---|
-| ![전체 화면 지도 — 방문한 방만](docs/screenshots/full_screen_map_visited.png) | ![상태 화면 지도](docs/screenshots/in_status_screen_map.png) |
+| | 방문한 방 | 모든 방 |
+|---|---|---|
+| 저택 1층 | ![전체 화면 지도 — 저택 1층 — 방문한 방](docs/screenshots/en/full_map_mansion_1f_visited.png) | ![전체 화면 지도 — 저택 1층 — 모든 방](docs/screenshots/en/full_map_mansion_1f_all.png) |
+| 저택 2층 | ![전체 화면 지도 — 저택 2층 — 방문한 방](docs/screenshots/en/full_map_mansion_2f_visited.png) | ![전체 화면 지도 — 저택 2층 — 모든 방](docs/screenshots/en/full_map_mansion_2f_all.png) |
+
+### 상태 화면 지도
+
+| | 방문한 방 | 모든 방 |
+|---|---|---|
+| 저택 1층 | — | ![상태 화면 지도 — 저택 1층 — 모든 방](docs/screenshots/en/mini_map_mansion_1f_all.png) |
+| 저택 2층 | ![상태 화면 지도 — 저택 2층 — 방문한 방](docs/screenshots/en/mini_map_mansion_2f_visited.png) | ![상태 화면 지도 — 저택 2층 — 모든 방](docs/screenshots/en/mini_map_mansion_2f_all.png) |
 
 ## 설치
 
