@@ -22,7 +22,6 @@
 
 | | 방문한 방 | 모든 방 |
 |---|---|---|
-| 저택 1층 | — | ![상태 화면 지도 — 저택 1층 — 모든 방](docs/screenshots/en/mini_map_mansion_1f_all.png) |
 | 저택 2층 | ![상태 화면 지도 — 저택 2층 — 방문한 방](docs/screenshots/en/mini_map_mansion_2f_visited.png) | ![상태 화면 지도 — 저택 2층 — 모든 방](docs/screenshots/en/mini_map_mansion_2f_all.png) |
 
 ## 설치

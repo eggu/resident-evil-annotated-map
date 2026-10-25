@@ -22,7 +22,6 @@ An unofficial bilingual map mod for the original Resident Evil PC release (GOG J
 
 | | Visited rooms | All rooms |
 |---|---|---|
-| Mansion 1F | — | ![Status-screen map — Mansion 1F — All rooms](docs/screenshots/en/mini_map_mansion_1f_all.png) |
 | Mansion 2F | ![Status-screen map — Mansion 2F — Visited rooms](docs/screenshots/en/mini_map_mansion_2f_visited.png) | ![Status-screen map — Mansion 2F — All rooms](docs/screenshots/en/mini_map_mansion_2f_all.png) |
 
 ## Installation
