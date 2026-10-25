@@ -45,6 +45,7 @@ run([sys.executable, '-m', 'ziglang', 'cc', '-target', 'x86-windows-gnu', '-shar
      '-DWIN32_LEAN_AND_MEAN', '-nostdlib', f'-I{inc}', '-Wall', '-Wextra', '-Wl,--entry,DllMain@12',
      'src/re1_map.c', '-lkernel32', '-luser32', '-o', 'mod_annotated_map/RE1.AnnotatedMap.dll'])
 run([sys.executable, 'tests/test_native.py'])
+run([sys.executable, 'tests/test_map_settings.py'])
 if args.package:
     # release ZIP: copy-into-game-folder layout (the DLL also sits in the game root, like other REbirth mods)
     import zipfile

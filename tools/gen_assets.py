@@ -57,7 +57,8 @@ def add_bitmap(img):
     return len(bitmaps) - 1
 
 
-def text_bitmap(text, size, color, face=None, left=False):
+def text_bitmap(text, size, color, face=None, left=False, legend=False):
+    stroke = 3 * S // 4 if legend else OUTLINE
     if '\n' in text:   # two-line room name (RE2 retry), lines centred; titles left-aligned
         parts = [text_bitmap(t, size, color, face) for t in text.split('\n')]
         w, h = max(p.width for p in parts), sum(p.height for p in parts) - 2
@@ -67,14 +68,14 @@ def text_bitmap(text, size, color, face=None, left=False):
             out.paste(part, (0 if left else (w - part.width) // 2, y), part.point(lambda v: 255 if v else 0))
             y += part.height - 2
         return out
-    if not face and text.isascii():
+    if not legend and not face and text.isascii():
         size = round(size * LATIN_SCALE)
     font = ImageFont.truetype(*(face or (FONT, )), size, **({} if face else dict(index=FACE)))
-    l, t, r, b = font.getbbox(text, stroke_width=OUTLINE)
+    l, t, r, b = font.getbbox(text, stroke_width=stroke)
     w, h = r - l + 2, b - t + 2
     fill = Image.new('L', (w, h))
     edge = Image.new('L', (w, h))
-    ImageDraw.Draw(edge).text((1 - l, 1 - t), text, font=font, fill=255, stroke_width=OUTLINE, stroke_fill=255)
+    ImageDraw.Draw(edge).text((1 - l, 1 - t), text, font=font, fill=255, stroke_width=stroke, stroke_fill=255)
     ImageDraw.Draw(fill).text((1 - l, 1 - t), text, font=font, fill=255)
     out = Image.new('L', (w, h))
     out.paste(BLACK, mask=edge.point(lambda v: 255 if v >= 96 else 0))
@@ -227,10 +228,10 @@ def common_icon(item):
 label_cache = {}
 
 
-def label(text, size, color, face=None, left=False):
-    k = (text, size, color, face, left)
+def label(text, size, color, face=None, left=False, legend=False):
+    k = (text, size, color, face, left, legend)
     if k not in label_cache:
-        label_cache[k] = add_bitmap(text_bitmap(text, size, color, face, left))
+        label_cache[k] = add_bitmap(text_bitmap(text, size, color, face, left, legend))
     return label_cache[k]
 
 
@@ -468,7 +469,8 @@ def layout_view(vi, lang):
                          lw=-(-bitmaps[bid[id(m)]][0] // S), lh=-(-bitmaps[bid[id(m)]][1] // S)) for m in rooms]
             return LL['place_rooms'](spec, walls, view['bounds'], obstacles)
         res, placed, lines = run() if rooms else ({}, [], [])
-        retry = [m for m in rooms if res[id(m)] is None or res[id(m)][1]]
+        # A valid outside placement already has room for the full name.
+        retry = [m for m in rooms if res[id(m)] is None]
         for m in retry:
             t = wrap(m['text'][lang], view['size'])
             if t:
@@ -486,7 +488,11 @@ def layout_view(vi, lang):
             (bx, by, bw, bh), line = r
             m.setdefault('lab', {})[(vi, lang)] = (bid[id(m)], bx * S + (bw * S - w) // 2, by * S + (bh * S - h) // 2)
             stats['leader' if line else 'inside'] += 1
-            stats['wrapped'] += '\n' in [k for k, v in label_cache.items() if v == bid[id(m)]][0][0]
+            chosen_text = [k for k, v in label_cache.items() if v == bid[id(m)]][0][0]
+            stats['wrapped'] += '\n' in chosen_text
+            if page == 1 and m['text']['en'] in ('Study', 'Closet') and lang == 'en':
+                assert chosen_text == m['text'][lang], (m['text'], chosen_text)
+                print('Mansion2F full name', m['text']['en'], 'outside' if line else 'inside', (bx, by, bw, bh))
             if line:
                 m.setdefault('lines', {})[(vi, lang)] = tuple(v * S + S // 2 for v in line)
     print('layout', ('status', 'fullscreen')[vi], lang, stats)
@@ -506,24 +512,16 @@ LEGEND = [('Annotated Map', '상세 지도'), ('0 All', '0 전체'), ('1 Rooms',
           ('8 All', '8 전체 방'), ('9 KO', '9 EN'), ('7 Zoom', '7 확대'), ('7 Back', '7 원래'), ('M Close', 'M 닫기'),
           ('8 Revealed', '8 공개')]
 LEG_COLORS = [CREAM, PURE, CREAM, GOLD, CYAN, WHITE, AMBER, GREY, PURE, PURE, PURE, PURE, PURE, PURE, PURE]
-# one line of 10 entries inside the map panel (box x 32..137 PSX = 105 wide), each advancing by its width + gap
-STATUS_GAP = 1   # PSX
-def _status_fits(size, lang):
-    tot = 0
-    for rows in ((1,), (2,), (3,), (4,), (5,), (6,), (7,), (11, 12), (8, 9, 14), (10,)):
-        tot += max(text_bitmap(LEGEND[r][lang], size, PURE).width for r in rows) / S + STATUS_GAP
-    return tot - STATUS_GAP <= 105
-# largest font per language that keeps the line inside the panel (Korean labels are shorter, so they get bigger)
-STATUS_LEGEND_SIZE = [next(sz for sz in range(16 * S // 4, 5 * S // 4, -1) if _status_fits(sz, lang)) for lang in (0, 1)]
-print('status legend font en/ko', [z / S for z in STATUS_LEGEND_SIZE])
-STATUS_LEGEND_COL = 0
+# Keep the requested /4 typography at the installed internal texture scale.
+LEGEND_BODY_SIZE, LEGEND_TITLE_SIZE = 20 * S // 4, 22 * S // 4
+STATUS_GAP = 2   # PSX, five measured columns on two rows
 legend = []
-en_sz, ko_sz = STATUS_LEGEND_SIZE
-for (en, ko), col in zip(LEGEND, LEG_COLORS):
-    legend.append((label(en, en_sz, col), label(ko, ko_sz, col),
-                   label(en, en_sz, DGREY), label(ko, ko_sz, DGREY)))
+for k, ((en, ko), col) in enumerate(zip(LEGEND, LEG_COLORS)):
+    size = LEGEND_TITLE_SIZE if k == 0 else LEGEND_BODY_SIZE
+    legend.append(tuple(label(text, size, color, legend=True)
+                        for color in (col, DGREY) for text in (en, ko)))
 # fullscreen: RE2 "DISPLAY STATUS" block, rows [0]..[9] with their state as text
-FULL_LEGEND_SIZE = 14 * S // 4   # ~18 screen px at 1600x1200, like RE2
+FULL_LEGEND_SIZE = LEGEND_BODY_SIZE
 ON, OFF = (': ON', ': 켬'), (': OFF', ': 끔')
 FULL_ROWS = [  # (variants (en, ko), colour when on)
     ([('[0] ALL', '[0] 전체')], PURE), ([('[1] ROOMS', '[1] 방·저장')], CREAM), ([('[2] LOCKS', '[2] 문·열쇠')], GOLD),
@@ -537,12 +535,12 @@ for k, (variants, col) in enumerate(FULL_ROWS):
     rows = []
     for en, ko in variants + [variants[-1]] * (3 - len(variants)):
         if k <= 6:
-            rows.append(((label(en + ON[0], FULL_LEGEND_SIZE, col), label(ko + ON[1], FULL_LEGEND_SIZE, col)),
-                         (label(en + OFF[0], FULL_LEGEND_SIZE, DGREY), label(ko + OFF[1], FULL_LEGEND_SIZE, DGREY))))
+            rows.append(((label(en + ON[0], FULL_LEGEND_SIZE, col, legend=True), label(ko + ON[1], FULL_LEGEND_SIZE, col, legend=True)),
+                         (label(en + OFF[0], FULL_LEGEND_SIZE, DGREY, legend=True), label(ko + OFF[1], FULL_LEGEND_SIZE, DGREY, legend=True))))
         else:
-            rows.append(((label(en, FULL_LEGEND_SIZE, col), label(ko, FULL_LEGEND_SIZE, col)),) * 2)
+            rows.append(((label(en, FULL_LEGEND_SIZE, col, legend=True), label(ko, FULL_LEGEND_SIZE, col, legend=True)),) * 2)
     full_legend.append(rows)
-full_legend_title = (label('DISPLAY STATUS', FULL_LEGEND_SIZE, PURE), label('표시 상태', FULL_LEGEND_SIZE, PURE))
+full_legend_title = (label('DISPLAY STATUS', LEGEND_TITLE_SIZE, PURE, legend=True), label('표시 상태', LEGEND_TITLE_SIZE, PURE, legend=True))
 # RE2-style area title: large serif, two lines, top-left
 TITLE_EN, TITLE_KO = (args.title_font_en,), (args.title_font_ko,)
 TITLE_SIZE = 40 * S // 4
@@ -588,13 +586,39 @@ page_titles = [(label(en.upper().replace(' ', '\n', 1), TITLE_SIZE, WHITE, TITLE
 out.append('static const short ov_page_titles[11][2]={' + ','.join('{%d,%d}' % pair for pair in page_titles) + '};')
 out.append('static const short ov_full_legend[10][3][2][2]={' + ','.join('{' + ','.join('{' + ','.join('{%d,%d}' % st for st in v) + '}' for v in row) + '}' for row in full_legend) + '};')
 out.append('static const short ov_full_legend_title[2]={%d,%d};' % full_legend_title)
-_w = lambda rows: max(bitmaps[b][0] for r in rows for v in r for st in v for b in st)
-col2 = -(-_w(full_legend[:5]) // S) + 6
-right = 8 + col2 + -(-_w(full_legend[5:]) // S)
-out.append(f'#define OV_FULL_LEGEND_COL2 {col2}')
-out.append(f'#define OV_FULL_LEGEND_RIGHT {right}')
-out.append(f'#define OV_STATUS_LEGEND_GAP {STATUS_GAP}')
-print('fullscreen legend col2', col2, 'right edge', right)
+# A separate CLUT changes only legend text; rooms/items/icons retain ov_palette.
+legend_palette = list(PALETTE)
+for idx, rgb in {BLACK:(16,16,16), CREAM:(240,226,190), GOLD:(255,205,70), CYAN:(90,220,255),
+                 WHITE:(255,140,210), AMBER:(255,150,40), GREY:(255,120,60), DGREY:(140,140,140), PURE:(255,255,255)}.items():
+    legend_palette[idx] = rgb
+out.append('static const unsigned short ov_legend_palette[16]={' + ','.join(str(rgb555(c)) for c in legend_palette) + '};')
+size_guides = [(label(f'[-/+] NAME SIZE: {n}%', LEGEND_BODY_SIZE, PURE, legend=True),
+                label(f'[-/+] 이름 크기: {n}%', LEGEND_BODY_SIZE, PURE, legend=True)) for n in range(50,151,10)]
+opacity_guides = [(label(f'[Shift +/-] NAME OPACITY: {n}%', LEGEND_BODY_SIZE, PURE, legend=True),
+                   label(f'[Shift +/-] 이름 불투명도: {n}%', LEGEND_BODY_SIZE, PURE, legend=True)) for n in range(10,101,10)]
+for name, guides in [('size',size_guides),('opacity',opacity_guides)]:
+    out.append(f'static const short ov_name_{name}[{len(guides)}][2]=' + '{' + ','.join('{%d,%d}' % pair for pair in guides) + '};')
+def extent(ids, axis): return max(bitmaps[b][axis] for b in ids)
+def legend_ids(rows):
+    return [b for r in rows for b in ([b for v in full_legend[r] for st in v for b in st] if r < 10 else [b for pair in (size_guides if r == 10 else opacity_guides) for b in pair])]
+height = extent(legend_ids(range(12)), 1)
+step = height + S // 4
+full_y = 205 * S + extent(full_legend_title,1) + S // 4
+status_y = 185 * S + extent(full_legend_title,1) + S // 4
+def columns(groups):
+    widths = [extent(legend_ids(rows),0) for rows in groups]
+    xs = [8]
+    for w in widths[:-1]: xs.append(xs[-1] + (w + S - 1)//S + 6)
+    assert xs[-1]*S + widths[-1] <= 312*S
+    return xs
+full_x = columns([range(0,4),range(4,8),range(8,12)])
+status_x = columns([range(0,3),range(3,6),range(6,9),range(9,12)])
+assert full_y + 3*step + height <= 240*S
+assert status_y + 2*step + height <= 216*S
+out += ['static const short ov_full_legend_x[3]={' + ','.join(map(str,full_x)) + '};',
+        'static const short ov_status_legend_x[4]={' + ','.join(map(str,status_x)) + '};',
+        f'#define OV_FULL_LEGEND_Y {full_y}', f'#define OV_STATUS_LEGEND_Y {status_y}', f'#define OV_FULL_LEGEND_STEP {step}']
+print('legend geometry',full_x,full_y,status_x,status_y,step)
 # player position: world (x, z) of the current room -> map TIM pixels (tools/fit.py; exe has no projection)
 _xf = json.loads((ROOT / 'data/room_xform.json').read_text())
 xrows = []

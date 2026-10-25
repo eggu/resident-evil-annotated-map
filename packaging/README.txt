@@ -15,6 +15,8 @@ Annotated Map: Survivor's Notes - Resident Evil (1996)
 - 지도에서 앞/뒤 이동: 층 선택, 좌/우 이동: 장소 선택.
 - 숫자 키: 0 전체 표시, 1 방 이름·저장, 2 문·열쇠, 3 핵심 아이템, 4 문서·지도, 5 퍼즐, 6 일반 아이템,
   7 전체 화면 / 상태창 지도, 8 표시 범위(방문한 방 → 공개된 방 → 모든 방), 9 한국어 / English.
+- 이름 크기: - / = (+), 불투명도: Shift + 위 키. 숫자패드 -/+도 지원합니다.
+- 기본값: 영어, 이름100%, 불투명도70%, 방 표시만 켬. 기존 INI는 유지됩니다.
 - 설정은 mod_annotated_map/RE1.AnnotatedMap.ini에 저장됩니다([Keys]에서 열기·닫기 키 변경).
 
 제거
@@ -45,6 +47,8 @@ Controls
   3 key items, 4 documents/maps, 5 puzzles, 6 common items,
   7 full-screen/status-screen map, 8 visibility (visited/revealed/all rooms),
   9 Korean/English.
+- Name size: - / = (+); opacity: Shift + those keys. Numpad -/+ is supported.
+- Defaults: English, size 100%, opacity 70%, Rooms only. Existing INI settings are kept.
 - Settings are saved in mod_annotated_map/RE1.AnnotatedMap.ini.
   Configure opening and closing controls under [Keys].
 

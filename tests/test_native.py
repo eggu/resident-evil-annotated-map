@@ -49,7 +49,7 @@ u.mem_map(STACK, 0x20000)
 u.mem_map(HEAP, 0x100000)
 
 # ---- imports -> stubs (python side effects + correct stdcall pop)
-state = dict(keys=set(), ini=dict(Rooms=0, Locks=0, Documents=0, Puzzles=0, CommonItems=0), written={})
+state = dict(keys=set(), ini=dict(Rooms=0, Locks=0, KeyItems=1, Documents=0, Puzzles=0, CommonItems=0), written={})
 POP = dict(GetModuleFileNameA=12, GetModuleHandleA=4, GetPrivateProfileIntA=16, GetPrivateProfileStringA=24,
            WritePrivateProfileStringA=16, VirtualProtect=16, FlushInstructionCache=12, GetCurrentProcess=0, CreateFileA=28,
            WriteFile=20, CloseHandle=4, DisableThreadLibraryCalls=4, lstrlenA=4, GetForegroundWindow=0,
@@ -85,6 +85,12 @@ def imp_lstrcmpiA():
     return (a > b) - (a < b)
 def imp_lstrlenA():
     return len(cstr(arg(0)))
+def imp_wsprintfA():
+    fmt = cstr(arg(1))
+    vals = tuple(arg(i + 2) for i in range(len(re.findall(r'%[dx]', fmt))))
+    text = (fmt % vals).encode() + b'\0'
+    u.mem_write(arg(0), text)
+    return len(text) - 1
 def imp_CreateFileA():
     return 0xffffffff
 def imp_GetWindowThreadProcessId():
@@ -412,8 +418,8 @@ for language in range(2):
         img = canvas()
         for y in range(256 * S):
             row = img[y * WIDTH:(y + 1) * WIDTH]
-            if 128 * S <= y < 134 * S:   # legend box inside the map panel, below the floor drawing (x 32..138)
-                assert not any(row[:32 * S]) and not any(row[138 * S:]), (language, page, y, 'legend outside its box')
+            if 185 * S <= y < 216 * S:   # legend in the empty band below the HUD (x8..312, y185..216)
+                assert not any(row[:8 * S]) and not any(row[312 * S:]), (language, page, y, 'legend outside its box')
             elif not 24 * S <= y < 128 * S:
                 assert not any(row), (language, page, y, 'outside map vertically')
             else:
@@ -824,7 +830,8 @@ def set_bit(addr, bit, on):
     w = bytearray(u.mem_read(addr + (bit >> 5) * 4, 4)); v = struct.unpack('<I', w)[0]
     v = v | (0x80000000 >> (bit & 31)) if on else v & ~(0x80000000 >> (bit & 31))
     u.mem_write(addr + (bit >> 5) * 4, struct.pack('<I', v))
-room = next(f for f in full if f[0] == 1 and f[1] == 0 and f[18] >= 0)
+# Use an unobscured Dining Room label for scope assertions.
+room = next(f for f in full if f[0] == 1 and f[1] == 0 and f[18] >= 0 and d['rooms'][f'{f[2]}-{f[3]:02X}']['name_en'] == 'Dining Room')
 def drawn(f, scope_val, revealed):
     scene(0, visited=[])
     set_bit(0xC387A0, 0x7C, revealed)                      # Map of 1F picked up

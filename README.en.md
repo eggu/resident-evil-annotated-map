@@ -45,10 +45,16 @@ Compatible with the [Korean HD translation mod](https://github.com/eggu/resident
 | 7 | Switch between full-screen and status-screen maps |
 | 8 | Cycle visibility: visited rooms → revealed rooms (floor map acquired) → all rooms |
 | 9 | Switch Korean / English |
+| - / = (+), numpad - / + | Name size in 10% steps (50–150%) |
+| Shift + those keys | Name opacity in 10% steps (10–100%) |
 
 ## Settings (`mod_annotated_map/RE1.AnnotatedMap.ini`)
 
 Created on first launch; stores display preferences.
+
+Defaults: **English, name size 100%, opacity 70%, Rooms on, other categories off**. All remains enabled as the master switch. Existing INI values take precedence. On the main keyboard, use the equal/plus key without Shift to increase size.
+
+Both map views share full legend wording and current state. Pretendard Medium legend: body 20px, title 22px, outline 3px at the 4x reference scale. The status-screen legend uses the empty band below the HUD.
 
 | Setting | Default | Description |
 |---|---|---|
@@ -57,11 +63,15 @@ Created on first launch; stores display preferences.
 | `[Keys] CloseKey` | `ESC` | Keyboard close key |
 | `[Keys] CloseOnCancel` | `1` | Close with the game's cancel button |
 | `[AnnotatedMap] RoomTint` | `1` | Set to `0` to disable tinting rooms with remaining items |
+| `[AnnotatedMap] NameSize` | `100` | Name size (50–150); 100 is the original size |
 | `[AnnotatedMap] NameOpacity` | `70` | Label opacity (10–100) |
 | `[Calibration] OffsetX/OffsetY/Z` | | Status-screen annotation position and depth correction |
 | `[Calibration] ArrowRotation` | `0` | Character arrow rotation correction in degrees |
 
 Changes and validation status: [Korean / English release notes](RELEASE_NOTES.md).
+
+
+Larger names keep their existing anchors and may overlap. The new HUD layout, physical keys, GPU alpha and long-session gameplay have not yet been verified in game.
 
 ## Build
 

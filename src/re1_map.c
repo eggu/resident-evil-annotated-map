@@ -46,18 +46,21 @@ static const char *const toggle_keys[T_COUNT] = {"All", "Rooms", "Locks", "KeyIt
 static int toggles[T_COUNT];
 static int scope = 1, english = 1, offset_x, offset_y, overlay_z = 0x10, room_tint = 1;
 static int arrow_rotation;   /* INI [Calibration] ArrowRotation (degrees) if the player-heading convention is off */
+static int name_size = 100, name_opacity = 70;
 static float name_alpha = 0.7f, blink_alpha;   /* blink_alpha: visible share for arrows this frame */   /* name layer opacity; native semi-transparent sprites use 0.5 */
 static void save_settings(void) {
     char v[12];
     for (int i = 0; i < T_COUNT; i++) { v[0] = (char)('0' + toggles[i]); v[1] = 0; WritePrivateProfileStringA("AnnotatedMap", toggle_keys[i], v, ini_path); }
     v[0] = (char)('0' + scope); WritePrivateProfileStringA("AnnotatedMap", "Scope", v, ini_path);
     WritePrivateProfileStringA("AnnotatedMap", "Language", english ? "en" : "ko", ini_path);
+    wsprintfA(v, "%d", name_size); WritePrivateProfileStringA("AnnotatedMap", "NameSize", v, ini_path);
+    wsprintfA(v, "%d", name_opacity); WritePrivateProfileStringA("AnnotatedMap", "NameOpacity", v, ini_path);
 }
 static int key_code(const char *v, int def);
 static int pad_code(const char *v, int def);
 static int open_vk, close_vk, open_pad, close_on_cancel;
 static void load_settings(void) {
-    for (int i = 0; i < T_COUNT; i++) toggles[i] = GetPrivateProfileIntA("AnnotatedMap", toggle_keys[i], 1, ini_path) != 0;
+    for (int i = 0; i < T_COUNT; i++) toggles[i] = GetPrivateProfileIntA("AnnotatedMap", toggle_keys[i], i <= T_ROOMS, ini_path) != 0;
     scope = (int)GetPrivateProfileIntA("AnnotatedMap", "Scope", 1, ini_path);   /* 1 visited, 2 revealed, 3 all */
     if (scope < 1 || scope > 3) scope = 1;
     char lang[8]; GetPrivateProfileStringA("AnnotatedMap", "Language", "en", lang, sizeof lang, ini_path);
@@ -75,7 +78,10 @@ static void load_settings(void) {
     GetPrivateProfileStringA("Keys", "CloseKey", "ESC", k, sizeof k, ini_path); close_vk = key_code(k, VK_ESCAPE);
     close_on_cancel = GetPrivateProfileIntA("Keys", "CloseOnCancel", 1, ini_path) != 0;
 
-    name_alpha = (float)(opacity < 10 ? 10 : opacity > 100 ? 100 : opacity) / 100.0f;  /* off if REbirth HD map replacement misbehaves */
+    name_size = (int)GetPrivateProfileIntA("AnnotatedMap", "NameSize", 100, ini_path);
+    name_size = name_size < 50 ? 50 : name_size > 150 ? 150 : (name_size + 5) / 10 * 10;
+    name_opacity = opacity < 10 ? 10 : opacity > 100 ? 100 : (opacity + 5) / 10 * 10;
+    name_alpha = (float)name_opacity / 100.0f;  /* off if REbirth HD map replacement misbehaves */
 }
 
 /* ---------- game state */
@@ -223,7 +229,7 @@ static void(__cdecl *const texture_free)(void *) = (void(__cdecl *)(void *))0x43
 /* ---------- tiles: 4bpp 256x256 TIMs, one native texture slot state each */
 typedef struct { int used; unsigned char state[SLOT_SIZE]; } Tile;
 /* layer 0: icons, legend, titles (opaque); 1: names + leader lines (NameOpacity); 2: floor/area arrows (blinking) */
-#define LAYERS 3
+#define LAYERS 4   /* layer3: opaque legend with the RE3 palette */
 static Tile tiles[LAYERS][TILES_X * TILES_Y], background, terrain, outline, arrows;
 static int layer;
 static int drawing_background, semi_layer;
@@ -281,11 +287,20 @@ static void blit(int bid, int x, int y) {
     const OvBitmap *b = &ov_bitmaps[bid];
     const unsigned char *src = ov_pixels + b->off;
     unsigned row = (b->w + 1u) / 2u;
-    for (int j = 0; j < b->h; j++) {
+    /* shortcut: keep label anchors when resizing; rerun placement if every enlarged name must avoid icons. */
+    int w = layer == 1 ? (b->w * name_size + 50) / 100 : b->w;
+    int h = layer == 1 ? (b->h * name_size + 50) / 100 : b->h;
+    x += (b->w - w) / 2; y += (b->h - h) / 2;
+    if (layer == 1) {
+        if (x < 0) x = 0; if (x + w > 320 * OV_SCALE) x = 320 * OV_SCALE - w;
+        if (y < 0) y = 0; if (y + h > 204 * OV_SCALE) y = 204 * OV_SCALE - h;
+    }
+    for (int j = 0; j < h; j++) {
         int py = y + j; if (py < 0 || py >= TILES_Y * TILE_TEX) continue;
-        for (int i = 0; i < b->w; i++) {
+        for (int i = 0; i < w; i++) {
             int px = x + i; if (px < 0 || px >= TILES_X * TILE_TEX) continue;
-            unsigned v = (src[j * row + i / 2] >> ((i & 1) * 4)) & 15; if (!v) continue;
+            unsigned sx = (unsigned)i * b->w / w, sy = (unsigned)j * b->h / h;
+            unsigned v = (src[sy * row + sx / 2] >> ((sx & 1) * 4)) & 15; if (!v) continue;
             unsigned ti = (unsigned)(py / TILE_TEX) * TILES_X + (unsigned)(px / TILE_TEX);
             unsigned lx = (unsigned)(px % TILE_TEX), ly = (unsigned)(py % TILE_TEX);
             unsigned char *d = &tile_px[layer][ti][ly * (TILE_TEX / 2) + lx / 2];
@@ -444,16 +459,20 @@ static void compose(unsigned page, int ox, int oy) {
             layer = 0;
         }
     }
+    layer = 3;
+    int lang = english ? 0 : 1;
+    blit(ov_full_legend_title[lang], 8 * OV_SCALE, ov_fullscreen ? 205 * OV_SCALE : 185 * OV_SCALE);
+    for (int r = 0; r < 12; r++) {
+        int variant = r == 7 ? (direct_active ? 2 : ov_fullscreen ? 0 : 1) : r == 8 ? scope - 1 : 0;
+        int off = r <= 6 && !toggles[r];
+        int bid = r == 10 ? ov_name_size[(name_size - 50) / 10][lang] : r == 11 ? ov_name_opacity[name_opacity / 10 - 1][lang] : ov_full_legend[r][variant][off][lang];
+        int x = ov_fullscreen ? ov_full_legend_x[r / 4] * OV_SCALE : ov_status_legend_x[r / 3] * OV_SCALE;
+        int y = (ov_fullscreen ? OV_FULL_LEGEND_Y : OV_STATUS_LEGEND_Y) + OV_FULL_LEGEND_STEP * (r % (ov_fullscreen ? 4 : 3));
+        blit(bid, x, y);
+    }
+    layer = 0;
     if (ov_fullscreen) {
-        /* RE2-style: area title top-left, DISPLAY STATUS block bottom-left, blinking green floor/area arrows */
-        blit(ov_page_titles[page][english ? 0 : 1], 10 * OV_SCALE, 8 * OV_SCALE);
-        int lang = english ? 0 : 1;
-        blit(ov_full_legend_title[lang], 8 * OV_SCALE, 205 * OV_SCALE);
-        for (int r = 0; r < 10; r++) {
-            int variant = r == 7 ? (direct_active ? 2 : 0) : r == 8 ? scope - 1 : 0;
-            int off = r <= 6 && !toggles[r];
-            blit(ov_full_legend[r][variant][off][lang], (8 + (r >= 5 ? OV_FULL_LEGEND_COL2 : 0)) * OV_SCALE, (210 + 5 * (r % 5)) * OV_SCALE);
-        }
+        blit(ov_page_titles[page][lang], 10 * OV_SCALE, 8 * OV_SCALE);
         unsigned area = MAP_STATE[4], up_down = MAP_STATE[12], areas = MAP_STATE[13];
         /* raw 0x80 (LEFT, RE1-Mod-SDK KEY_LEFT 8) -> area+1 / table 0x43bd08; raw 0x20 (RIGHT) -> area-1 / table 0x43bd18 */
         static const signed char left_special[4] = {3, 2, -1, 1}, right_special[4] = {-1, 3, 1, 0};
@@ -467,18 +486,6 @@ static void compose(unsigned page, int ox, int oy) {
         if (can[2]) blit(ov_nav[2], 5 * OV_SCALE, (120 * OV_SCALE - ov_bitmaps[ov_nav[2]].h / 2));
         if (can[3]) blit(ov_nav[3], 315 * OV_SCALE - ov_bitmaps[ov_nav[3]].w, (120 * OV_SCALE - ov_bitmaps[ov_nav[3]].h / 2));
         layer = 0;
-    } else {
-        /* status screen: legend in hotkey order 0..9 on one line below the floor drawing (box x 32..137 PSX) */
-        static const unsigned char order[] = {1, 2, 3, 4, 5, 6, 7, 11, 8, 10};
-        int x = ox - 16 * OV_SCALE;
-        for (unsigned r = 0; r < sizeof order; r++) {
-            unsigned row = order[r];
-            int on = row >= 8 ? 1 : toggles[row - 1];
-            if (row == 8) row = scope == 3 ? 9 : scope == 2 ? 14 : 8;
-            int bid = ov_legend[row][(on ? 0 : 2) + (english ? 0 : 1)];
-            blit(bid, x, oy + 95 * OV_SCALE);
-            x += ov_bitmaps[bid].w + OV_STATUS_LEGEND_GAP * OV_SCALE;
-        }
     }
     /* texture uploads dominate a recompose (REbirth HD path per TIM): keep tiles whose pixels did not change */
     static uint32_t tile_hash[LAYERS][TILES_X * TILES_Y];
@@ -494,7 +501,7 @@ static void compose(unsigned page, int ox, int oy) {
             if (h && h == tile_hash[k][t] && tiles[k][t].used) continue;
             release_tile(&tiles[k][t]);
             tile_hash[k][t] = 0;
-            if (h && upload_tile(&tiles[k][t], tile_px[k][t], ov_palette, TILE_TEX)) tile_hash[k][t] = h;
+            if (h && upload_tile(&tiles[k][t], tile_px[k][t], k == 3 ? ov_legend_palette : ov_palette, TILE_TEX)) tile_hash[k][t] = h;
         }
     }
 }
@@ -565,7 +572,7 @@ static void draw_tiles(void) {
         for (int k = 0; k < LAYERS; k++) {
         if (!tiles[k][t].used) continue;
         int bx = (int)(t % TILES_X) * TILE_PSX, by = (int)(t / TILES_X) * TILE_PSX;
-        semi_layer = k; draw_part(&tiles[k][t], bx, by, 0, 0, TILE_PSX, TILE_PSX); semi_layer = 0;
+        semi_layer = k == 3 ? 0 : k; draw_part(&tiles[k][t], bx, by, 0, 0, TILE_PSX, TILE_PSX); semi_layer = 0;
         }
     }
     if (ov_fullscreen && arrows.used) draw_player();
@@ -650,6 +657,8 @@ static int poll_keys(void) {
     unsigned now = 0;
     for (int k = 0; k <= 9; k++)
         if ((GetAsyncKeyState('0' + k) | GetAsyncKeyState(VK_NUMPAD0 + k)) & 0x8000) now |= 1u << k;
+    if ((GetAsyncKeyState(VK_OEM_MINUS) | GetAsyncKeyState(VK_SUBTRACT)) & 0x8000) now |= 1u << 10;
+    if ((GetAsyncKeyState(VK_OEM_PLUS) | GetAsyncKeyState(VK_ADD)) & 0x8000) now |= 1u << 11;
     unsigned pressed = now & ~keys_down; keys_down = now;
     if (!pressed) return 0;
     int retint = 0;
@@ -657,6 +666,17 @@ static int poll_keys(void) {
     if (pressed & (1u << 7)) { if (!direct_active) ov_fullscreen = !ov_fullscreen; }
     if (pressed & (1u << 8)) scope = scope % 3 + 1;   /* visited -> revealed -> all */
     if (pressed & (1u << 9)) english = !english;
+    int delta = ((pressed >> 11) & 1) - ((pressed >> 10) & 1);
+    if (delta) {
+        if ((GetAsyncKeyState(VK_SHIFT) | GetAsyncKeyState(VK_LSHIFT) | GetAsyncKeyState(VK_RSHIFT)) & 0x8000) {
+            name_opacity += delta * 10;
+            if (name_opacity < 10) name_opacity = 10; if (name_opacity > 100) name_opacity = 100;
+            name_alpha = (float)name_opacity / 100.0f;
+        } else {
+            name_size += delta * 10;
+            if (name_size < 50) name_size = 50; if (name_size > 150) name_size = 150;
+        }
+    }
     save_settings();
     if (retint) { MAP_LOADED_PAGE = 0; MAP_STATE[1] = 0; }   /* reload page -> re-run tint hook (0x43bf40) */
     return 1;
