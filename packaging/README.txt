@@ -16,7 +16,7 @@ Classic REbirth는 별도로 설치해야 합니다. Ultimate ASI Loader v9.7.4(
 기존 설정을 유지하려면 mod_annotated_map/RE1.AnnotatedMap.ini를 scripts/로 옮겨 기본 INI 대신 사용하세요.
 
 사용
-- 탐색 중이나 상태창 지도에서 Tab 또는 패드 BACK(View/Create): 전체 화면 지도 열기. Tab, Esc, 취소 버튼: 닫기.
+- 탐색 중이나 상태창 지도에서 Tab 또는 패드 START(Menu/Options): 전체 화면 지도 열기. Tab, Esc, 취소 버튼: 닫기.
 - 지도에서 앞/뒤 이동: 층 선택, 좌/우 이동: 장소 선택.
 - 숫자 키: 0 전체 표시, 1 방 이름·저장, 2 문·열쇠, 3 핵심 아이템, 4 문서·지도, 5 퍼즐, 6 일반 아이템,
   8 표시 범위(방문한 방 → 공개된 방 → 모든 방), 9 한국어 / English.
@@ -25,7 +25,7 @@ Classic REbirth는 별도로 설치해야 합니다. Ultimate ASI Loader v9.7.4(
 - 설정은 scripts/RE1.AnnotatedMap.ini에 저장됩니다([Keys]에서 열기·닫기 키 변경).
 
 패드 지도 버튼 변경 (기존 1.1.0에서도 지원)
-게임 종료 후 위 INI의 [Keys]에서 OpenPad=BACK을 사용하지 않는 버튼으로 바꿉니다.
+게임 종료 후 위 INI의 [Keys]에서 OpenPad=START를 사용하지 않는 버튼으로 바꿉니다.
 예: OpenPad=LS (왼쪽 스틱 클릭). [Keys]나 OpenPad가 없으면 추가하세요.
 지원: A B X Y LB RB START BACK LS RS UP DOWN LEFT RIGHT, NONE.
 LT/RT 트리거와 버튼 조합은 지원하지 않습니다. 게임 자체의 패드 설정과 별개입니다.
@@ -59,8 +59,8 @@ Upgrading from 1.1.0: delete RE1.AnnotatedMap.dll and the mod_annotated_map fold
 To keep your settings, move mod_annotated_map/RE1.AnnotatedMap.ini into scripts/ instead of the default INI.
 
 Controls
-- While exploring or on the status-screen map, press Tab or controller BACK (View/Create) to open the full-screen map.
-  Press Tab, BACK, Esc or the cancel button to close it.
+- While exploring or on the status-screen map, press Tab or controller START (Menu/Options) to open the full-screen map.
+  Press Tab, START, Esc or the cancel button to close it.
 - On the map: move forward/backward to select a floor; left/right to select an area.
 - Number keys: 0 all annotations, 1 room names/typewriters/item boxes, 2 doors/keys,
   3 key items, 4 documents/maps, 5 puzzles, 6 common items,
@@ -72,7 +72,7 @@ Controls
   Configure opening and closing controls under [Keys].
 
 Changing the controller map button (also supported in the existing 1.1.0 release)
-Close the game and change OpenPad=BACK under [Keys] in the INI to an unused button,
+Close the game and change OpenPad=START under [Keys] in the INI to an unused button,
 e.g. OpenPad=LS for left-stick click. Add [Keys]/OpenPad if they are missing.
 Supported: A B X Y LB RB START BACK LS RS UP DOWN LEFT RIGHT, or NONE.
 LT/RT triggers and button combinations are not supported. This setting is

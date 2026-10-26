@@ -4,7 +4,7 @@ English | [한국어](README.md)
 
 A bilingual ASI map mod for the original Resident Evil PC release (GOG Japanese `Biohazard.exe` with [Classic REbirth 1.1.4](https://classicrebirth.com/index.php/re1cb-changelog/)). Shows room names, locked doors and required keys, key items, documents and maps, puzzles, common items, typewriters and item boxes.
 
-- The status-screen map shows icons; the full-screen map opened with **Tab** (controller **BACK**) also shows names.
+- The status-screen map shows icons; the full-screen map opened with **Tab** (controller **START**) also shows names.
 - Collected items, unlocked doors and solved puzzles disappear. Rooms with remaining items are tinted amber.
 - Required keys appear on the unvisited side of locked doors. The full-screen map shows your position and facing direction.
 - Supports Chris and Jill item placements, with Korean and English labels.
@@ -42,7 +42,7 @@ Compatible with the [Korean HD translation mod](https://github.com/eggu/resident
 
 | Key | Action |
 |---|---|
-| Tab / controller BACK (View/Create) | Open or close the full-screen map while exploring and able to control the character, or from the status-screen map |
+| Tab / controller START (Menu/Options) | Open or close the full-screen map while exploring and able to control the character, or from the status-screen map |
 | Esc / cancel button | Close the full-screen map |
 | Move forward/backward | Select floor |
 | Move left/right | Select area |
@@ -64,7 +64,7 @@ The archive includes a commented default configuration; the mod also creates dis
 
 ### Change the controller map button
 
-If BACK is bound to a game action, edit `scripts/RE1.AnnotatedMap.ini` and change `OpenPad=BACK` under `[Keys]` to an unused button, for example:
+Classic REbirth opens its settings screen with BACK by default. If START is bound to a game action, edit `scripts/RE1.AnnotatedMap.ini` and change `OpenPad=START` under `[Keys]` to an unused button, for example:
 
 ```ini
 [Keys]
@@ -82,7 +82,7 @@ Both map views share full legend wording and current state. Pretendard Medium le
 | Setting | Default | Description |
 |---|---|---|
 | `[Keys] OpenKey` | `TAB` | Keyboard toggle: one character, `ESC`, `TAB`, `SPACE`, `F1`–`F12`, a virtual key code such as `0x4D`, or `NONE` |
-| `[Keys] OpenPad` | `BACK` | XInput toggle: `A B X Y LB RB START BACK LS RS UP DOWN LEFT RIGHT`, or `NONE` |
+| `[Keys] OpenPad` | `START` | XInput toggle: `A B X Y LB RB START BACK LS RS UP DOWN LEFT RIGHT`, or `NONE` |
 | `[Keys] CloseKey` | `ESC` | Keyboard close key |
 | `[Keys] CloseOnCancel` | `1` | Close with the game's cancel button |
 | `[AnnotatedMap] RoomTint` | `1` | Set to `0` to disable tinting rooms with remaining items |

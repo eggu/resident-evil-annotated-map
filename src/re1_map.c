@@ -74,7 +74,7 @@ static void load_settings(void) {
     arrow_rotation = (int)GetPrivateProfileIntA("Calibration", "ArrowRotation", 0, ini_path);
     char k[16];
     GetPrivateProfileStringA("Keys", "OpenKey", "TAB", k, sizeof k, ini_path); open_vk = key_code(k, VK_TAB);
-    GetPrivateProfileStringA("Keys", "OpenPad", "BACK", k, sizeof k, ini_path); open_pad = pad_code(k, 0x0020);
+    GetPrivateProfileStringA("Keys", "OpenPad", "START", k, sizeof k, ini_path); open_pad = pad_code(k, 0x0010);
     GetPrivateProfileStringA("Keys", "CloseKey", "ESC", k, sizeof k, ini_path); close_vk = key_code(k, VK_ESCAPE);
     close_on_cancel = GetPrivateProfileIntA("Keys", "CloseOnCancel", 1, ini_path) != 0;
 
@@ -144,7 +144,7 @@ static int marker_visible(const OvMarker *m, unsigned page) {
 /* Fullscreen map keys (INI [Keys]): OpenKey / OpenPad open it at the original gameplay gate; the same key or button,
  * CloseKey, or the game's cancel action (CloseOnCancel) close it. Pad buttons are read with XInput (loaded at runtime). */
 static int direct_pending, direct_active, direct_init;
-/* defaults: Tab / BACK to open, Esc or cancel to close (set in load_settings) */
+/* defaults: Tab / START to open, Esc or cancel to close (set in load_settings) */
 typedef DWORD(WINAPI *xinput_get_state_fn)(DWORD, void *);
 static xinput_get_state_fn xinput_get_state;
 static int foreground(void) { DWORD pid = 0; GetWindowThreadProcessId(GetForegroundWindow(), &pid); return pid == GetCurrentProcessId(); }

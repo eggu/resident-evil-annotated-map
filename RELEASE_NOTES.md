@@ -1,9 +1,27 @@
+# Annotated Map: Survivor's Notes — 1.1.2
+
+## 한국어
+
+- 패드 지도 기본 버튼을 **BACK**에서 **START**(Menu/Options)로 바꿨습니다. Classic REbirth 기본 패드 배치는 BACK으로 설정 화면을 열어서 1.1.1 기본값과 겹쳤습니다.
+- 1.1.1 문서의 "Classic REbirth는 기본으로 START에 키 설정 화면을 둔다"는 설명은 틀렸기에 고쳤습니다.
+- 1.1.1에서 업그레이드할 때 기존 `scripts/RE1.AnnotatedMap.ini`를 유지하면 `OpenPad=BACK`이 남습니다. `[Keys]`의 `OpenPad=START`로 바꾸거나 포함된 INI로 덮어쓰세요.
+
+전체 빌드, 원본 EXE 기반 네이티브 회귀, 패키지 구성 검사를 통과했습니다. 실제 패드 START 버튼과 Windows 실기 환경은 미확인입니다.
+
+## English
+
+- The default controller map button is now **START** (Menu/Options) instead of **BACK**. Classic REbirth's default controller layout opens its settings screen with BACK, which clashed with the 1.1.1 default.
+- Corrects the 1.1.1 documentation, which wrongly said Classic REbirth uses START for its key settings screen by default.
+- When upgrading from 1.1.1 and keeping your existing `scripts/RE1.AnnotatedMap.ini`, it still contains `OpenPad=BACK`. Change it to `OpenPad=START` under `[Keys]`, or overwrite it with the included INI.
+
+Passed the full build, original-EXE native regression and package layout checks. A physical controller START button and native Windows remain unverified.
+
 # Annotated Map: Survivor's Notes — 1.1.1
 
 ## 한국어
 
 - **ASI 플러그인으로 배포 방식을 바꿨습니다.** `scripts/RE1.AnnotatedMap.asi`로 설치하며, REbirth MOD SELECTION에서 체크할 필요가 없습니다. Ultimate ASI Loader v9.7.4(MIT)를 `dsound.dll`로 포함합니다. Classic REbirth는 계속 필요합니다.
-- 기본 열기 키를 **Tab**, 패드 **BACK**(View/Create)으로 바꿨습니다. Classic REbirth는 기본으로 START에 키 설정 화면을 둡니다.
+- 기본 열기 키를 **Tab**, 패드 **BACK**(View/Create)으로 바꿨습니다.
 - 상태 화면 지도에서도 열기 키로 전체 화면 지도를 엽니다. 기존 `7` 키 전환은 없앴습니다.
 - 상태 화면에서 연 전체 지도에서 앞/뒤·좌/우로 층과 장소를 바꿀 수 있습니다. 배경이 비치던 문제와 장소 전환 중 크래시를 고쳤습니다.
 - 아래쪽 이동 화살표가 범례에 가려지지 않도록 범례 위로 옮겼습니다. 범례에 `[TAB]` 문구를 표시합니다.
@@ -18,7 +36,7 @@
 ## English
 
 - **Now distributed as an ASI plugin.** Installs as `scripts/RE1.AnnotatedMap.asi`; no REbirth MOD SELECTION step is needed. Ultimate ASI Loader v9.7.4 (MIT) is included as `dsound.dll`. Classic REbirth is still required.
-- The default open key is now **Tab**, and controller **BACK** (View/Create). Classic REbirth uses START for its key settings screen by default.
+- The default open key is now **Tab**, and controller **BACK** (View/Create).
 - The open key also opens the full-screen map from the status-screen map. The old `7` toggle was removed.
 - The full-screen map opened from the status screen now changes floor and area with forward/back and left/right. Fixes the status screen showing through and a crash while changing areas.
 - The down navigation arrow moved above the legend so it is no longer hidden. The legend shows `[TAB]`.

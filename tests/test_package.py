@@ -29,7 +29,7 @@ with tempfile.TemporaryDirectory() as tmp:
         assert z.read('scripts/RE1.AnnotatedMap.asi') == (ROOT / 'mod_annotated_map/RE1.AnnotatedMap.dll').read_bytes()
         config = configparser.ConfigParser()
         config.read_string(bundled.decode('ascii'))
-        assert dict(config['Keys']) == dict(openkey='TAB', openpad='BACK', closekey='ESC', closeoncancel='1')
+        assert dict(config['Keys']) == dict(openkey='TAB', openpad='START', closekey='ESC', closeoncancel='1')
         assert dict(config['AnnotatedMap']) == dict(all='1', rooms='1', locks='0', keyitems='0', documents='0',
             puzzles='0', commonitems='0', language='en', scope='1', namesize='100', nameopacity='70', roomtint='1')
         assert dict(config['Calibration']) == dict(offsetx='0', offsety='0', z='16', arrowrotation='0')

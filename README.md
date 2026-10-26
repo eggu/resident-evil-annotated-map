@@ -4,7 +4,7 @@
 
 **상세 지도: 생존자의 메모** — 원작 Resident Evil PC판(GOG 일본어판 `Biohazard.exe` + [Classic REbirth 1.1.4](https://classicrebirth.com/index.php/re1cb-changelog/))의 지도에 방 이름, 잠긴 문과 필요한 열쇠, 핵심 아이템, 문서·지도, 퍼즐, 일반 아이템, 타자기·아이템 상자를 표시하는 ASI 모드입니다. 한국어/영어를 지원합니다.
 
-- 상태 화면 지도에는 아이콘만, **Tab**(패드 **BACK**)으로 여는 전체 화면 지도에는 이름까지 표시합니다.
+- 상태 화면 지도에는 아이콘만, **Tab**(패드 **START**)으로 여는 전체 화면 지도에는 이름까지 표시합니다.
 - 주운 아이템, 연 문, 푼 퍼즐은 지도에서 사라집니다. 아이템이 남은 방은 호박색으로 칠합니다.
 - 잠긴 문의 열쇠는 아직 가지 않은 쪽 방에 표시합니다. 전체 화면 지도에는 현재 위치와 바라보는 방향을 화살표로 표시합니다.
 - 크리스/질의 아이템 배치 차이를 반영합니다.
@@ -42,7 +42,7 @@
 
 | 키 | 동작 |
 |---|---|
-| Tab / 패드 BACK(View/Create) | 전체 화면 지도 열기·닫기 (탐색 중 조작 가능한 상태 또는 상태창 지도에서) |
+| Tab / 패드 START(Menu/Options) | 전체 화면 지도 열기·닫기 (탐색 중 조작 가능한 상태 또는 상태창 지도에서) |
 | Esc / 취소 버튼 | 전체 화면 지도 닫기 |
 | 앞/뒤 이동 | 층 선택 |
 | 좌/우 이동 | 장소 선택 |
@@ -64,7 +64,7 @@
 
 ### 패드 지도 버튼 변경
 
-BACK을 게임 동작에 연결해 두었다면 `[Keys]`의 `OpenPad=BACK`을 사용하지 않는 버튼으로 바꾸세요. Classic REbirth는 기본으로 START에 키 설정 화면을 둡니다. 예를 들어 왼쪽 스틱 클릭은 다음과 같습니다.
+START를 게임 동작에 연결해 두었다면 `[Keys]`의 `OpenPad=START`를 사용하지 않는 버튼으로 바꾸세요. Classic REbirth는 기본으로 BACK에 설정 화면을 둡니다. 예를 들어 왼쪽 스틱 클릭은 다음과 같습니다.
 
 ```ini
 [Keys]
@@ -82,7 +82,7 @@ OpenPad=LS
 | 항목 | 기본값 | 설명 |
 |---|---|---|
 | `[Keys] OpenKey` | `TAB` | 키보드로 열기·닫기. 한 글자, `ESC`, `TAB`, `SPACE`, `F1`–`F12`, `0x4D` 같은 가상 키 코드, `NONE` |
-| `[Keys] OpenPad` | `BACK` | 패드로 열기·닫기(XInput). `A B X Y LB RB START BACK LS RS UP DOWN LEFT RIGHT`, `NONE` |
+| `[Keys] OpenPad` | `START` | 패드로 열기·닫기(XInput). `A B X Y LB RB START BACK LS RS UP DOWN LEFT RIGHT`, `NONE` |
 | `[Keys] CloseKey` | `ESC` | 키보드로 닫기 |
 | `[Keys] CloseOnCancel` | `1` | 게임의 취소 버튼으로 닫기 |
 | `[AnnotatedMap] RoomTint` | `1` | `0`이면 아이템이 남은 방 색칠 끄기 |
