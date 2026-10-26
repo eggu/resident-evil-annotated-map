@@ -92,7 +92,7 @@ def imp_wsprintfA():
     u.mem_write(arg(0), text)
     return len(text) - 1
 def imp_CreateFileA():
-    return 0xffffffff
+    state.setdefault('opened', set()).add(cstr(arg(0))); return 0xffffffff
 def imp_GetWindowThreadProcessId():
     if arg(1): u.mem_write(arg(1), struct.pack('<I', 1234 if state.get('foreground', True) else 9999))
     return 1
@@ -177,6 +177,7 @@ def call(addr, *args):
 entry = DBASE + struct.unpack_from('<I', di, o + 16)[0]
 u.mem_write(TEX_SLOT, b'\x5a' * 0x21c)          # game-owned slot content must survive
 assert call(entry, DBASE, 1, 0) == 1
+assert state['opened'] == {'C:\\game\\RE1.AnnotatedMap.log'}, state['opened']  # ASI: log/INI beside the module
 target = lambda a: (a + 5 + struct.unpack('<i', u.mem_read(a + 1, 4))[0]) & 0xffffffff
 hook = target(0x43c491)
 assert DBASE <= hook < DBASE + len(di), 'map draw site not patched'
@@ -429,13 +430,13 @@ print('all 11 pages / both languages stay inside the native map panel')
 # Dedicated mode is foreground-only, leaves settings intact, and returns on map close.
 scene(0, visited=[5, 6])
 state['foreground'] = False
-state['keys'] = {ord('7')}
+state['keys'] = {0x09}
 draw()
 assert struct.unpack('<i', u.mem_read(exports['ov_fullscreen'], 4))[0] == 0
 state['foreground'] = True
 state['keys'] = set()
 draw()
-state['keys'] = {ord('7')}
+u.mem_write(exports['ov_fullscreen'], struct.pack('<i', 1))   # 7 now opens the direct viewer (tested below); render the full-screen composition directly
 draw()
 assert struct.unpack('<i', u.mem_read(exports['ov_fullscreen'], 4))[0] == 1
 assert 1 < len(sprites_now) <= 3 * (320 // TILE_PSX) * (256 // TILE_PSX) + 5   # icon / name / arrow layers + background, terrain, outline, player
@@ -481,13 +482,9 @@ for page in range(1, 11):
     draw()
     assert 1 < len(sprites_now) <= 3 * (320 // TILE_PSX) * (256 // TILE_PSX) + 5   # icon / name / arrow layers + background, terrain, outline, player
 state['keys'] = set()
+u.mem_write(exports['ov_fullscreen'], bytes(4))
 draw()
-state['keys'] = {ord('7')}
-draw()
-assert struct.unpack('<i', u.mem_read(exports['ov_fullscreen'], 4))[0] == 0
-state['keys'] = set()
-draw()
-state['keys'] = {ord('7')}
+u.mem_write(exports['ov_fullscreen'], struct.pack('<i', 1))
 draw()
 sp_bytes = bytearray(u.mem_read(0x4B1D58, 36))
 struct.pack_into('<h', sp_bytes, 0x1c, 0x1400)
@@ -544,7 +541,7 @@ u.mem_write(0xC3523E, b'\x00')
 u.mem_write(0xC3AB90, struct.pack('<H', 0xffff))
 u.mem_write(0xC384EB, b'\x00')  # actual live gameplay snapshot, 2026-10-19
 u.mem_write(0xC3F8E0, bytes(2))
-state['keys'] = {ord('M')}
+state['keys'] = {0x09}
 state['foreground'] = False
 call(target(0x48d0aa), 0)
 assert struct.unpack('<H', u.mem_read(0xC3F8E0, 2))[0] == 0
@@ -554,7 +551,7 @@ call(target(0x48d0aa), 0)
 assert struct.unpack('<H', u.mem_read(0xC3F8E0, 2))[0] == 0
 state['keys'] = set(); call(target(0x48d0aa), 0)
 u.mem_write(0xC3523E, b'\x00')
-state['keys'] = {ord('M')}; call(target(0x48d0aa), 0)
+state['keys'] = {0x09}; call(target(0x48d0aa), 0)
 assert struct.unpack('<H', u.mem_read(0xC3F8E0, 2))[0] == 0x800
 # Run the unchanged native gameplay gate: it must enter the original menu state.
 u.emu_start(0x48d0b2, 0x48d126, count=100)
@@ -615,7 +612,7 @@ assert u.mem_read(0xB38DE6, 1) == b'\x01'
 u.mem_write(0xC3F8E0, bytes(2))
 u.mem_write(0xC38710, bytes(2))
 u.mem_write(0xC38712, bytes(2))
-state['keys'] = {ord('M')}; call(target(0x40b96b))
+state['keys'] = {0x09}; call(target(0x40b96b))
 assert u.mem_read(0xC2E931, 1) == b'\x07'
 call(target(0x40b91b))
 assert struct.unpack('<i', u.mem_read(exports['ov_fullscreen'], 4))[0] == 0
@@ -624,7 +621,7 @@ state['keys'] = set()
 # direct viewer must initialise the map itself (opened in the laboratory, it showed the mansion).
 u.mem_write(0xC2E931, b'\x00')
 call(target(0x48d0aa), 0)
-state['keys'] = {ord('M')}; call(target(0x48d0aa), 0)
+state['keys'] = {0x09}; call(target(0x48d0aa), 0)
 u.emu_start(0x48d0b2, 0x48d126, count=100)
 u.mem_write(0xC384EB, b'\x02')
 call(target(0x40b5ac), 0, 1)
@@ -635,7 +632,23 @@ h2 = u.hook_add(UC_HOOK_CODE, lambda uc, a, sz, ud: inits.append(a), begin=0x43b
 call(target(0x40b96b)); call(target(0x40b96b))
 u.hook_del(h); u.hook_del(h2)
 assert inits[:2] == [0x43ca60, 0x43bd30], ('direct map must run map init, then the floor/area eligibility refresh', inits)
-state['keys'] = {ord('M')}; call(target(0x40b96b)); call(target(0x40b91b)); state['keys'] = set()
+state['keys'] = {0x09}; call(target(0x40b96b)); call(target(0x40b91b)); state['keys'] = set()
+# The open key (Tab) on the status map switches to the direct viewer: map init runs; status menu, selector and small map are not drawn.
+u.mem_write(exports['ov_fullscreen'], bytes(4))
+u.mem_write(0xC2E931, b'\x03')
+state['keys'] = set(); draw()   # key released since the previous Tab
+state['keys'] = {0x09}; draw(); state['keys'] = set()
+assert struct.unpack('<i', u.mem_read(exports['ov_fullscreen'], 4))[0] == 1 and u.mem_read(0xC2E931, 1) == b'\x00'
+seen = []
+hs = [u.hook_add(UC_HOOK_CODE, lambda uc, a, sz, ud: seen.append(a), begin=x, end=x) for x in (0x43ca60, 0x488310, 0x43be40, 0x43c7c0, 0x40bb60)]
+call(target(0x40b6d6)); call(target(0x40b96b)); call(target(0x40b6d6)); call(target(0x40b96b))
+for x in hs: u.hook_del(x)
+assert 0x43ca60 in seen, 'direct viewer from 7 must run map init'
+assert not set(seen) & {0x488310, 0x43be40, 0x43c7c0, 0x40bb60}, ('status menu / selector / small map drawn', [hex(a) for a in seen])
+state['keys'] = {0x09}; call(target(0x40b96b))
+assert u.mem_read(0xC2E931, 1) == b'\x07'
+call(target(0x40b91b)); state['keys'] = set()
+assert struct.unpack('<i', u.mem_read(exports['ov_fullscreen'], 4))[0] == 0
 print('direct M / original forward-backward floor selection / confirm / close / cleanup ok')
 
 # 9) Run the real Add_sprt UV calculation, not the recording stub.
@@ -848,12 +861,12 @@ item = next(f for f in full if f[0] == 6 and f[1] == 0 and f[5] & 1 and f[3] != 
 assert not drawn(item, 1, True) and drawn(item, 2, True) and not drawn(item, 2, False) and drawn(item, 3, False), 'item scope levels'
 print('scope visited / revealed / all ok')
 
-# Fullscreen map keys: OpenKey (M) opens at the gameplay gate; CloseKey (Esc) and the cancel action (0xC38712 bit 0x8000) close.
+# Fullscreen map keys: OpenKey (Tab) opens at the gameplay gate; CloseKey (Esc) and the cancel action (0xC38712 bit 0x8000) close.
 u.mem_write(0xC33090, struct.pack('<I', 0x90800008)); u.mem_write(0xC330AC, b'\x02'); u.mem_write(0xC3523E, b'\x00')
 u.mem_write(0xC3AB90, struct.pack('<H', 0xffff)); u.mem_write(0xC38712, bytes(2))
 def open_direct():
     u.mem_write(0xC3F8E0, bytes(2)); state['keys'] = set(); call(target(0x48d0aa), 0)
-    state['keys'] = {ord('M')}; call(target(0x48d0aa), 0)
+    state['keys'] = {0x09}; call(target(0x48d0aa), 0)
     assert struct.unpack('<H', u.mem_read(0xC3F8E0, 2))[0] & 0x800, 'open key did not request the map'
     u.emu_start(0x48d0b2, 0x48d126, count=100); u.mem_write(0xC384EB, b'\x02'); call(target(0x40b5ac), 0, 1)
     state['keys'] = set(); call(target(0x40b96b))

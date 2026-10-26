@@ -47,15 +47,16 @@ run([sys.executable, '-m', 'ziglang', 'cc', '-target', 'x86-windows-gnu', '-shar
 run([sys.executable, 'tests/test_native.py'])
 run([sys.executable, 'tests/test_map_settings.py'])
 if args.package:
-    # release ZIP: copy-into-game-folder layout (the DLL also sits in the game root, like other REbirth mods)
+    # release ZIP: copy-into-game-folder layout; bundled Ultimate ASI Loader (dsound.dll) loads scripts/*.asi
     import zipfile
     ver = (ROOT / 'VERSION').read_text().strip()
     out = ROOT / f'dist/RE1-Annotated-Map-{ver}.zip'
     out.parent.mkdir(exist_ok=True)
-    mod = ROOT / 'mod_annotated_map'
     with zipfile.ZipFile(out, 'w', zipfile.ZIP_DEFLATED) as z:
-        for name in ('manifest.txt', 'description.txt', 'RE1.AnnotatedMap.dll'):
-            z.write(mod / name, f'mod_annotated_map/{name}')
-        z.write(mod / 'RE1.AnnotatedMap.dll', 'RE1.AnnotatedMap.dll')
+        z.write(ROOT / 'mod_annotated_map/RE1.AnnotatedMap.dll', 'scripts/RE1.AnnotatedMap.asi')
+        z.write(ROOT / 'packaging/RE1.AnnotatedMap.ini', 'scripts/RE1.AnnotatedMap.ini')
+        ual = ROOT / 'packaging/ultimate-asi-loader'
+        z.write(ual / 'dsound.dll', 'dsound.dll')
+        z.write(ual / 'UltimateASILoader-LICENSE.txt', 'scripts/UltimateASILoader-LICENSE.txt')
         z.write(ROOT / 'packaging/README.txt', 'RE1-Annotated-Map-README.txt')
-    print('package', out, out.stat().st_size)
+    print('package', out)

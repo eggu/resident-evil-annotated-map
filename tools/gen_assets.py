@@ -527,7 +527,7 @@ FULL_ROWS = [  # (variants (en, ko), colour when on)
     ([('[0] ALL', '[0] 전체')], PURE), ([('[1] ROOMS', '[1] 방·저장')], CREAM), ([('[2] LOCKS', '[2] 문·열쇠')], GOLD),
     ([('[3] KEY ITEMS', '[3] 주요템')], CYAN), ([('[4] FILES & MAPS', '[4] 문서·지도')], WHITE), ([('[5] PUZZLES', '[5] 퍼즐')], AMBER),
     ([('[6] ITEMS', '[6] 일반템')], GREY),
-    ([('[7] VIEW: LARGE', '[7] 보기: 크게'), ('[7] VIEW: SMALL', '[7] 보기: 작게'), ('[M] CLOSE MAP', '[M] 지도 닫기')], PURE),
+    ([('[7] VIEW: LARGE', '[7] 보기: 크게'), ('[TAB] FULL MAP', '[TAB] 전체 지도'), ('[TAB] CLOSE MAP', '[TAB] 지도 닫기')], PURE),
     ([('[8] SCOPE: VISITED', '[8] 범위: 방문한 방'), ('[8] SCOPE: REVEALED', '[8] 범위: 공개된 방'), ('[8] SCOPE: ALL ROOMS', '[8] 범위: 모든 방')], PURE),
     ([('[9] LANGUAGE: ENGLISH', '[9] 언어: 한국어')], PURE)]
 full_legend = []   # [row][variant][on/off][lang]

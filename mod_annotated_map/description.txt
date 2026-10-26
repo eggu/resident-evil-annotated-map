@@ -2,8 +2,15 @@ Annotated Map: Survivor's Notes 1.1.0
 For Classic REbirth 1.1.4 (GOG Biohazard.exe).
 
 Map overlay: room names, typewriters/item boxes, locked doors and their keys, key items, files/maps, puzzles, common items.
-M (or pad RB): full-screen map. Map hotkeys: 0 all, 1 rooms, 2 locks, 3 key items, 4 files, 5 puzzles, 6 common items,
-7 full screen / status map, 8 visited / revealed / all rooms, 9 English / Korean.
+Tab (or pad BACK): full-screen map. Map hotkeys: 0 all, 1 rooms, 2 locks, 3 key items, 4 files, 5 puzzles, 6 common items,
+8 visited / revealed / all rooms, 9 English / Korean.
 Settings: mod_annotated_map/RE1.AnnotatedMap.ini (created on first run).
+To change controls, close the game and edit [Keys] in that INI, then save and restart.
+OpenKey=TAB: keyboard toggle. CloseKey=ESC: additional close key.
+OpenPad=BACK: controller toggle, independent of the game's controller bindings.
+If BACK is bound to a game action, use another unused button, e.g. OpenPad=LS (left-stick click).
+Supported: A B X Y LB RB START BACK LS RS UP DOWN LEFT RIGHT, or NONE to disable it.
+LT/RT triggers and button combinations are not supported. Add [Keys] if it is missing.
+CloseOnCancel=1: close with the game's cancel action; use 0 to disable that action.
 - / = (+): name size (50-150%). Shift + - / = (+): name opacity (10-100%).
 Defaults: English, name size 100%, opacity 70%, Rooms on; other categories off.

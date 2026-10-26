@@ -2,9 +2,9 @@
 
 English | [한국어](README.md)
 
-An unofficial bilingual map mod for the original Resident Evil PC release (GOG Japanese `Biohazard.exe` with [Classic REbirth 1.1.4](https://classicrebirth.com/index.php/re1cb-changelog/)). Shows room names, locked doors and required keys, key items, documents and maps, puzzles, common items, typewriters and item boxes.
+A bilingual ASI map mod for the original Resident Evil PC release (GOG Japanese `Biohazard.exe` with [Classic REbirth 1.1.4](https://classicrebirth.com/index.php/re1cb-changelog/)). Shows room names, locked doors and required keys, key items, documents and maps, puzzles, common items, typewriters and item boxes.
 
-- The status-screen map shows icons; the full-screen map opened with **M** (controller **RB**) also shows names.
+- The status-screen map shows icons; the full-screen map opened with **Tab** (controller **BACK**) also shows names.
 - Collected items, unlocked doors and solved puzzles disappear. Rooms with remaining items are tinted amber.
 - Required keys appear on the unvisited side of locked doors. The full-screen map shows your position and facing direction.
 - Supports Chris and Jill item placements, with Korean and English labels.
@@ -27,10 +27,14 @@ An unofficial bilingual map mod for the original Resident Evil PC release (GOG J
 ## Installation
 
 1. Download `RE1-Annotated-Map-<version>.zip` from [Releases](https://github.com/eggu/resident-evil-annotated-map/releases). The `Source code` archives are not installable packages.
-2. Close the game and copy the ZIP contents into the folder containing `Biohazard.exe`, preserving the directory structure.
-3. Start the game and enable `Annotated Map: Survivor's Notes` in REbirth **MOD SELECTION**.
+2. Close the game and copy the ZIP contents (`dsound.dll`, `scripts/`) into the folder containing `Biohazard.exe`, preserving the directory structure. No REbirth **MOD SELECTION** step is needed.
+3. Classic REbirth must be installed separately. [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader) v9.7.4 (MIT) is included as `dsound.dll`.
+   - If Ultimate ASI Loader is already installed as `dsound.dll` (for example by REuncap), you can skip `dsound.dll`.
+   - If a different `dsound.dll` (such as DSOAL) is present, do not overwrite it; copy the included `dsound.dll` as `winmm.dll` instead.
 
-To uninstall, remove `mod_annotated_map/` and `RE1.AnnotatedMap.dll` from the game folder. The mod does not modify the EXE or saves. Unsupported executables (timestamp other than `0x3642d468`) are left unpatched.
+Upgrading from 1.1.0: delete `RE1.AnnotatedMap.dll` and `mod_annotated_map/` from the game folder. To keep your settings, move `mod_annotated_map/RE1.AnnotatedMap.ini` into `scripts/` in place of the default INI. For later upgrades, skip `scripts/RE1.AnnotatedMap.ini` when extracting, or back it up and restore it.
+
+To uninstall, delete `scripts/RE1.AnnotatedMap.asi`, `.ini` and `.log`, and `dsound.dll` if no other ASI mod uses it. The mod does not modify the EXE or saves. Unsupported executables (timestamp other than `0x3642d468`) are left unpatched.
 
 Compatible with the [Korean HD translation mod](https://github.com/eggu/resident-evil-korean-hd-translation).
 
@@ -38,7 +42,7 @@ Compatible with the [Korean HD translation mod](https://github.com/eggu/resident
 
 | Key | Action |
 |---|---|
-| M / controller RB | Open or close the full-screen map while exploring and able to control the character |
+| Tab / controller BACK (View/Create) | Open or close the full-screen map while exploring and able to control the character, or from the status-screen map |
 | Esc / cancel button | Close the full-screen map |
 | Move forward/backward | Select floor |
 | Move left/right | Select area |
@@ -49,24 +53,36 @@ Compatible with the [Korean HD translation mod](https://github.com/eggu/resident
 | 4 | Documents and maps |
 | 5 | Puzzles |
 | 6 | Common items |
-| 7 | Switch between full-screen and status-screen maps |
 | 8 | Cycle visibility: visited rooms → revealed rooms (floor map acquired) → all rooms |
 | 9 | Switch Korean / English |
 | - / = (+), numpad - / + | Name size in 10% steps (50–150%) |
 | Shift + those keys | Name opacity in 10% steps (10–100%) |
 
-## Settings (`mod_annotated_map/RE1.AnnotatedMap.ini`)
+## Settings (`scripts/RE1.AnnotatedMap.ini`)
 
-Created on first launch; stores display preferences.
+The archive includes a commented default configuration; the mod also creates display preferences if the file is missing. Close the game before editing the INI, then save and restart.
 
-Defaults: **English, name size 100%, opacity 70%, Rooms on, other categories off**. All remains enabled as the master switch. Existing INI values take precedence. On the main keyboard, use the equal/plus key without Shift to increase size.
+### Change the controller map button
+
+If BACK is bound to a game action, edit `scripts/RE1.AnnotatedMap.ini` and change `OpenPad=BACK` under `[Keys]` to an unused button, for example:
+
+```ini
+[Keys]
+OpenPad=LS
+```
+
+`LS` means clicking the left stick. Other supported values are listed below; LT/RT triggers and button combinations are not supported. This setting is independent of the game's controller bindings. Set `OpenPad=NONE` to disable the controller shortcut and use `OpenKey=TAB` on the keyboard instead. These options already work in version 1.1.0; if your INI has no `[Keys]` section, add the example above. Save the file and restart the game.
+
+### Display and key settings
+
+Defaults: **English, name size 100%, opacity 70%, Rooms on, other categories off**. All remains enabled as the master switch. Keep your existing INI when upgrading to preserve its values. On the main keyboard, use the equal/plus key without Shift to increase size.
 
 Both map views share full legend wording and current state. Pretendard Medium legend: body 20px, title 22px, outline 3px at the 4x reference scale. The status-screen legend uses the empty band below the HUD.
 
 | Setting | Default | Description |
 |---|---|---|
-| `[Keys] OpenKey` | `M` | Keyboard toggle: one character, `ESC`, `TAB`, `SPACE`, `F1`–`F12`, a virtual key code such as `0x4D`, or `NONE` |
-| `[Keys] OpenPad` | `RB` | XInput toggle: `A B X Y LB RB START BACK LS RS UP DOWN LEFT RIGHT`, or `NONE` |
+| `[Keys] OpenKey` | `TAB` | Keyboard toggle: one character, `ESC`, `TAB`, `SPACE`, `F1`–`F12`, a virtual key code such as `0x4D`, or `NONE` |
+| `[Keys] OpenPad` | `BACK` | XInput toggle: `A B X Y LB RB START BACK LS RS UP DOWN LEFT RIGHT`, or `NONE` |
 | `[Keys] CloseKey` | `ESC` | Keyboard close key |
 | `[Keys] CloseOnCancel` | `1` | Close with the game's cancel button |
 | `[AnnotatedMap] RoomTint` | `1` | Set to `0` to disable tinting rooms with remaining items |

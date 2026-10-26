@@ -1,3 +1,35 @@
+# Annotated Map: Survivor's Notes — 1.1.1
+
+## 한국어
+
+- **ASI 플러그인으로 배포 방식을 바꿨습니다.** `scripts/RE1.AnnotatedMap.asi`로 설치하며, REbirth MOD SELECTION에서 체크할 필요가 없습니다. Ultimate ASI Loader v9.7.4(MIT)를 `dsound.dll`로 포함합니다. Classic REbirth는 계속 필요합니다.
+- 기본 열기 키를 **Tab**, 패드 **BACK**(View/Create)으로 바꿨습니다. Classic REbirth는 기본으로 START에 키 설정 화면을 둡니다.
+- 상태 화면 지도에서도 열기 키로 전체 화면 지도를 엽니다. 기존 `7` 키 전환은 없앴습니다.
+- 상태 화면에서 연 전체 지도에서 앞/뒤·좌/우로 층과 장소를 바꿀 수 있습니다. 배경이 비치던 문제와 장소 전환 중 크래시를 고쳤습니다.
+- 아래쪽 이동 화살표가 범례에 가려지지 않도록 범례 위로 옮겼습니다. 범례에 `[TAB]` 문구를 표시합니다.
+- 기본값과 주석이 담긴 `scripts/RE1.AnnotatedMap.ini`를 포함합니다.
+
+### 설치·업그레이드
+
+게임 종료 후 ZIP을 `Biohazard.exe` 옆에 폴더 구조 그대로 풉니다. 1.1.0에서 업그레이드할 때는 `RE1.AnnotatedMap.dll`과 `mod_annotated_map/`을 지우고, 기존 설정을 유지하려면 `mod_annotated_map/RE1.AnnotatedMap.ini`를 `scripts/`로 옮기세요. [설치 안내](README.md).
+
+전체 빌드, 원본 EXE 기반 네이티브 회귀, 패키지 구성 검사를 통과했습니다. Wine(macOS)에서 Classic REbirth 1.1.3 + 포함된 로더로 Tab 열기, 상태 화면 지도에서 열기, 층·장소 이동을 확인했습니다. 실제 패드 BACK 버튼과 Windows 실기 환경은 미확인입니다.
+
+## English
+
+- **Now distributed as an ASI plugin.** Installs as `scripts/RE1.AnnotatedMap.asi`; no REbirth MOD SELECTION step is needed. Ultimate ASI Loader v9.7.4 (MIT) is included as `dsound.dll`. Classic REbirth is still required.
+- The default open key is now **Tab**, and controller **BACK** (View/Create). Classic REbirth uses START for its key settings screen by default.
+- The open key also opens the full-screen map from the status-screen map. The old `7` toggle was removed.
+- The full-screen map opened from the status screen now changes floor and area with forward/back and left/right. Fixes the status screen showing through and a crash while changing areas.
+- The down navigation arrow moved above the legend so it is no longer hidden. The legend shows `[TAB]`.
+- Includes `scripts/RE1.AnnotatedMap.ini` with commented defaults.
+
+### Installation and upgrade
+
+Close the game and extract the ZIP beside `Biohazard.exe`, preserving its folders. When upgrading from 1.1.0, delete `RE1.AnnotatedMap.dll` and `mod_annotated_map/`; to keep your settings, move `mod_annotated_map/RE1.AnnotatedMap.ini` into `scripts/`. [Installation guide](README.en.md).
+
+Passed the full build, original-EXE native regression and package layout checks. Verified on Wine (macOS) with Classic REbirth 1.1.3 and the bundled loader: Tab opening, opening from the status-screen map, and floor/area navigation. A physical controller BACK button and native Windows remain unverified.
+
 # Annotated Map: Survivor's Notes — 1.1.0
 
 ## 한국어

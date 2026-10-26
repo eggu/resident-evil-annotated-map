@@ -1,4 +1,4 @@
-/* Annotated Map for original Resident Evil (GOG Biohazard.exe + Classic REbirth 1.1.4).
+/* Annotated Map for original Resident Evil (GOG Biohazard.exe + Classic REbirth), loaded as an ASI plugin.
  * Draws room names, locked doors, items, files, puzzles and save points over the native status-screen map.
  * Native facts and data provenance: docs/wiki/01-native-map.md. No CRT; KERNEL32/USER32 only. */
 #include <windows.h>
@@ -73,8 +73,8 @@ static void load_settings(void) {
     int opacity = (int)GetPrivateProfileIntA("AnnotatedMap", "NameOpacity", 70, ini_path);
     arrow_rotation = (int)GetPrivateProfileIntA("Calibration", "ArrowRotation", 0, ini_path);
     char k[16];
-    GetPrivateProfileStringA("Keys", "OpenKey", "M", k, sizeof k, ini_path); open_vk = key_code(k, 'M');
-    GetPrivateProfileStringA("Keys", "OpenPad", "RB", k, sizeof k, ini_path); open_pad = pad_code(k, 0x0200);
+    GetPrivateProfileStringA("Keys", "OpenKey", "TAB", k, sizeof k, ini_path); open_vk = key_code(k, VK_TAB);
+    GetPrivateProfileStringA("Keys", "OpenPad", "BACK", k, sizeof k, ini_path); open_pad = pad_code(k, 0x0020);
     GetPrivateProfileStringA("Keys", "CloseKey", "ESC", k, sizeof k, ini_path); close_vk = key_code(k, VK_ESCAPE);
     close_on_cancel = GetPrivateProfileIntA("Keys", "CloseOnCancel", 1, ini_path) != 0;
 
@@ -144,7 +144,7 @@ static int marker_visible(const OvMarker *m, unsigned page) {
 /* Fullscreen map keys (INI [Keys]): OpenKey / OpenPad open it at the original gameplay gate; the same key or button,
  * CloseKey, or the game's cancel action (CloseOnCancel) close it. Pad buttons are read with XInput (loaded at runtime). */
 static int direct_pending, direct_active, direct_init;
-/* defaults: M / RB to open, Esc or cancel to close (set in load_settings) */
+/* defaults: Tab / BACK to open, Esc or cancel to close (set in load_settings) */
 typedef DWORD(WINAPI *xinput_get_state_fn)(DWORD, void *);
 static xinput_get_state_fn xinput_get_state;
 static int foreground(void) { DWORD pid = 0; GetWindowThreadProcessId(GetForegroundWindow(), &pid); return pid == GetCurrentProcessId(); }
@@ -482,7 +482,7 @@ static void compose(unsigned page, int ox, int oy) {
         else { can[2] = area != 2 && (areas & (1u << (area + 1))); can[3] = area > 0 && (areas & (1u << (area - 1))); }
         layer = 2;
         if (can[0]) blit(ov_nav[0], (320 * OV_SCALE - ov_bitmaps[ov_nav[0]].w) / 2, 2 * OV_SCALE);
-        if (can[1]) blit(ov_nav[1], (320 * OV_SCALE - ov_bitmaps[ov_nav[1]].w) / 2, (240 * OV_SCALE - ov_bitmaps[ov_nav[1]].h) - 4 * OV_SCALE);
+        if (can[1]) blit(ov_nav[1], (320 * OV_SCALE - ov_bitmaps[ov_nav[1]].w) / 2, 203 * OV_SCALE - ov_bitmaps[ov_nav[1]].h);   /* above the legend */
         if (can[2]) blit(ov_nav[2], 5 * OV_SCALE, (120 * OV_SCALE - ov_bitmaps[ov_nav[2]].h / 2));
         if (can[3]) blit(ov_nav[3], 315 * OV_SCALE - ov_bitmaps[ov_nav[3]].w, (120 * OV_SCALE - ov_bitmaps[ov_nav[3]].h / 2));
         layer = 0;
@@ -581,16 +581,19 @@ static void draw_tiles(void) {
 
 static void render_overlay(unsigned page, int left, int top);
 
-static void __cdecl menu_begin_hook(int a, int b) {
-    compose_needed = 1;
-    ((void(__cdecl *)(int, int))0x4172c0)(a, b);
-    if (!direct_pending) return;
-    log_text("M direct viewer selected: native map init deferred");
+static void enter_direct_viewer(void) {
     direct_pending = 0; direct_active = 1; direct_init = 1; ov_fullscreen = 1; nav_held = 0;
     *(volatile unsigned char *)0xC2E930 = 0;
     /* Let the original first menu frame initialize the map in its normal order. */
     *(volatile unsigned char *)0xC2E931 = 0;
     *(volatile unsigned char *)0xC2E940 = 0;
+}
+static void __cdecl menu_begin_hook(int a, int b) {
+    compose_needed = 1;
+    ((void(__cdecl *)(int, int))0x4172c0)(a, b);
+    if (!direct_pending) return;
+    log_text("M direct viewer selected: native map init deferred");
+    enter_direct_viewer();
 }
 static void __cdecl menu_cleanup_hook(void) {
     compose_needed = 1;
@@ -654,6 +657,9 @@ static unsigned keys_down;
 static int poll_keys(void) {
     DWORD pid = 0; GetWindowThreadProcessId(GetForegroundWindow(), &pid);
     if (pid != GetCurrentProcessId()) { keys_down = 0; return 0; }
+    /* the open key (Tab / OpenPad) on the status map switches to the direct viewer
+     * (the status menu cannot keep a full screen over it) */
+    if (!direct_active && open_pressed()) { log_text("Open key: status map -> direct viewer"); enter_direct_viewer(); }
     unsigned now = 0;
     for (int k = 0; k <= 9; k++)
         if ((GetAsyncKeyState('0' + k) | GetAsyncKeyState(VK_NUMPAD0 + k)) & 0x8000) now |= 1u << k;
@@ -663,7 +669,6 @@ static int poll_keys(void) {
     if (!pressed) return 0;
     int retint = 0;
     for (int k = 0; k <= 6; k++) if (pressed & (1u << k)) { toggles[k] = !toggles[k]; retint |= k == 0 || k == 3 || k == 4 || k == 6; }
-    if (pressed & (1u << 7)) { if (!direct_active) ov_fullscreen = !ov_fullscreen; }
     if (pressed & (1u << 8)) scope = scope % 3 + 1;   /* visited -> revealed -> all */
     if (pressed & (1u << 9)) english = !english;
     int delta = ((pressed >> 11) & 1) - ((pressed >> 10) & 1);
@@ -761,12 +766,20 @@ BOOL WINAPI DllMain(HINSTANCE inst, DWORD reason, void *unused) {
     (void)unused;
     if (reason != DLL_PROCESS_ATTACH) return TRUE;
     DisableThreadLibraryCalls(inst);
-    /* REbirth maps mod modules itself, so GetModuleFileName(inst) fails: use <exe dir>\mod_annotated_map\ */
+    /* ASI loader: INI/log beside the module (scripts\RE1.AnnotatedMap.ini).
+     * REbirth maps mod modules itself, so GetModuleFileName(inst) fails there: use <exe dir>\mod_annotated_map\ */
     static const char stem[] = "mod_annotated_map\\RE1.AnnotatedMap.";
-    char path[MAX_PATH]; DWORD n = GetModuleFileNameA(NULL, path, MAX_PATH);
-    while (n && path[n - 1] != '\\') n--;
-    if (!n || n + sizeof stem + 4 >= MAX_PATH) return TRUE;
-    memcpy(path + n, stem, sizeof stem); n += sizeof stem - 1;
+    char path[MAX_PATH]; DWORD n = GetModuleFileNameA(inst, path, MAX_PATH);
+    if (n && n < MAX_PATH) {
+        while (n && path[n - 1] != '.' && path[n - 1] != '\\') n--;
+        if (!n || path[n - 1] != '.') return TRUE;
+    } else {
+        n = GetModuleFileNameA(NULL, path, MAX_PATH);
+        while (n && path[n - 1] != '\\') n--;
+        if (!n || n + sizeof stem + 4 >= MAX_PATH) return TRUE;
+        memcpy(path + n, stem, sizeof stem); n += sizeof stem - 1;
+    }
+    if (n + 4 >= MAX_PATH) return TRUE;
     memcpy(ini_path, path, n); memcpy(ini_path + n, "ini", 4);
     memcpy(log_path, path, n); memcpy(log_path + n, "log", 4);
     log_fmt("DllMain module=%x file=%d", (int)(uintptr_t)inst, (int)GetModuleFileNameA(inst, path, MAX_PATH), 0, 0);

@@ -1,6 +1,7 @@
 """Run DLL initialization, map hotkeys and native alpha against the real EXE in memory."""
 import re
 import struct
+import configparser
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -27,6 +28,13 @@ press(g, ord('8'))
 factory = dict(All='1', Rooms='1', Locks='0', KeyItems='0', Documents='0', Puzzles='0', CommonItems='0',
                Language='en', NameSize='100', NameOpacity='70')
 assert all(saved(g, k) == v for k, v in factory.items())
+config = configparser.ConfigParser()
+config.optionxform = str
+config.read(ROOT / 'packaging/RE1.AnnotatedMap.ini')
+shipped = load({key: int(value) if value.lstrip('-').isdigit() else value
+                for section in config.sections() for key, value in config.items(section)})
+press(shipped, ord('8'))
+assert all(saved(shipped, k) == v for k, v in factory.items()), 'bundled defaults differ from DLL defaults'
 press(g, 0xbb)
 assert saved(g, 'NameSize') == '110'
 g['draw'](); g['draw']()
