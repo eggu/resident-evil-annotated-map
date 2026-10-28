@@ -121,6 +121,11 @@ Unspecified options retain their defaults. Choose fonts with Korean glyphs for K
 
 Research and implementation notes are available in the [wiki](docs/wiki/README.md).
 
+## Other map mods
+
+- [RE2 Annotated Map - Survivor's Notes](https://github.com/eggu/resident-evil-2-annotated-map) — Resident Evil 2 (1998)
+- [RE3 Annotated Map - Survivor's Notes](https://github.com/eggu/resident-evil-3-annotated-map) — Resident Evil 3: Nemesis (1999)
+
 ## License
 
 Source code is licensed under the [MIT License](LICENSE). This is an unofficial fan mod, unaffiliated with Capcom or Classic REbirth. See [NOTICE](NOTICE.md) for references and font licenses.
