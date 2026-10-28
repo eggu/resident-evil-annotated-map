@@ -2,6 +2,8 @@
 
 English | [한국어](README.md)
 
+<p align="center"><img src="docs/logo.png" alt="RE1 Annotated Map — Survivor’s Notes" width="320"></p>
+
 A bilingual ASI map mod for the original Resident Evil PC release (GOG Japanese `Biohazard.exe` with [Classic REbirth 1.1.4](https://classicrebirth.com/index.php/re1cb-changelog/)). Shows room names, locked doors and required keys, key items, documents and maps, puzzles, common items, typewriters and item boxes.
 
 - The status-screen map shows icons; the full-screen map opened with **Tab** (controller **START**) also shows names.
