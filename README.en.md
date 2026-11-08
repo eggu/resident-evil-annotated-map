@@ -4,11 +4,11 @@ English | [한국어](README.md)
 
 <p align="center"><img src="docs/logo.png" alt="RE1 Annotated Map — Survivor’s Notes" width="320"></p>
 
-A bilingual ASI map mod for the original Resident Evil PC release (GOG Japanese `Biohazard.exe` with [Classic REbirth 1.1.4](https://classicrebirth.com/index.php/re1cb-changelog/)). Shows room names, locked doors and required keys, key items, documents and maps, puzzles, common items, typewriters and item boxes.
+A bilingual ASI map mod for the original Resident Evil PC release (GOG Japanese `Biohazard.exe` with [Classic REbirth 1.1.4](https://classicrebirth.com/index.php/re1cb-changelog/)). Shows room names, locked doors and required keys, key items, documents and maps, puzzles, common items, enemies, typewriters and item boxes.
 
-- The status-screen map shows icons; the full-screen map opened with **Tab** (controller **START**) also shows names.
-- Collected items, unlocked doors and solved puzzles disappear. Rooms with remaining items are tinted amber.
-- Required keys appear on the unvisited side of locked doors. The full-screen map shows your position and facing direction.
+- The status-screen map shows icons; the full-screen map opened with **Tab** (controller **START**) also shows room names, and item names with **H**.
+- Collected items, unlocked doors, solved puzzles and killed enemies disappear. Rooms with remaining items are tinted amber.
+- Required keys appear on locked doors (or, with `KeySide=1`, on the unvisited side). The full-screen map shows your position and facing direction.
 - Supports Chris and Jill item placements, with Korean and English labels.
 
 ## Screenshots
@@ -49,16 +49,25 @@ Compatible with the [Korean HD translation mod](https://github.com/eggu/resident
 | Move forward/backward | Select floor |
 | Move left/right | Select area |
 | 0 | Toggle all annotations |
-| 1 | Room names, typewriters and item boxes |
+| 1 | Room names, typewriters, item boxes |
 | 2 | Locked doors and keys |
-| 3 | Key items and amber room tint |
-| 4 | Documents and maps |
-| 5 | Puzzles |
-| 6 | Common items |
-| 8 | Cycle visibility: visited rooms → revealed rooms (floor map acquired) → all rooms |
-| 9 | Switch Korean / English |
-| - / = (+), numpad - / + | Name size in 10% steps (50–150%) |
-| Shift + those keys | Name opacity in 10% steps (10–100%) |
+| 3 | Key items (weapons included) (+ rooms with items left tinted amber) |
+| 4 | Files and maps |
+| 5 | Puzzles (orange `!` diamond) |
+| 6 | Events: story scenes (spoilers). Purple `?` diamond (icon only, no name), hidden once the scene has happened |
+| 7 | Common items |
+| 8 | Enemies |
+| 9 | Cycle visibility: visited rooms → revealed rooms (floor map acquired) → all rooms |
+| `\` (₩) | Switch Korean / English (the key Korean keyboards label `₩`) |
+| H | Item names on the full-screen map on/off |
+| - · = (+), numpad - · + | Name size in 10% steps (50–150%) |
+| [ · ] | Name opacity in 10% steps (10–100%) |
+| Shift + - · = (+) | Icon size in 10% steps (50–200%) |
+| Shift + [ · ] | Icon opacity in 10% steps (10–100%) |
+| ~ (left of 1) | Fold the legend to one line, or show it again |
+| F12 | Write a debug capture (`scripts/RE1.AnnotatedMap.capture.txt`) for bug reports |
+
+Shift can be changed to Ctrl with `[Keys] Modifier=CTRL`. Up to 1.1.2, Shift + - · + changed name opacity; it now changes icon size, and name opacity uses [ · ]. Your saved values are kept.
 
 ## Settings (`scripts/RE1.AnnotatedMap.ini`)
 
@@ -77,7 +86,7 @@ OpenPad=LS
 
 ### Display and key settings
 
-Defaults: **English, name size 100%, opacity 70%, Rooms on, other categories off**. All remains enabled as the master switch. Keep your existing INI when upgrading to preserve its values. On the main keyboard, use the equal/plus key without Shift to increase size.
+Defaults: **English, name size 100%, opacity 70%, item names off, icon size 100%, icon opacity 80%, Rooms on, other categories off**. All remains enabled as the master switch. Keep your existing INI when upgrading to preserve its values. On the main keyboard, use the equal/plus key without Shift to increase name size.
 
 Both map views share full legend wording and current state. Pretendard Medium legend: body 20px, title 22px, outline 3px at the 4x reference scale. The status-screen legend uses the empty band below the HUD.
 
@@ -87,16 +96,25 @@ Both map views share full legend wording and current state. Pretendard Medium le
 | `[Keys] OpenPad` | `START` | XInput toggle: `A B X Y LB RB START BACK LS RS UP DOWN LEFT RIGHT`, or `NONE` |
 | `[Keys] CloseKey` | `ESC` | Keyboard close key |
 | `[Keys] CloseOnCancel` | `1` | Close with the game's cancel button |
+| `[Keys] Modifier` | `SHIFT` | Key held to change icons instead of names: `SHIFT` or `CTRL` |
+| `[Keys] CaptureKey` | `F12` | Debug capture key (same names as `OpenKey`), or `NONE` |
 | `[AnnotatedMap] RoomTint` | `1` | Set to `0` to disable tinting rooms with remaining items |
 | `[AnnotatedMap] NameSize` | `100` | Name size (50–150); 100 is the original size |
 | `[AnnotatedMap] NameOpacity` | `70` | Label opacity (10–100) |
+| `[AnnotatedMap] ItemNames` | `0` | Item names on the full-screen map: `0` off, `1` all, `2` all except common items (same values as the RE1 HD / RE2 / RE3 map mods). `H` cycles all -> all except common -> off. Values from older versions (0/1) are kept; the short-lived 0 all / 1 no common / 2 off meaning is converted once |
+| `[AnnotatedMap] IconSize` | `100` | Icon size (50–200) |
+| `[AnnotatedMap] IconOpacity` | `80` | Icon opacity (10–100) |
+| `[AnnotatedMap] Legend` | `1` | `0` folds the legend to one line (`~`) |
+| `[AnnotatedMap] KeySide` | `0` | Locked-door keys: `0` on the door, `1` beside the door in the room not visited yet |
 | `[Calibration] OffsetX/OffsetY/Z` | | Status-screen annotation position and depth correction |
 | `[Calibration] ArrowRotation` | `0` | Character arrow rotation correction in degrees |
 
 Changes and validation status: [Korean / English release notes](RELEASE_NOTES.md).
 
 
-Larger names keep their existing anchors and may overlap. The new HUD layout, physical keys, GPU alpha and long-session gameplay have not yet been verified in game.
+Larger names and icons keep their existing anchors and may overlap. Enemy markers show where enemies are placed when a room loads, not where they move; mansion-revisit enemies are shown only while you are in the revisited mansion. The new HUD layout, physical keys, GPU alpha and long-session gameplay have not yet been verified in game.
+
+On the full map, the game's own **confirm / examine key** toggles 1x/2x zoom (keyboard and controller both follow the game's bindings, so changing `Key_Def` or the pad mapping in `config.ini` changes it too). While zoomed, the game's map directions pan smoothly (hold to keep moving); press confirm again to zoom out before changing floor or area. Names and icons grow to about 1.43x. On the full map the item, key, document and puzzle icons are HD-style art; the status-screen map keeps the pixel icons (INI `HdIcons=0` makes the full map use pixel icons too). Panning can go a quarter of the screen past each map edge. The map always opens at 1x; the zoom level is not saved (an old `Zoom=` INI value is ignored and removed on save). The zoomed view uses the whole map area, from the top of the screen (the area title is drawn over it) to the legend's top edge, or to the screen bottom while the legend is folded with `[~]`; a name or icon that an edge would slice is hidden whole with its marker (icon, name, leader line) instead of being cut mid-glyph. The small dim text to the right of the legend holds the adjustment hints (name/icon size and opacity, zoom, close map). Name and icon textures are uploaded `UploadBudget` (default 12) per frame so opening the map does not stall; everything appears within a few frames. Common items use soft lavender (#B4A7D6) in the legend and on names. If REbirth's HD textures are off (`HDLoader=0` or `RetroMode=1`) the map text cannot be read, so the map shows only a short English notice.
 
 ## Build
 
@@ -129,3 +147,7 @@ Research and implementation notes are available in the [wiki](docs/wiki/README.m
 ## License
 
 Source code is licensed under the [MIT License](LICENSE). This is an unofficial fan mod, unaffiliated with Capcom or Classic REbirth. See [NOTICE](NOTICE.md) for references and font licenses.
+
+## Category colours (INI `[Colors]`)
+
+The legend row and name colour of every category can be set in the INI's `[Colors]` section as `#RRGGBB` (`Rooms`, `Locks`, `KeyItems`, `Files`, `Puzzles`, `Events`, `CommonItems`, `Enemies`). The defaults are written in the INI; delete a line to use the default. The screen shows 5 bits per channel, so a value can look up to about 4/255 different, and pure black (`#000000`) is treated as transparent by the game, so it is shown as near-black instead. Disabled legend rows are a fixed dark grey (`#6A6A6A`). Saving settings in game keeps `[Colors]` and your comments. The default common-item colour is a cool grey (`#B8BCC4`).

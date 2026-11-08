@@ -31,7 +31,7 @@ evilresource 퍼즐 가이드 16개와 아이템 사용 지점을 합쳤습니�
 | 대미술관 (Large Gallery) | - | 공통 | Large Gallery: press the picture switches from newborn to old man, then the last picture (Star Crest) | RDT 1170 event 12 (last picture) | p0 s23 (83,44) |
 | 개인 서재 (Private Library) | - | 공통 | Private Library: push the statue to the spotlight spot -> secret bookcase (MO Disk) | RDT 2170 event 1 (light spot; ER: north west corner); switch = event 0 on the west wall | p1 s23 (26,14) |
 | 박제실 (Trophy Room) | - | 공통 | Trophy Room: switch the light off, push the steps under the deer head (Red Jewel) | RDT 2150 event 4 (deer head) | p1 s21 (12,10) |
-| 벌집 복도 (Beehive Passage) | - | 공통 | Drug storeroom door code: light all nine lamps | RDT 4080 door to the Drug Storeroom | p5 s8 (70,54) |
+| 벌집 복도 (Beehive Passage) | - | 공통 | Drug storeroom door code: light all nine lamps | RDT 4080 door 1 to the Drug Storeroom; the code panel stands beside that door | p5 s8 (78,48) |
 | 약품 창고 (Drug Storeroom) | - | 공통 | Mix V-JOLT (Water, UMB No.2/3/4/7, NP-003...) at the chemicals | RDT 4090 event 6/17 | p5 s9 (70,45) |
 | 수술실 (Operating Room) | - | 공통 | Poison gas: push both crates onto the floor vents before moving the steps to the air duct | RDT 5070 useitem type-4 targets (vents at z 6430/9820) | p9 s7 (78,24) |
 | 작은 실험실 (Small Lab) | - | 공통 | Small Lab computer: user/password from the X-Ray room unlock the electronic doors | RDT 5060 event 0 (computer) | p9 s6 (75,8) |
