@@ -1,21 +1,16 @@
-"""Room-name placement, ported from the RE2 map mod (diagnostics/key-map-names-20261014/generate_room_names.py).
+"""Room-name placement, RE0 map mod rule (resident-evil-0-annotated-map docs/wiki/03-placement-rules.md).
 
-Rule (RE2): tightest rooms first; a name stays inside its room when its box sits on the room's own shape
-(>= 90 % coverage, tried with 2 px / 1 px / no wall margin), as close to the room centroid as possible and
-clear of names already placed. Names that do not fit get a two-line retry by the caller, then go outside the
-floor shapes with the shortest axis-aligned leader line starting on an edge pixel of the room.
+Smallest rooms first; a name sits on the room's real shape next to its pole of inaccessibility, among the boxes within
+0.05 of the best coverage, clear of names already placed (only room names: nothing else blocks them). Corridors and rooms
+with no free spot go outside with the shortest axis-aligned leader line starting on an edge cell of the room, capped
+first. The caller wraps names wider than 150 % of their room.
 All coordinates are PSX cells of the target view (status map 1x, fullscreen 2x).
 """
-FIT = 0.9
-SMALL = 0.8
+LEADER_MAX = 30   # PSX cells of the target view (fullscreen 2x: 15 map pixels)
 
 
 def hit(a, b):
     return a[0] < b[0] + b[2] + 1 and b[0] < a[0] + a[2] + 1 and a[1] < b[1] + b[3] + 1 and b[1] < a[1] + a[3] + 1
-
-
-def erode(cells):
-    return {c for c in cells if all((c[0] + i, c[1] + j) in cells for i in (-1, 0, 1) for j in (-1, 0, 1))}
 
 
 def _sat(cells, x0, y0, w, h):
@@ -34,33 +29,42 @@ def _box(s, x, y, bw, bh):
     return 0 if x1 <= x0 or y1 <= y0 else s[y1][x1] - s[y0][x1] - s[y1][x0] + s[y0][x0]
 
 
+def pole(cells):
+    """Pole of inaccessibility: the cell farthest from the shape's edge (ties: nearest the centroid)."""
+    dist, frontier = {}, [c for c in cells if any((c[0] + i, c[1] + j) not in cells for i, j in ((1, 0), (-1, 0), (0, 1), (0, -1)))]
+    for c in frontier:
+        dist[c] = 1
+    while frontier:
+        nxt = []
+        for x, y in frontier:
+            for n in ((x + 1, y), (x - 1, y), (x, y + 1), (x, y - 1)):
+                if n in cells and n not in dist:
+                    dist[n] = dist[(x, y)] + 1; nxt.append(n)
+        frontier = nxt
+    cx, cy = sum(c[0] for c in cells) / len(cells), sum(c[1] for c in cells) / len(cells)
+    return max(cells, key=lambda c: (dist[c], -((c[0] - cx) ** 2 + (c[1] - cy) ** 2)))
+
+
 def fit_inside(cells, lw, lh, placed):
-    """Best label box (x, y, w, h) on the room's own cells, else None."""
+    """RE0 rule: the label box near the room's pole of inaccessibility, among the boxes within 0.05 of the best coverage of
+    the room's real shape (or fully covered), clear of placed names. None: a corridor (narrower than twice the name height
+    with less than half covered) or no free spot -> the caller draws a leader line."""
     if not cells:
         return None
     xs, ys = [c[0] for c in cells], [c[1] for c in cells]
     x0, y0, w, h = min(xs), min(ys), max(xs) - min(xs) + 1, max(ys) - min(ys) + 1
-    cx, cy = sum(xs) / len(xs), sum(ys) / len(ys)
     s = _sat(cells, x0, y0, w, h)
-    for scale, need in ((1.0, FIT), (SMALL, 1.0)):
-        bw, bh = max(1, round(lw * scale)), max(1, round(lh * scale))
-        best = None
-        for by in range(-bh // 2, h - bh // 2):
-            for bx in range(-bw // 2, w - bw // 2):
-                if _box(s, bx, by, bw, bh) < need * bw * bh:
-                    continue
-                px, py = x0 + bx + bw // 2, y0 + by + bh // 2           # label centre
-                if (px, py) not in cells:
-                    continue
-                box = (px - lw // 2, py - lh // 2, lw, lh)
-                if any(hit(box, b) for b in placed):
-                    continue
-                score = (px - cx) ** 2 + (py - cy) ** 2
-                if best is None or score < best[0]:
-                    best = (score, box)
-        if best:
-            return best[1]
-    return None
+    px, py = pole(cells)
+    cand = []
+    for by in range(-lh // 2, h - lh // 2):
+        for bx in range(-lw // 2, w - lw // 2):
+            cand.append((_box(s, bx, by, lw, lh) / (lw * lh), (x0 + bx, y0 + by, lw, lh)))
+    top = max(c[0] for c in cand)
+    if min(w, h) < 2 * lh and top < 0.5:
+        return None
+    ok = [(abs(box[0] + lw / 2 - px - .5) + abs(box[1] + lh / 2 - py - .5), box) for cov, box in cand
+          if (cov >= top - 0.05 or cov >= 1.0) and not any(hit(box, b) for b in placed)]
+    return min(ok)[1] if ok else None
 
 
 def leader(cells, blocked, lw, lh, placed, bounds, kmax=40, pad=0):
@@ -110,22 +114,23 @@ def place_rooms(rooms, walls, bounds, obstacles=()):
     blocked = {(x + i, y + j) for x, y in occ for j in (-1, 0, 1) for i in (-1, 0, 1)}
     rooms_only = {c for c, owner in occ.items() if owner is not walls}
     placed, lines, out = list(obstacles), [], {}   # item/puzzle names and icons were placed first
-    for r in sorted(rooms, key=lambda r: len(r['cells'])):           # tightest rooms choose first
-        for cells in (erode(erode(r['cells'])), erode(r['cells']), r['cells']):
-            box = fit_inside(cells, r['lw'], r['lh'], placed)
-            if box:
-                out[r['key']] = (box, None)
-                placed.append(box)
-                break
+    for r in sorted(rooms, key=lambda r: len(r['cells'])):           # smallest rooms choose first
+        box = fit_inside(r['cells'], r['lw'], r['lh'], placed)
+        if box:
+            out[r['key']] = (box, None)
+            placed.append(box)
     for r in sorted(rooms, key=lambda r: min(c[1] for c in r['cells'])):
         if r['key'] in out:
             continue
         # Prefer space around the name over a short line; only label boxes block placement.
         best = None
-        for pad in (6, 4, 2, 1, 0):
-            for blk in (blocked, rooms_only, set()):
-                best = leader(r['cells'], blk, r['lw'], r['lh'], placed, bounds,
-                              kmax=max(bounds[2] - bounds[0], bounds[3] - bounds[1]) + 1, pad=pad)
+        # RE0 rule: a capped leader first (a far name no longer reads as the room's); past the floor edge only at a cost
+        for kmax in (LEADER_MAX, max(bounds[2] - bounds[0], bounds[3] - bounds[1]) + 1):
+            for pad in (6, 4, 2, 1, 0):
+                for blk in (blocked, rooms_only, set()):
+                    best = leader(r['cells'], blk, r['lw'], r['lh'], placed, bounds, kmax=kmax, pad=pad)
+                    if best:
+                        break
                 if best:
                     break
             if best:

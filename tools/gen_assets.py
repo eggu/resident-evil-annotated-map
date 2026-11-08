@@ -3,7 +3,7 @@
 All overlay geometry is in hi-res texels: S texels per PSX pixel. The runtime composes these bitmaps
 into 256x256 4bpp TIM tiles and draws them as native sprites with UVs scaled by S.
 """
-import argparse, json, os, struct, sys
+import argparse, json, math, os, struct, sys
 from pathlib import Path
 from PIL import Image, ImageDraw, ImageFont
 
@@ -27,10 +27,11 @@ d = json.loads((ROOT / 'data/annotated.json').read_text())
 # Nonzero RGB keeps the panel opaque in the native renderer (RGB zero is color-keyed).
 PALETTE = [None, (9, 9, 9), (255, 240, 210), (60, 220, 255), (240, 240, 240), (255, 205, 70), (255, 150, 30),
            (175, 175, 175), (95, 95, 95), (150, 100, 40), (220, 60, 50), (60, 220, 70), (80, 140, 255),
-           (20, 100, 130), (140, 100, 20), (255, 255, 255)]
+           (176, 112, 255), (140, 100, 20), (255, 255, 255)]   # 13 (DCYAN, unused by icons before): event purple #B070FF (RE0 event colour)
 BLACK, CREAM, CYAN, WHITE, GOLD, AMBER, GREY, DGREY, BRASS, RED, GREEN, BLUE, DCYAN, DGOLD, PURE = range(1, 16)
-KIND = dict(room=1, save=1, lock=2, key=3, document=4, puzzle=5, common=6)
-FLAG_NONE, FLAG_PICKUP, FLAG_DOOR, FLAG_SOLVED = 0, 1, 2, 3
+KIND = dict(room=1, save=1, lock=2, key=3, document=4, puzzle=5, common=6, enemy=7, event=8)
+EVENT = DCYAN
+FLAG_NONE, FLAG_PICKUP, FLAG_DOOR, FLAG_SOLVED, FLAG_KILL = 0, 1, 2, 3, 4
 conds = []   # solved conditions: (ck group, bit, required state), terminated by group 255
 guard_rows = []   # placement guards: (group, bit, flags) flags: 1 is_set, 2 negated, 4 new guard, 8 new alternative; group 255 ends
 def guard_index(alts):
@@ -57,16 +58,18 @@ def add_bitmap(img):
     return len(bitmaps) - 1
 
 
-def text_bitmap(text, size, color, face=None, left=False, legend=False):
+def text_bitmap(text, size, color, face=None, left=False, legend=False, align='c'):
     stroke = 3 * S // 4 if legend else OUTLINE
-    if '\n' in text:   # two-line room name (RE2 retry), lines centred; titles left-aligned
+    if '\n' in text:   # two lines: titles left-aligned; names aligned toward their icon (RE0 rule): l / c / r
         parts = [text_bitmap(t, size, color, face) for t in text.split('\n')]
-        w, h = max(p.width for p in parts), sum(p.height for p in parts) - 2
+        gap = size // 4 if left else -2   # map titles ('MANSION' / '1F'): open line spacing; names stay tight
+        w, h = max(p.width for p in parts), sum(p.height for p in parts) + gap * (len(parts) - 1)
         out = Image.new('L', (w, h))
         y = 0
         for part in parts:
-            out.paste(part, (0 if left else (w - part.width) // 2, y), part.point(lambda v: 255 if v else 0))
-            y += part.height - 2
+            a = 'l' if left else align
+            out.paste(part, (0 if a == 'l' else w - part.width if a == 'r' else (w - part.width) // 2, y), part.point(lambda v: 255 if v else 0))
+            y += part.height + gap
         return out
     if not legend and not face and text.isascii():
         size = round(size * LATIN_SCALE)
@@ -99,6 +102,15 @@ def icon(pattern, scale=S):
     return img
 
 
+def diamond(body, glyph):
+    """9 x 9 cell diamond (4.5 PSX px, inside the 5 PSX HD icon box): black outline, `body` fill, white glyph cells (row, col)."""
+    rows = []
+    for r in range(9):
+        half = 4 - abs(4 - r)
+        rows.append(''.join('w' if (r, c) in glyph and abs(c - 4) < half else 'k' if abs(c - 4) == half else body if abs(c - 4) < half else '.' for c in range(9)))
+    return '\n'.join(rows)
+
+
 # icons are drawn on a half-PSX-pixel grid (each char = 2x2 texels at S=4)
 ICONS = {
     'key': icon("""
@@ -123,14 +135,8 @@ kwwwwwk
 kwkkkwk
 kwwwwwk
 kkkkkkk"""),
-    'puzzle': icon("""
-...kk...
-..kaak..
-.kaaaak.
-kaaaaaak
-.kaaaak.
-..kaak..
-...kk..."""),
+    'puzzle': icon(diamond('a', {(2, 4), (3, 4), (4, 4), (6, 4)})),   # orange diamond with '!' (RE0 rule)
+    'event': icon(diamond('e', {(2, 3), (2, 4), (2, 5), (3, 3), (3, 5), (4, 5), (5, 4), (7, 4)})),   # purple diamond with '?'
     'typewriter': icon("""
 .kkkkkk.
 .kmmmmk.
@@ -203,8 +209,80 @@ knnwnnk
 knwwwnk
 kwwnwwk
 kkkkkkk"""),
+
 }
 ICON_ID = {k: add_bitmap(v) for k, v in ICONS.items()}
+# Enemy icons (assets/enemy-icons/, 32 x 32 RGBA, copied unchanged) each get their OWN 4bpp CLUT: index 0 transparent
+# (alpha < 128), 15 colours from a median cut over that icon's opaque pixels, no dither. One shared CLUT for all kinds
+# (candidates 4-5) pulled every icon into the same brown range. The runtime uploads one 256 texture per kind with its CLUT
+# and draws each enemy as its own sprite. 32 texels = 4 PSX px, the size of the other icons.
+import runpy as _rp
+ENEMY_PNG = dict(zombie='zombie', cerberus='cerberus', spider='web-spinner', black_tiger='black-tiger', crow='crow',
+                 hunter='hunter', wasp='wasp', plant42='plant-42', chimera='chimera', adder='adder', neptune='neptune',
+                 tyrant='tyrant', yawn='yawn', fountain_plant='fountain-plant')
+_enemy_rgba = {k: Image.open(ROOT / f'assets/enemy-icons/enemy-{v}.png').convert('RGBA') for k, v in ENEMY_PNG.items()}
+assert all(im.size == (32, 32) for im in _enemy_rgba.values())
+EI = _rp.run_path(str(ROOT / 'tools/enemy_icons.py'))
+enemy_clut, hue_of = EI['enemy_clut'], EI['hue_of']
+ENEMY_PALETTES, enemy_report = {}, {}
+for k, im in _enemy_rgba.items():
+    out, pal = enemy_clut(im)
+    ICON_ID['enemy_' + k] = add_bitmap(out)
+    ENEMY_PALETTES[k] = pal
+    src = [p[:3] for p in im.get_flattened_data() if p[3] >= 128]
+    dst = [pal[v] for v in out.get_flattened_data() if v]
+    err = sum(math.dist(a, b) for a, b in zip(src, dst)) / len(src)
+    hs, hd = hue_of(src), hue_of(dst, 1)
+    enemy_report[k] = (err, hs, hd)
+    # checks: mean RGB distance to the 32 x 32 source (after RGB555) below 24 of 441 (Tyrant's gradients are the worst,
+    # about 21), dominant hue kept within 12 degrees
+    assert err < 24, ('enemy icon colour error', k, err)
+    assert hs is None or (hd is not None and min(abs(hs - hd), 360 - abs(hs - hd)) < 12), ('enemy hue lost', k, hs, hd)
+for k in ('fountain_plant',):   # stays (lime) green: its source leaves are (163, 182, 13), hue 66; the shared CLUT made them tan
+    assert 55 <= enemy_report[k][2] <= 165, ('plant not green', k, enemy_report[k])
+print('enemy icons: own CLUT each;', ', '.join(f'{k} err {e:.1f} hue {hs and round(hs)}->{hd and round(hd)}' for k, (e, hs, hd) in enemy_report.items()))
+
+
+
+# ---- HD-style icons for the FULL map only (the status screen keeps the pixel icons). Reused from the RE1 HD set
+# (assets/hd-icons/, map.json: RE1 item name -> stem) plus new art dropped into assets/hd-icons-new/<stem>.png: the stems below
+# are the file names the brief asks for, so adding a PNG and rebuilding needs no code change. A name without art keeps its pixel
+# icon (the placeholder). Each distinct icon gets its own 256 texture + 16-colour CLUT at runtime, like the enemies.
+NEW_STEMS = {'Armor Key': 'armor-key', 'Sword Key': 'sword-key', 'Shield Key': 'shield-key', 'Helmet Key': 'helmet-key', 'Master Key': 'master-key',
+             'Control Room Key': 'control-room-key', 'Power Room Key': 'power-room-key', 'Key for Room 002': 'room-002-key',
+             'Key for Room 003': 'room-003-key', 'Closet Key': 'closet-key', 'Emblem': 'emblem', 'Gold Emblem': 'gold-emblem', 'Flare': 'flare',
+             'Slides': 'slides', 'Empty Bottle': 'empty-bottle', 'Water': 'water', 'UMB No.2': 'umb-no2', 'UMB No.4': 'umb-no4',
+             'Herbicide': 'herbicide', 'Lockpick': 'lockpick', 'Broken Shotgun': 'broken-shotgun', 'Blank Book': 'blank-book', "Barry's Picture": 'barrys-picture'}
+HD_DIRS = (ROOT / 'assets/hd-icons', ROOT / 'assets/hd-icons-new')
+_hd_map = {}
+for _cat in json.loads((ROOT / 'assets/hd-icons/map.json').read_text()).values():
+    for _name, _v in _cat.items():
+        if not _name.startswith('*'): _hd_map[_name] = _v['icon']
+_unknown = [f.name for f in (ROOT / 'assets/hd-icons-new').glob('*.png') if f.stem not in NEW_STEMS.values()] if (ROOT / 'assets/hd-icons-new').is_dir() else []
+_unknown = [u_ for u_ in _unknown if u_ != 'badge-event.png']
+assert not _unknown, ('assets/hd-icons-new has files that are not in the brief (name them after the stems in NEW_STEMS):', _unknown)
+def hd_stem(m):
+    """HD icon stem for a marker, or None (placeholder = pixel icon): new art wins over a reused icon of the same item."""
+    name = m.get('hdname')
+    for stem in (NEW_STEMS.get(name), _hd_map.get(name), m.get('hdstem')):
+        if stem and any((dd / f'{stem}.png').is_file() for dd in HD_DIRS): return stem
+    return None
+def hd_png(stem):
+    for dd in reversed(HD_DIRS):   # new art first
+        if (dd / f'{stem}.png').is_file(): return Image.open(dd / f'{stem}.png').convert('RGBA')
+# HD icons are drawn larger than the 32 texel (4 PSX px) sprite: +20 % on the 1x full map, +50 % over the 1.43 zoom scale. The layouts
+# reserve boxes of exactly the drawn size (src/re1_map.c HD_SCALE_1X / HD_SCALE_2X, rounded to whole PSX px).
+HD_BOX1_PSX, HD_BOX2_PSX = (4 * 120 + 50) // 100, (4 * 214 + 50) // 100
+assert (HD_BOX1_PSX, HD_BOX2_PSX) == (5, 9)
+HD_BOX1 = add_bitmap(Image.new('L', (HD_BOX1_PSX * S, HD_BOX1_PSX * S)))
+HD_BOX2_BASE = add_bitmap(Image.new('L', (50, 50)))   # x1.43 in the zoom stage -> 72 texels = 9 PSX px
+assert round(50 * 1.43) == HD_BOX2_PSX * S
+def swap_hd(on, box=None):
+    """Full-map layouts use the HD icon boxes (32 texels); the status view and the restore keep the pixel icon."""
+    for m in markers:
+        if 'hd_bid' not in m: continue
+        if on and 'px_icon' not in m: m['px_icon'], m['icon'] = m['icon'], box
+        elif not on and 'px_icon' in m: m['icon'] = m.pop('px_icon')
 
 
 def common_icon(item):
@@ -228,14 +306,15 @@ def common_icon(item):
 label_cache = {}
 
 
-def label(text, size, color, face=None, left=False, legend=False):
-    k = (text, size, color, face, left, legend)
+def label(text, size, color, face=None, left=False, legend=False, align='c'):
+    align = align if '\n' in text else 'c'
+    k = (text, size, color, face, left, legend, align)
     if k not in label_cache:
-        label_cache[k] = add_bitmap(text_bitmap(text, size, color, face, left, legend))
+        label_cache[k] = add_bitmap(text_bitmap(text, size, color, face, left, legend, align))
     return label_cache[k]
 
 
-ROOM_SIZE, ITEM_SIZE, LEGEND_SIZE = 15 * S // 4, 13 * S // 4, 13 * S // 4   # sizes designed at S=4
+ROOM_SIZE, ITEM_SIZE = 15 * S // 4, 13 * S // 4   # sizes designed at S=4
 markers = []  # dict(kind, page, stage, slot, x, y, icon, en, ko, flagtype, flag, chars)
 
 
@@ -252,14 +331,38 @@ for k, r in d['rooms'].items():
 for k, r in d['rooms'].items():
     if r['name_ko'] and label_slot[(r['page'], r['name_en'])] == k:
         markers.append(dict(kind=KIND['room'], page=r['page'], stage=r['stage'], slot=r['slot'], x=(r['anchor'][0] + .5) * S,
-                            y=(r['anchor'][1] + .5) * S, icon=-1, en=label(r['name_en'], ROOM_SIZE, CREAM),
-                            ko=label(r['name_ko'], ROOM_SIZE, CREAM), flagtype=FLAG_NONE, flag=0, chars=3, centre=True,
+                            y=(r['anchor'][1] + .5) * S, icon=-1, flagtype=FLAG_NONE, flag=0, chars=3, centre=True,
                             text=dict(en=r['name_en'], ko=r['name_ko'])))
 for s in d['saves']:
     m = s['map']
     markers.append(dict(kind=KIND['save'], page=page_of(m), stage=m['stage'], slot=m['slot'], x=m['px'] * S, y=m['py'] * S,
-                        icon=ICON_ID['typewriter' if s['kind'] == 'typewriter' else 'itembox'], en=-1, ko=-1,
+                        icon=ICON_ID['typewriter' if s['kind'] == 'typewriter' else 'itembox'], hdstem='badge-typewriter' if s['kind'] == 'typewriter' else 'badge-itembox',
                         flagtype=FLAG_NONE, flag=0, chars=3))
+# RE0 map mod name rules: Korean 'A의 B' drops 의 unless the short form reads wrong (game-specific keep-list); 8+ characters
+# wrap at the space nearest the middle; one word never splits. No quantities (user override of the RE0 xN rule, 2026-11-07).
+KEEP_UI = {'어느 연구원의 유서', '어느 연구원의 편지', '최후의 책(상편)', '최후의 책(하편)'}
+WEAPONS = set(range(1, 11))
+
+
+def drop_ui(ko):
+    return ko if ko in KEEP_UI or '의 ' not in ko else ko.replace('의 ', ' ', 1)
+
+
+def name_lines(name):
+    words = name.split(' ')
+    if len(name) < 8 or len(words) < 2:
+        return name
+    n = min(range(1, len(words)), key=lambda n: abs(len(' '.join(words[:n])) - len(' '.join(words[n:]))))
+    return ' '.join(words[:n]) + '\n' + ' '.join(words[n:])
+
+
+def item_text(en, ko):
+    return dict(en=name_lines(en), ko=name_lines(drop_ui(ko)))
+
+
+assert drop_ui('사육사의 일지') == '사육사 일지' and drop_ui('최후의 책(상편)') == '최후의 책(상편)'
+assert name_lines('Shotgun Shells') == 'Shotgun\nShells' and name_lines('Blue Gem Stone') == 'Blue Gem\nStone'
+assert name_lines('Lockpick') == 'Lockpick' and name_lines('Armor Key') == 'Armor\nKey' and name_lines('Herb') == 'Herb'
 for L in d['locks']:
     seen_doors = []   # both rooms record the same door (and each draws its own marker): one key per physical door
     for sd in L['sides']:
@@ -282,36 +385,70 @@ for L in d['locks']:
         door = sd.get('door')
         tst, tslot = (int(t, 16) for t in sd['target'].split('-'))
         for ch, en, ko in variants:
-            # RE1 HD map mod rule (gen_labels.key_sides / re1_mapnames.c): the key sits off the door along its normal, on the
+            base = dict(kind=KIND['lock'], page=page_of(m), stage=m['stage'], slot=m['slot'], icon=ICON_ID['key'],
+                        text=item_text(en, ko), hdname=en, color=GOLD, flagtype=FLAG_DOOR, flag=L['bit'], chars=ch, target=(tst, tslot))
+            # RE0 rule (default, INI KeySide=0): the key sits on the door centre and never moves (side 3).
+            # RE1 HD map mod rule (KeySide=1; gen_labels.key_sides / re1_mapnames.c): off the door along its normal, on the
             # side of the room not visited yet (else the destination). Horizontal door: icon + name side by side, above/below;
             # vertical door: icon over name, left/right. Both sides are generated; the runtime picks one.
+            if door:
+                markers.append(dict(base, x=door['cx'] * S, y=door['cy'] * S, side=3))
             for side in ((1, 2) if door else (0,)):
-                markers.append(dict(kind=KIND['lock'], page=page_of(m), stage=m['stage'], slot=m['slot'], x=m['px'] * S, y=m['py'] * S,
-                                    icon=ICON_ID['key'], en=label(en, ITEM_SIZE, GOLD), ko=label(ko, ITEM_SIZE, GOLD),
-                                    flagtype=FLAG_DOOR, flag=L['bit'], chars=ch, door=door, side=side, target=(tst, tslot)))
+                markers.append(dict(base, x=m['px'] * S, y=m['py'] * S, door=door, side=side))
 for i in d['items']:
     m = i['map']
     if not m:
         continue
     chars = sum(1 << c for c in i['chars'])
-    cat = i['category']
+    cat = 'key' if i['item'] in WEAPONS else i['category']   # RE0 rule: weapons are key items
     guard = [guard_index(i['guards'].get(str(c))) for c in (0, 1)]
     if cat == 'common':
-        markers.append(dict(kind=KIND['common'], page=page_of(m), stage=m['stage'], slot=m['slot'], x=m['px'] * S, y=m['py'] * S,
-                            icon=ICON_ID[common_icon(i['item'])], en=-1, ko=-1, flagtype=FLAG_PICKUP, flag=i['flag'], chars=chars, guard=guard))
+        col, ic = GREY, common_icon(i['item'])
+    elif cat == 'key':
+        col, ic = CYAN, 'weapon' if i['item'] in WEAPONS else 'dot'
     else:
-        col, ic = (CYAN, 'dot') if cat == 'key' else (WHITE, 'map' if 78 <= i['item'] <= 83 else 'doc')
-        markers.append(dict(kind=KIND[cat], page=page_of(m), stage=m['stage'], slot=m['slot'], x=m['px'] * S, y=m['py'] * S,
-                            icon=ICON_ID[ic], en=label(i['name_en'], ITEM_SIZE, col), ko=label(i['name_ko'], ITEM_SIZE, col),
-                            flagtype=FLAG_PICKUP, flag=i['flag'], chars=chars, guard=guard))
+        col, ic = WHITE, 'map' if 78 <= i['item'] <= 83 else 'doc'
+    markers.append(dict(kind=KIND[cat], page=page_of(m), stage=m['stage'], slot=m['slot'], x=m['px'] * S, y=m['py'] * S,
+                        icon=ICON_ID[ic], text=item_text(i['name_en'], i['name_ko']), color=col,
+                        hdname=i['name_en'], hdstem='badge-map' if cat == 'document' and 78 <= i['item'] <= 83 else 'badge-document' if cat == 'document' else None,
+                        flagtype=FLAG_PICKUP, flag=i['flag'], chars=chars, guard=guard))
+for e in d['enemies']:   # icon only, no name (RE0 rule); hidden once Flg 0xC3874C[kill] is set
+    m = e['map']
+    markers.append(dict(kind=KIND['enemy'], page=page_of(m), stage=m['stage'], slot=m['slot'], x=m['px'] * S, y=m['py'] * S,
+                        icon=ICON_ID['enemy_' + e['kind']], flagtype=FLAG_KILL, flag=e['kill'], era=e['era'],
+                        chars=sum(1 << c for c in e['chars']), guard=[guard_index(e['guards'].get(str(c))) for c in (0, 1)]))
 for p in d['puzzles']:
     m = p['map']
     if not m:
         continue
-    markers.append(dict(kind=KIND['puzzle'], page=page_of(m), stage=m['stage'], slot=m['slot'], x=m['px'] * S, y=m['py'] * S,
-                        icon=ICON_ID['puzzle'], en=label(p['name_en'], ITEM_SIZE, AMBER), ko=label(p['name_ko'], ITEM_SIZE, AMBER),
-                        flagtype=FLAG_SOLVED if p['solved_when'] else FLAG_NONE, flag=len(conds), chars=sum(1 << c for c in p['chars'])))
-    conds.extend(p['solved_when'] + [[255, 0, 0]] if p['solved_when'] else [])   # puzzle hidden once every condition holds
+    # solved conditions may differ per character (the Chris and Jill scripts use different flags: solved_by_char)
+    by_char = p.get('solved_by_char')
+    variants = [(1 << c, by_char[str(c)]) for c in p['chars']] if by_char else [(sum(1 << c for c in p['chars']), p['solved_when'])]
+    for chars, solved in variants:
+        markers.append(dict(kind=KIND['puzzle'], page=page_of(m), stage=m['stage'], slot=m['slot'], x=m['px'] * S, y=m['py'] * S,
+                            icon=ICON_ID['puzzle'], hdstem='badge-puzzle', text=item_text(p['name_en'], p['name_ko']), color=AMBER,
+                            flagtype=FLAG_SOLVED if solved else FLAG_NONE, flag=len(conds), chars=chars))
+        conds.extend(solved + [[255, 0, 0]] if solved else [])   # puzzle hidden once every condition holds
+for e in d['events']:   # story scenes (tools/extract_events.py): icon only (RE0 rule: no name), hidden once the scene's flag is set
+    m = e['map']
+    markers.append(dict(kind=KIND['event'], page=page_of(m), stage=m['stage'], slot=m['slot'], x=m['px'] * S, y=m['py'] * S,
+                        icon=ICON_ID['event'], hdstem='badge-event', flagtype=FLAG_SOLVED, flag=len(conds), era=e['era'],
+                        chars=sum(1 << c for c in e['chars'])))
+    conds.extend([e['flag'] + [1]] + [c for alt in e.get('hidden_also', []) for c in [[254, 0, 0]] + alt] + [[255, 0, 0]])   # 254: OR group
+# an event icon never sits on a puzzle / key item / other event icon: try one-icon (6 px) steps around its point, nearest
+# first, and keep only spots inside its own map room (a plain step right left the room for anchor-placed scenes)
+_EV_MASK = {(pg['stage'], r['slot']): {tuple(q) for q in r['mask']} for pg in json.loads((ROOT / 'data/map_rooms.json').read_text())['pages'] for r in pg['rooms']}
+_EV_STEPS = sorted(((dx, dy) for dx in range(-4, 5) for dy in range(-4, 5)), key=lambda t: (t[0] ** 2 + t[1] ** 2, -t[0], t[1]))
+for ev in (m for m in markers if m['kind'] == KIND['event']):
+    x0, y0, room = ev['x'], ev['y'], _EV_MASK[(ev['stage'], ev['slot'])]
+    for dx, dy in _EV_STEPS:
+        x, y = x0 + dx * 6 * S, y0 + dy * 6 * S
+        if (int(x / S), int(y / S)) in room and not any(
+                o is not ev and o['page'] == ev['page'] and o['kind'] in (KIND['puzzle'], KIND['key'], KIND['event']) and o['chars'] & ev['chars']
+                and abs(o['x'] - x) < 6 * S and abs(o['y'] - y) < 6 * S for o in markers):
+            ev['x'], ev['y'] = x, y
+            break
+    assert (int(ev['x'] / S), int(ev['y'] / S)) in room, ('event icon outside its room', ev['stage'], ev['slot'])
 
 
 # ---- label layout: RE2 room-name rule (tools/label_layout.py), separately per view and language
@@ -352,6 +489,24 @@ def full_origin(page):
 
 
 ORIGIN = [full_origin(p) for p in range(len(d['pages']))]
+HD_KINDS, HD_PALETTES, hd_report = {}, [], {}
+for m in markers:
+    stem = hd_stem(m)
+    if not stem: continue
+    if stem not in HD_KINDS:
+        im = hd_png(stem)
+        assert im.size == (32, 32), ('HD icon must be 32 x 32', stem, im.size)
+        out, pal = enemy_clut(im)
+        src = [p[:3] for p in im.get_flattened_data() if p[3] >= 128]
+        dst = [pal[v] for v in out.get_flattened_data() if v]
+        err = sum(math.dist(a, b) for a, b in zip(src, dst)) / len(src)
+        assert err < 30, ('HD icon colour error after reduction to 15 colours', stem, err)
+        HD_KINDS[stem] = len(HD_KINDS); HD_PALETTES.append(pal); hd_report[stem] = (err, add_bitmap(out))
+    m['hd_bid'] = hd_report[stem][1]; m['hd_kind'] = HD_KINDS[stem]
+_new_used = sorted({s_ for s_ in HD_KINDS if (ROOT / 'assets/hd-icons-new' / f'{s_}.png').is_file()})
+_missing = sorted(n for n, st in NEW_STEMS.items() if not (ROOT / 'assets/hd-icons-new' / f'{st}.png').is_file())
+print('HD icons: %d distinct kinds on %d markers (%d from assets/hd-icons-new); placeholders (pixel icon) for %d of the 22 new names: %s' % (
+    len(HD_KINDS), sum(1 for m in markers if 'hd_bid' in m), len(_new_used), len(_missing), ', '.join(_missing)))
 VIEWS = (dict(z=1, bounds=(-14, -3, 142, 99), size=13 * S // 4), dict(z=2, bounds=(2, FULL_TOP - 2, 318, FULL_BOTTOM + 2), size=ROOM_SIZE))
 
 
@@ -366,7 +521,7 @@ def wrap(text, size):
 
 
 def cells_of(view, page, pts):
-    z, (ox, oy) = view['z'], ((0, 0) if view['z'] == 1 else ORIGIN[page])
+    z, (ox, oy) = view['z'], ((0, 0) if view['z'] in (1, 4) else ORIGIN[page])
     return {(ox + x * z + i, oy + y * z + j) for x, y in pts for i in range(z) for j in range(z)}
 
 
@@ -374,109 +529,154 @@ def to_tex(view, page, x, y):
     """1x map texel coords -> view texel coords (status: map-relative, fullscreen: screen-absolute)."""
     if view['z'] == 1:
         return x, y
-    ox, oy = ORIGIN[page]
-    return ox * S + 2 * x, oy * S + 2 * y
+    ox, oy = (0, 0) if view['z'] == 4 else ORIGIN[page]
+    return ox * S + view['z'] * x, oy * S + view['z'] * y
+
+
+TOP, MID = (KIND['key'], KIND['puzzle']), (KIND['lock'], KIND['document'])
+NAME_ORDER = {KIND['key']: 0, KIND['puzzle']: 1, KIND['lock']: 2, KIND['document']: 3, KIND['common']: 4}
+
+
+def overlap(a, b):
+    return max(0, min(a[2], b[2]) - max(a[0], b[0])) * max(0, min(a[3], b[3]) - max(a[1], b[1]))
+
+
+ICON_GROW = 1.5   # names keep clear of OTHER markers' icons up to IconSize 150 %; the own icon's growth is handled at runtime
+
+
+def core(m, vi, grow=1.0):
+    """Central 70 % x 70 % of the icon, scaled about its centre by `grow` (an icon's own collision box)."""
+    iw, ih = bitmaps[m['icon']][:2]
+    x, y = m['ico'][vi]
+    cx, cy, hw, hh = x + iw / 2, y + ih / 2, iw * .35 * grow, ih * .35 * grow
+    return (round(cx - hw), round(cy - hh), round(cx + hw), round(cy + hh))
+
+
+def door_side_key(m, vi, lang, view, page, ms, boxes):
+    """RE1 HD rule (KeySide=1): key + name next to the door, on its side, sliding off other icons."""
+    iw, ih = bitmaps[m['icon']][:2]
+    dr = m['door']
+    sgn = 1 if m['side'] == 1 else -1                       # 1: destination side, 2: the door's own room
+    dx, dy = dr['dx'] * sgn, dr['dy'] * sgn
+    dcx, dcy = to_tex(view, page, dr['cx'] * S, dr['cy'] * S)
+    # clear the door: status map draws the whole native marker, fullscreen a 2-px bar on the wall line
+    half, gap = (S * (2 if vi == 2 else 1) if vi > 0 else (dr['hw'] if dx else dr['hh']) * S), S // 2
+    align = 'c' if not dx else 'l' if dx > 0 else 'r'
+    bid = label(m['text'][lang], ITEM_SIZE, m['color'], align=align) if vi > 0 else -1
+    lw_, lh_ = bitmaps[bid][:2] if bid >= 0 else (0, 0)
+    g = 1 if lw_ else 0
+    other = {id(o) for o in ms if o.get('door') is dr and o['side'] != m['side']}   # never on screen together
+    def place(gap, nudge=0):
+        if dx:
+            ix = dcx + dx * (half + gap) + (0 if dx > 0 else -iw)
+            iy = dcy - ih / 2
+            lx, ly = (ix + iw + g if dx > 0 else ix - g - lw_), iy + (ih - lh_) / 2 + nudge
+        else:
+            ix = dcx - iw / 2
+            iy = dcy + dy * (half + gap) + (0 if dy > 0 else -ih)
+            lx, ly = ix + (iw - lw_) / 2 + nudge, (iy + ih + g if dy > 0 else iy - g - lh_)
+        own = [(ix + iw * .15, iy + ih * .15, ix + iw * .85, iy + ih * .85)] + ([(lx, ly, lx + lw_, ly + lh_)] if lw_ else [])
+        over = sum(overlap(o, q) for o in own for q in boxes if q[4] & m['chars'] and q[5] not in other)
+        return over, ix, iy, lx, ly
+    # ponytail: slide key + name away from the door (up to 3 px) until clear, then nudge only the name across its row
+    span = ih if dx else iw
+    nudges = [0] + [v for n in range(S // 2, span + 1, S // 2) for v in (-n, n)]
+    # the runtime draws one icon position for both languages: English picks the key's distance, Korean reuses it
+    ks = range(7) if lang == 'en' else [m['door_k'][vi]]
+    _, ix, iy, lx, ly, _, k = min((place(gap + k * S // 2, n) + (abs(n) + k, k) for k in ks for n in nudges),
+                                  key=lambda t: (t[0] > 0, t[0], t[5]))
+    m.setdefault('door_k', {})[vi] = k
+    m.setdefault('ico', {})[vi] = (round(ix), round(iy))
+    if lw_:
+        m.setdefault('lab', {})[(vi, lang)] = (bid, round(lx), round(ly))
+        boxes.append((round(lx) - 2, round(ly) - 2, round(lx) + lw_ + 2, round(ly) + lh_ + 2, m['chars'], id(m), 2))
+
+
+def place_name(m, vi, lang, bounds, boxes, idx):
+    """RE0 rule: touching candidates right, left, below, above, then the 4 corners; first spot with weighted overlap 0, else
+    the lowest. Common items only go where nothing weighing 2+ is hit. No second ring: one name height out (2-line names:
+    6 PSX px) read as another marker's name in game (candidate 3: Magnum Rounds, Candles, Serum), so names always touch."""
+    text = m['text'][lang]
+    w, h = bitmaps[label(text, ITEM_SIZE, m['color'])][:2]
+    x0, y0, x1, y1 = m['ico'][vi][0], m['ico'][vi][1], m['ico'][vi][0] + bitmaps[m['icon']][0], m['ico'][vi][1] + bitmaps[m['icon']][1]
+    cx, cy = (x0 + x1) / 2, (y0 + y1) / 2
+    bx0, by0, bx1, by1 = (v * S for v in bounds)
+    spots = [(x1, cy - h / 2, 'l', 1, 0), (x0 - w, cy - h / 2, 'r', -1, 0), (cx - w / 2, y1, 'c', 0, 1), (cx - w / 2, y0 - h, 'c', 0, -1),
+             (x1, y1, 'l', 1, 1), (x0 - w, y1, 'r', -1, 1), (x1, y0 - h, 'l', 1, -1), (x0 - w, y0 - h, 'r', -1, -1)]
+    best = None
+    # each spot may also slide along the icon's edge (still touching it) by up to half the name, in 1/2 PSX px steps
+    slides = [(k, spot, d) for k, spot in enumerate(spots)
+              for d in [0] + [v for n in range(S // 2, (h if spot[3] else w) // 2 + 1, S // 2) for v in (-n, n)]]
+    for k, (lx, ly, align, sx, sy), d in slides:
+        lx, ly = (lx, ly + d) if sx and not sy else (lx + d, ly) if sy and not sx else (lx, ly)
+        k = (k, abs(d))
+        x = round(max(bx0, min(lx, bx1 - w))); y = round(max(by0, min(ly, by1 - h)))
+        box = (x, y, x + w, y + h)
+        hits = [(b[6], overlap(box, b)) for b in boxes if b[4] & m['chars'] and b[5] != id(m)]
+        score, heavy = sum(wt * a for wt, a in hits), any(a and wt >= 2 for wt, a in hits)
+        if m['kind'] == KIND['common'] and heavy:
+            continue
+        own = overlap(box, (x0, y0, x1, y1)) > 0   # the view bounds pushed the name back onto its own icon (ko names at the zoom canvas edge)
+        if best is None or (own, score, k) < best[0]:
+            best = ((own, score, k), x, y, align)
+    if best is None:
+        return False
+    _, x, y, align = best
+    m.setdefault('lab', {})[(vi, lang)] = (label(text, ITEM_SIZE, m['color'], align=align), x, y)
+    boxes.append((x - 2, y - 2, x + w + 2, y + h + 2, m['chars'], id(m), 8 if m['kind'] in TOP else 2))
+    return True
 
 
 def layout_view(vi, lang):
-    view, stats = VIEWS[vi], dict(inside=0, leader=0, wrapped=0, failed=0)
+    view, stats = VIEWS[vi], dict(inside=0, leader=0, wrapped=0, failed=0, names=0, hidden=0, covered=0, badge=0)
+    idx = {id(m): k for k, m in enumerate(markers)}
     for page in range(len(d['pages'])):
         ms = [m for m in markers if m['page'] == page]
         walls = cells_of(view, page, [(i % 128, i // 128) for i, v in enumerate(MAP_PX[page]) if v == 7])
-        # icons at their exact spot, then item / puzzle / lock names next to them (they have priority);
-        # room names come last and move off them, or go outside with a leader line
-        boxes = []
-        for m in sorted(ms, key=lambda m: bool(m.get('door'))):   # fixed icons first: lock keys then step around them
-            if m['icon'] >= 0:
+        boxes = []   # (x0, y0, x1, y1, chars, owner, weight): collision boxes for names (weights: RE0 rule)
+        # 1) icons on their exact spot (a lock key on the door centre never moves)
+        for m in ms:
+            if m['icon'] >= 0 and not m.get('door'):
                 iw, ih = bitmaps[m['icon']][:2]
                 cx, cy = to_tex(view, page, m['x'], m['y'])
-                dr = m.get('door')
-                if dr:
-                    sgn = 1 if m['side'] == 1 else -1                       # 1: destination side, 2: the door's own room
-                    dx, dy = dr['dx'] * sgn, dr['dy'] * sgn
-                    dcx, dcy = to_tex(view, page, dr['cx'] * S, dr['cy'] * S)
-                    # clear the door: status map draws the whole native marker, fullscreen a 2-px bar on the wall line
-                    half, gap = (S if vi == 1 else (dr['hw'] if dx else dr['hh']) * S), S // 2
-                    lw_, lh_ = bitmaps[m[lang]][:2] if vi == 1 and m[lang] >= 0 else (0, 0)
-                    g = 1 if lw_ else 0
-                    # key next to the door (same spot in both languages), name continuing away from the door, upright:
-                    #   vertical door   |door| (key) [name]      (mirrored on the left side)
-                    #   horizontal door  door / (key) / [name]   (stacked; mirrored above)
-                    other = {id(o) for o in ms if o.get('door') is dr and o['side'] != m['side']}   # never on screen together
-                    def place(gap, nudge=0):
-                        if dx:
-                            ix = dcx + dx * (half + gap) + (0 if dx > 0 else -iw)
-                            iy = dcy - ih / 2
-                            lx, ly = (ix + iw + g if dx > 0 else ix - g - lw_), iy + (ih - lh_) / 2 + nudge
-                        else:
-                            ix = dcx - iw / 2
-                            iy = dcy + dy * (half + gap) + (0 if dy > 0 else -ih)
-                            lx, ly = ix + (iw - lw_) / 2 + nudge, (iy + ih + g if dy > 0 else iy - g - lh_)
-                        own = [(ix + iw * .15, iy + ih * .15, ix + iw * .85, iy + ih * .85)] + ([(lx, ly, lx + lw_, ly + lh_)] if lw_ else [])
-                        over = sum(max(0, min(o[2], q[2]) - max(o[0], q[0])) * max(0, min(o[3], q[3]) - max(o[1], q[1]))
-                                   for o in own for q in boxes if q[4] & m['chars'] and q[5] not in other)
-                        return over, ix, iy, lx, ly
-                    # ponytail: slide key + name away from the door (up to 3 px) until clear; layout order is unchanged
-                    # still blocked (an icon right in the name's row): nudge only the name across the row, at most one icon size
-                    span = ih if dx else iw
-                    nudges = [0] + [v for n in range(S // 2, span + 1, S // 2) for v in (-n, n)]
-                    over, ix, iy, lx, ly = min((place(gap + k * S // 2, n) + (abs(n) + k,) for k in range(7) for n in nudges),
-                                               key=lambda t: (t[0] > 0, t[0], t[5]))[:5]
-                    cx, cy = ix + iw / 2, iy + ih / 2
-                    if lw_:
-                        m.setdefault('lab', {})[(vi, lang)] = (m[lang], round(lx), round(ly))
-                        boxes.append((round(lx) - 2, round(ly) - 2, round(lx) + lw_ + 2, round(ly) + lh_ + 2, m['chars'], id(m)))
                 m.setdefault('ico', {})[vi] = (round(cx - iw / 2), round(cy - ih / 2))
-                # names may cover up to half an icon: only its central 70 % x 70 % (~49 % of the area) is an obstacle
-                boxes.append((round(cx - iw * .35), round(cy - ih * .35), round(cx + iw * .35), round(cy + ih * .35), m['chars'], id(m)))
-        bx0, by0, bx1, by1 = (v * S for v in view['bounds'])
+        # 2) tiers: key items and puzzles are never covered; a document centred on one moves to its bottom-right badge
+        #    spot; a common item or enemy under one is hidden while that marker is shown (runtime 'cover')
+        tops = [m for m in ms if m['kind'] in TOP]
         for m in ms:
-            if m.get('centre') or m[lang] < 0 or (m.get('door') and vi == 1):   # lock names were placed with their key
+            if m['icon'] < 0 or m.get('door') or m['kind'] in TOP or m['kind'] in (KIND['lock'], KIND['room']):
                 continue
-            if vi == 0:   # status screen shows room names only
-                m.setdefault('lab', {})[(vi, lang)] = (m[lang], 0, 0)
+            hit = next((t for t in tops if t['chars'] & m['chars'] and overlap(core(t, vi), core(m, vi))), None)
+            if not hit:
                 continue
-            w, h = bitmaps[m[lang]][:2]
-            cx, cy = to_tex(view, page, m['x'], m['y'])
-            ih = bitmaps[m['icon']][1] if m['icon'] >= 0 else 0
-            iw = bitmaps[m['icon']][0] if m['icon'] >= 0 else 0
-            # marker-name gap = 40 % of the original (3 / 4 texels at S=4 incl. the bitmap's 1-texel padding)
-            gv, gh = 0, 0   # touching boxes; the bitmap's 1-texel padding is the only gap
-            cands = [(cx - w / 2, cy - ih / 2 - h - gv), (cx - w / 2, cy + ih / 2 + gv), (cx + iw / 2 + gh, cy - h / 2), (cx - iw / 2 - gh - w, cy - h / 2)]
-            best = None
-            for n in (0, 2, 4, 8, 12):
-                for ci, (lx, ly) in enumerate(cands):
-                    pref = 0
-                    for dx, dy in ((0, 0), (0, -n), (0, n), (n, 0), (-n, 0)):
-                        x = round(max(bx0, min(lx + dx * S, bx1 - w))); y = round(max(by0, min(ly + dy * S, by1 - h)))
-                        box = (x - 2, y - 2, x + w + 2, y + h + 2)
-                        over = sum(max(0, min(box[2], b[2]) - max(box[0], b[0])) * max(0, min(box[3], b[3]) - max(box[1], b[1]))
-                                   for b in boxes if b[4] & m['chars'] and b[5] != id(m))   # not against its own icon
-                        key = (over, pref, (x + w / 2 - cx) ** 2 + (y + h / 2 - cy) ** 2)
-                        if not best or key < best[0]:
-                            best = (key, x, y)
-                if best and best[0][0] == 0:
-                    break
-            _, x, y = best
-            m.setdefault('lab', {})[(vi, lang)] = (m[lang], x, y)
-            boxes.append((x - 2, y - 2, x + w + 2, y + h + 2, m['chars'], id(m)))
-        # item names, icons and lock keys are obstacles for room names (PSX cells)
-        obstacles = [(b[0] // S, b[1] // S, max(1, -(-b[2] // S) - b[0] // S), max(1, -(-b[3] // S) - b[1] // S)) for b in boxes]
-        rooms = [m for m in ms if m.get('centre')] if vi == 1 else []   # status screen shows icons only
-        bid = {id(m): label(m['text'][lang], view['size'], CREAM) for m in rooms}
-        def run():
-            spec = [dict(key=id(m), cells=cells_of(view, page, anchor_part((m['stage'], m['slot']), int(m['x'] // S), int(m['y'] // S))),
-                         lw=-(-bitmaps[bid[id(m)]][0] // S), lh=-(-bitmaps[bid[id(m)]][1] // S)) for m in rooms]
-            return LL['place_rooms'](spec, walls, view['bounds'], obstacles)
-        res, placed, lines = run() if rooms else ({}, [], [])
-        # A valid outside placement already has room for the full name.
-        retry = [m for m in rooms if res[id(m)] is None]
-        for m in retry:
-            t = wrap(m['text'][lang], view['size'])
-            if t:
-                bid[id(m)] = label(t, view['size'], CREAM)
-        if retry and rooms:
-            res, placed, lines = run()
+            if m['kind'] == KIND['document']:
+                tx, ty = hit['ico'][vi]; tw, th = bitmaps[hit['icon']][:2]; iw, ih = bitmaps[m['icon']][:2]
+                m['ico'][vi] = (round(tx + tw - iw * .35), round(ty + th - ih * .35)); stats['badge'] += lang == 'en'
+            else:
+                m.setdefault('cover', {})[vi] = idx[id(hit)]; stats['covered'] += lang == 'en'
+        for m in ms:
+            if m['icon'] >= 0 and not m.get('door'):
+                boxes.append(core(m, vi, ICON_GROW) + (m['chars'], id(m), 8 if m['kind'] in TOP else 1))
+        for m in ms:   # RE1 HD door-side keys (KeySide=1) step around the fixed icons
+            if m.get('door'):
+                door_side_key(m, vi, lang, view, page, ms, boxes)
+        if vi == 0:    # status screen: icons only
+            continue
+        # 3) room names first: build-time, inside the room's real shape around its pole of inaccessibility, else outside
+        #    with a leader line; nothing avoids them and they avoid only each other (RE0 rule)
+        rooms = [m for m in ms if m.get('centre')]
+        bid = {}
+        spec = []
+        for m in rooms:
+            cells = cells_of(view, page, anchor_part((m['stage'], m['slot']), int(m['x'] // S), int(m['y'] // S)))
+            t = m['text'][lang]
+            b = label(t, view['size'], CREAM)
+            room_w = max(c[0] for c in cells) - min(c[0] for c in cells) + 1
+            if bitmaps[b][0] / S > 1.5 * room_w and ' ' in t:   # wider than 150 % of the room: wrap between words
+                b = label(wrap(t, view['size']), view['size'], CREAM); stats['wrapped'] += 1
+            bid[id(m)] = b
+            spec.append(dict(key=id(m), cells=cells, lw=-(-bitmaps[b][0] // S), lh=-(-bitmaps[b][1] // S)))
+        res, placed, lines = LL['place_rooms'](spec, walls, view['bounds']) if rooms else ({}, [], [])
         for m in rooms:
             w, h = bitmaps[bid[id(m)]][:2]
             r = res[id(m)]
@@ -486,62 +686,93 @@ def layout_view(vi, lang):
                 stats['failed'] += 1; print('  no room for name:', m['text'][lang])
                 continue
             (bx, by, bw, bh), line = r
-            m.setdefault('lab', {})[(vi, lang)] = (bid[id(m)], bx * S + (bw * S - w) // 2, by * S + (bh * S - h) // 2)
+            x, y = bx * S + (bw * S - w) // 2, by * S + (bh * S - h) // 2
+            m.setdefault('lab', {})[(vi, lang)] = (bid[id(m)], x, y)
+            # Room names draw first and are not collision targets for markers.
             stats['leader' if line else 'inside'] += 1
-            chosen_text = [k for k, v in label_cache.items() if v == bid[id(m)]][0][0]
-            stats['wrapped'] += '\n' in chosen_text
-            if page == 1 and m['text']['en'] in ('Study', 'Closet') and lang == 'en':
-                assert chosen_text == m['text'][lang], (m['text'], chosen_text)
-                print('Mansion2F full name', m['text']['en'], 'outside' if line else 'inside', (bx, by, bw, bh))
             if line:
                 m.setdefault('lines', {})[(vi, lang)] = tuple(v * S + S // 2 for v in line)
-    print('layout', ('status', 'fullscreen')[vi], lang, stats)
+        # 4) marker names by tier: key items, puzzles, locks, documents; common items last, only in free space; enemies none
+        for m in sorted((m for m in ms if m.get('text') and not m.get('centre') and not m.get('door')),
+                        key=lambda m: NAME_ORDER[m['kind']]):
+            ok = place_name(m, vi, lang, view['bounds'], boxes, idx)
+            stats['names' if ok else 'hidden'] += 1
+    print('layout', ('status', 'fullscreen', 'zoom')[vi], lang, stats)
+
 
 
 for vi in range(2):
+    swap_hd(vi == 1, HD_BOX1)
     for lang in ('en', 'ko'):
         layout_view(vi, lang)
+# The zoom view has its own placement in a 512x400 map canvas. Keep textures under 256; only small annotation rasters grow.
+VIEWS += (dict(z=4, bounds=(0, 0, 512, 400), size=round(ROOM_SIZE * 1.43)),)
+swap_hd(False)
+swap_hd(True, HD_BOX2_BASE)
+base_icons = [m['icon'] for m in markers]
+zoom_icons = {}
+for bid in set(base_icons) - {-1}:
+    w, h, px = bitmaps[bid]
+    image = Image.frombytes('L', (w, h), bytes(px)).resize((round(w * 1.43), round(h * 1.43)), Image.Resampling.NEAREST)
+    zoom_icons[bid] = add_bitmap(image)
+for m in markers:
+    if m['icon'] >= 0: m['icon'] = zoom_icons[m['icon']]
+ITEM_SIZE = round(ITEM_SIZE * 1.43)
+for lang in ('en', 'ko'): layout_view(2, lang)
+ITEM_SIZE = round(ITEM_SIZE / 1.43)
+for m, bid in zip(markers, base_icons): m['icon'] = bid
+swap_hd(False)
+# Full-data check (RE0 rule: a name touches its own marker): every placed marker name, both languages, is at most 1 PSX px
+# from its own icon box; candidate 3 had names one line height away (Magnum Rounds, Candles, Serum).
+NAME_GAP_MAX = S
+far = []
+for m in markers:
+    if m.get('centre') or m['icon'] < 0:
+        continue
+    for vi, lang in ((v, l) for v in (1, 2) for l in ('en', 'ko')):
+        if (vi, lang) not in m.get('lab', {}):
+            continue
+        bid, x, y = m['lab'][(vi, lang)]; w, h = bitmaps[bid][:2]
+        ib = HD_BOX2_BASE if vi == 2 and 'hd_bid' in m else HD_BOX1 if 'hd_bid' in m else m['icon']
+        (ix, iy), (iw, ih) = m['ico'][vi], bitmaps[zoom_icons[ib] if vi == 2 else ib][:2]
+        gap = max(0, ix - (x + w), x - (ix + iw), iy - (y + h), y - (iy + ih))
+        if gap > NAME_GAP_MAX:
+            far.append((m['page'], lang, m['text'][lang], m.get('side'), gap / S, (x // S, y // S, w // S, h // S), (ix // S, iy // S)))
+assert not far, ('names away from their marker', far[:10], len(far))
+for vi in (1, 2):
+    print('name adjacency check ok: view', vi, sum(1 for m in markers for k in m.get('lab', {}) if k[0] == vi and not m.get('centre')), 'names')
 
 
-# ---- legends
-# status screen: compact, 2 rows x 5 columns inside the map panel below the floor drawing
-# short forms: all ten keys share one line on the status screen
-LEGEND = [('Annotated Map', '상세 지도'), ('0 All', '0 전체'), ('1 Rooms', '1 방'),
-          ('2 Locks', '2 문'), ('3 Keys', '3 주요템'), ('4 Files', '4 문서'),
-          ('5 Puzzles', '5 퍼즐'), ('6 Items', '6 일반템'), ('8 Visited', '8 방문'),
-          ('8 All', '8 전체 방'), ('9 KO', '9 EN'), ('7 Zoom', '7 확대'), ('7 Back', '7 원래'), ('M Close', 'M 닫기'),
-          ('8 Revealed', '8 공개')]
-LEG_COLORS = [CREAM, PURE, CREAM, GOLD, CYAN, WHITE, AMBER, GREY, PURE, PURE, PURE, PURE, PURE, PURE, PURE]
-# Keep the requested /4 typography at the installed internal texture scale.
-LEGEND_BODY_SIZE, LEGEND_TITLE_SIZE = 20 * S // 4, 22 * S // 4
-STATUS_GAP = 2   # PSX, five measured columns on two rows
-legend = []
-for k, ((en, ko), col) in enumerate(zip(LEGEND, LEG_COLORS)):
-    size = LEGEND_TITLE_SIZE if k == 0 else LEGEND_BODY_SIZE
-    legend.append(tuple(label(text, size, color, legend=True)
-                        for color in (col, DGREY) for text in (en, ko)))
-# fullscreen: RE2 "DISPLAY STATUS" block, rows [0]..[9] with their state as text
+# ---- legends (both views): RE2 "DISPLAY STATUS" block, rows [0]..[9] with their state as text, hints and readouts
+LEGEND_BODY_SIZE, LEGEND_TITLE_SIZE = 20 * S // 4, 22 * S // 4   # the requested /4 typography at the internal texture scale
 FULL_LEGEND_SIZE = LEGEND_BODY_SIZE
 ON, OFF = (': ON', ': 켬'), (': OFF', ': 끔')
-FULL_ROWS = [  # (variants (en, ko), colour when on)
-    ([('[0] ALL', '[0] 전체')], PURE), ([('[1] ROOMS', '[1] 방·저장')], CREAM), ([('[2] LOCKS', '[2] 문·열쇠')], GOLD),
-    ([('[3] KEY ITEMS', '[3] 주요템')], CYAN), ([('[4] FILES & MAPS', '[4] 문서·지도')], WHITE), ([('[5] PUZZLES', '[5] 퍼즐')], AMBER),
-    ([('[6] ITEMS', '[6] 일반템')], GREY),
-    ([('[7] VIEW: LARGE', '[7] 보기: 크게'), ('[TAB] FULL MAP', '[TAB] 전체 지도'), ('[TAB] CLOSE MAP', '[TAB] 지도 닫기')], PURE),
-    ([('[8] SCOPE: VISITED', '[8] 범위: 방문한 방'), ('[8] SCOPE: REVEALED', '[8] 범위: 공개된 방'), ('[8] SCOPE: ALL ROOMS', '[8] 범위: 모든 방')], PURE),
-    ([('[9] LANGUAGE: ENGLISH', '[9] 언어: 한국어')], PURE)]
+FULL_ROWS = [  # (variants (en, ko), colour when on). Order: [0] all, [1] rooms, [2] locks, [3] key items, [4] files, [5] puzzles, [6] events, [7] common, [8] enemies, [9] scope
+    ([('[0] ALL', '[0] 전체')], PURE), ([('[1] ROOMS', '[1] 방 이름')], CREAM), ([('[2] LOCKS', '[2] 잠긴 문')], GOLD),
+    ([('[3] KEY ITEMS', '[3] 핵심 아이템')], CYAN), ([('[4] FILES & MAPS', '[4] 문서·지도')], WHITE), ([('[5] PUZZLES', '[5] 퍼즐')], AMBER),
+    ([('[6] EVENTS', '[6] 이벤트')], EVENT), ([('[7] ITEMS', '[7] 일반 아이템')], GREY), ([('[8] ENEMIES', '[8] 적')], RED),
+    ([('[9] SCOPE: VISITED', '[9] 범위: 방문한 방'), ('[9] SCOPE: REVEALED', '[9] 범위: 공개된 방'), ('[9] SCOPE: ALL ROOMS', '[9] 범위: 모든 방')], PURE)]
+LANG_LABEL = ('[\\] LANGUAGE: ENGLISH', '[\\] 언어: 한국어')   # key VK_OEM_5; Korean keyboards show it as ₩ (README writes \(₩))
 full_legend = []   # [row][variant][on/off][lang]
 for k, (variants, col) in enumerate(FULL_ROWS):
     rows = []
     for en, ko in variants + [variants[-1]] * (3 - len(variants)):
-        if k <= 6:
+        if k <= 8:
             rows.append(((label(en + ON[0], FULL_LEGEND_SIZE, col, legend=True), label(ko + ON[1], FULL_LEGEND_SIZE, col, legend=True)),
                          (label(en + OFF[0], FULL_LEGEND_SIZE, DGREY, legend=True), label(ko + OFF[1], FULL_LEGEND_SIZE, DGREY, legend=True))))
         else:
             rows.append(((label(en, FULL_LEGEND_SIZE, col, legend=True), label(ko, FULL_LEGEND_SIZE, col, legend=True)),) * 2)
     full_legend.append(rows)
-full_legend_title = (label('DISPLAY STATUS', LEGEND_TITLE_SIZE, PURE, legend=True), label('표시 상태', LEGEND_TITLE_SIZE, PURE, legend=True))
-# RE2-style area title: large serif, two lines, top-left
+full_legend_title = (label('Map Notes', LEGEND_TITLE_SIZE, PURE, legend=True), label('지도 메모', LEGEND_TITLE_SIZE, PURE, legend=True))   # RE0 wording
+# RE0 rule 4: one colour per category, shared by the legend row and every name of that category. Names are drawn with the
+# legend CLUT (runtime layer 1), so equal palette indices give equal colours.
+ROW_OF_KIND = {KIND['lock']: 2, KIND['key']: 3, KIND['document']: 4, KIND['puzzle']: 5, KIND['common']: 7}
+for m in markers:
+    if m.get('centre'):
+        assert FULL_ROWS[1][1] == CREAM
+    elif m.get('text'):
+        assert m['color'] == FULL_ROWS[ROW_OF_KIND[m['kind']]][1], ('name colour differs from its legend row', m['kind'], m['text'])
+
 TITLE_EN, TITLE_KO = (args.title_font_en,), (args.title_font_ko,)
 TITLE_SIZE = 40 * S // 4
 # navigation arrows (floor up/down, area left/right) and the player arrow (16 headings)
@@ -588,37 +819,116 @@ out.append('static const short ov_full_legend[10][3][2][2]={' + ','.join('{' + '
 out.append('static const short ov_full_legend_title[2]={%d,%d};' % full_legend_title)
 # A separate CLUT changes only legend text; rooms/items/icons retain ov_palette.
 legend_palette = list(PALETTE)
-for idx, rgb in {BLACK:(16,16,16), CREAM:(240,226,190), GOLD:(255,205,70), CYAN:(90,220,255),
-                 WHITE:(255,140,210), AMBER:(255,150,40), GREY:(255,120,60), DGREY:(140,140,140), PURE:(255,255,255)}.items():
+def snap555(c):
+    """Nearest colour the RGB555 palette can show (5 bits per channel, expanded as v<<3|v>>2), as an RGB triple whose
+    rgb555() floor lands on that value."""
+    five = [round(v * 31 / 255) for v in c]
+    return tuple(-(-f * 255 // 31) for f in five)
+COMMON_RGB = (184, 188, 196)   # all map mods: cool grey #B8BCC4 for COMMON ITEMS (user 2026-11-08; was lavender #B4A7D6)
+HINT_RGB = (150, 156, 172)     # adjustment hints: dimmer than every legend row, a cool grey
+OFF_RGB = (106, 106, 106)      # disabled legend rows: #6A6A6A, darker than the common-item grey so they stay distinct
+LEADER_RGB = (140, 140, 140)   # room-name leader lines (legend CLUT index BLUE, unused by names/legend text)
+# every category colour goes through snap555 so a [Colors] default typed in the INI (runtime: round to 5 bits per channel) gives
+# exactly the baked colour
+DEFAULT_RGB = dict(Rooms=(240, 226, 190), Locks=(255, 205, 70), KeyItems=(90, 220, 255), Files=(255, 140, 210), Puzzles=(255, 150, 40),
+                   Events=PALETTE[EVENT], CommonItems=COMMON_RGB, Enemies=PALETTE[RED])
+COLOR_KEYS = [('Rooms', CREAM), ('Locks', GOLD), ('KeyItems', CYAN), ('Files', WHITE), ('Puzzles', AMBER), ('Events', EVENT),
+              ('CommonItems', GREY), ('Enemies', RED)]
+for idx, rgb in {BLACK:(16,16,16), DGREY:snap555(OFF_RGB), BRASS:snap555(HINT_RGB), PURE:(255,255,255), BLUE:LEADER_RGB,
+                 **{i: snap555(DEFAULT_RGB[k]) for k, i in COLOR_KEYS}}.items():
     legend_palette[idx] = rgb
+out.append('static const unsigned char ov_color_index[8]={' + ','.join(str(i) for _, i in COLOR_KEYS) + '};')
 out.append('static const unsigned short ov_legend_palette[16]={' + ','.join(str(rgb555(c)) for c in legend_palette) + '};')
-size_guides = [(label(f'[-/+] NAME SIZE: {n}%', LEGEND_BODY_SIZE, PURE, legend=True),
-                label(f'[-/+] 이름 크기: {n}%', LEGEND_BODY_SIZE, PURE, legend=True)) for n in range(50,151,10)]
-opacity_guides = [(label(f'[Shift +/-] NAME OPACITY: {n}%', LEGEND_BODY_SIZE, PURE, legend=True),
-                   label(f'[Shift +/-] 이름 불투명도: {n}%', LEGEND_BODY_SIZE, PURE, legend=True)) for n in range(10,101,10)]
-for name, guides in [('size',size_guides),('opacity',opacity_guides)]:
-    out.append(f'static const short ov_name_{name}[{len(guides)}][2]=' + '{' + ','.join('{%d,%d}' % pair for pair in guides) + '};')
+out.append(f'#define OV_ENEMY_KINDS {len(ENEMY_PNG)}')
+out.append('static const short ov_enemy_icons[OV_ENEMY_KINDS]={' + ','.join(str(ICON_ID['enemy_' + k]) for k in ENEMY_PNG) + '};')
+out.append('static const unsigned short ov_enemy_palettes[OV_ENEMY_KINDS][16]={' + ','.join(
+    '{' + ','.join(str(rgb555(c)) for c in ENEMY_PALETTES[k]) + '}' for k in ENEMY_PNG) + '};')
+out.append(f'#define OV_HD_KINDS {max(len(HD_KINDS), 1)}')
+out.append('static const short ov_hd_icons[OV_HD_KINDS]={' + (','.join(str(hd_report[k][1]) for k in HD_KINDS) or '-1') + '};')
+out.append('static const unsigned short ov_hd_palettes[OV_HD_KINDS][16]={' + (','.join('{' + ','.join(str(rgb555(c)) for c in pal) + '}' for pal in HD_PALETTES) or '{0}') + '};')
+_eb = [bitmaps[ICON_ID['enemy_' + k]][2] for k in ENEMY_PNG]
+assert len(set(_eb)) == len(_eb), 'two enemy kinds share an icon'
+# RE0 map mod legend format (candidate 49): a lone key in brackets like [0]..[9], [H], [~] and [TAB]; key pairs without
+# brackets, alternatives joined with ' · ', combinations with ' + '. The modifier is INI [Keys] Modifier (Shift / Ctrl).
+def legend_label(en, ko):
+    return (label(en, LEGEND_BODY_SIZE, PURE, legend=True), label(ko, LEGEND_BODY_SIZE, PURE, legend=True))
+HINT_SIZE = 15 * S // 4   # adjustment hints: smaller than the 20/4 legend rows and dimmer (BRASS in the legend CLUT)
+def hint_label(en, ko):
+    return (label(en, HINT_SIZE, BRASS, legend=True), label(ko, HINT_SIZE, BRASS, legend=True))
+MODS = ('Shift', 'Ctrl')
+def fold_label(en, ko):
+    """Folded-legend hint ([~] Map Notes): the usual legend text on its own opaque black box, so it stays readable when it sits
+    over the zoomed map at the screen's bottom-left (RE0 rule)."""
+    pad = 2 * S // 4 * 2
+    out_ids = []
+    for text in (en, ko):
+        im = text_bitmap(text, LEGEND_BODY_SIZE, PURE, legend=True)
+        box = Image.new('L', (im.width + 2 * pad, im.height + 2 * pad), BLACK)
+        box.paste(im, (pad, pad), im.point(lambda v: 255 if v else 0))
+        out_ids.append(add_bitmap(box))
+    return tuple(out_ids)
+readouts = dict(
+    name_size=[hint_label(f'- · + NAME SIZE: {n}%', f'- · + 이름 크기: {n}%') for n in range(50, 151, 10)],
+    name_opacity=[hint_label(f'[ · ] NAME OPACITY: {n}%', f'[ · ] 이름 불투명도: {n}%') for n in range(10, 101, 10)],
+    icon_size=[[hint_label(f'{mod} + - · + ICON SIZE: {n}%', f'{mod} + - · + 아이콘 크기: {n}%') for n in range(50, 201, 10)] for mod in MODS],
+    icon_opacity=[[hint_label(f'{mod} + [ · ] ICON OPACITY: {n}%', f'{mod} + [ · ] 아이콘 불투명도: {n}%') for n in range(10, 101, 10)] for mod in MODS])
+# [H] cycles: 0 all names, 1 all but common items, 2 none (INI ItemNames, runtime item_names)
+hints = dict(names=[legend_label('[H] ITEM NAMES: ' + en, '[H] 아이템 이름: ' + ko) for en, ko in (('ALL', '모두'), ('NO COMMON', '일반 제외'), ('OFF', '끔'))],
+             tab=[hint_label('[TAB] FULL MAP', '[TAB] 전체 지도'), hint_label('[TAB] CLOSE MAP', '[TAB] 지도 닫기')],
+             hide=legend_label('[~] HIDE', '[~] 숨김'), fold=fold_label('[~] Map Notes', '[~] 지도 메모'),
+             lang=legend_label(*LANG_LABEL))   # [\\] language: same row style (colour, size) as [H]
+out.append('static const short ov_name_size[11][2]={' + ','.join('{%d,%d}' % p for p in readouts['name_size']) + '};')
+out.append('static const short ov_name_opacity[10][2]={' + ','.join('{%d,%d}' % p for p in readouts['name_opacity']) + '};')
+for name, n in (('icon_size', 16), ('icon_opacity', 10)):
+    out.append(f'static const short ov_{name}[2][{n}][2]=' + '{' + ','.join('{' + ','.join('{%d,%d}' % p for p in v) + '}' for v in readouts[name]) + '};')
+out.append('static const short ov_hint_names[3][2]={' + ','.join('{%d,%d}' % p for p in hints['names']) + '};')
+# the zoom key is the game's own confirm/examine action (read from its mapped input, so config.ini Key_Def / Joy_Def apply)
+zoom_hints = [hint_label('[CONFIRM] ZOOM: 1x', '[결정] 확대: 1x'), hint_label('[CONFIRM] ZOOM: 2x · PAN', '[결정] 확대: 2x · 이동')]
+out.append('static const short ov_zoom_hint[2][2]={' + ','.join('{%d,%d}' % p for p in zoom_hints) + '};')
+out.append('static const short ov_hint_tab[2][2]={' + ','.join('{%d,%d}' % p for p in hints['tab']) + '};')
+out.append('static const short ov_hint_hide[2]={%d,%d};' % hints['hide'])
+out.append('static const short ov_hint_lang[2]={%d,%d};' % hints['lang'])
+out.append('static const short ov_hint_fold[2]={%d,%d};' % hints['fold'])
+# Cell rows: 0..9 category/scope, 10 name size, 11 name opacity, 12 icon size, 13 icon opacity, 14 [H], 15 [TAB], 16 zoom hint, 18 [\\] language.
+def row_ids(r):
+    if r < 10: return [b for v in full_legend[r] for st in v for b in st]
+    if r in (10, 11): return [b for p in readouts['name_size' if r == 10 else 'name_opacity'] for b in p]
+    if r in (12, 13): return [b for v in readouts['icon_size' if r == 12 else 'icon_opacity'] for p in v for b in p]
+    if r == 16: return [b for p in zoom_hints for b in p]
+    if r == 18: return list(hints['lang'])
+    return [b for p in hints['names' if r == 14 else 'tab'] for b in p]
 def extent(ids, axis): return max(bitmaps[b][axis] for b in ids)
-def legend_ids(rows):
-    return [b for r in rows for b in ([b for v in full_legend[r] for st in v for b in st] if r < 10 else [b for pair in (size_guides if r == 10 else opacity_guides) for b in pair])]
-height = extent(legend_ids(range(12)), 1)
+LEGEND_ROWS = [r for r in range(16) if r not in (10, 11, 12, 13, 15)] + [18]
+height = extent([b for r in LEGEND_ROWS for b in row_ids(r)], 1)
 step = height + S // 4
-full_y = 205 * S + extent(full_legend_title,1) + S // 4
-status_y = 185 * S + extent(full_legend_title,1) + S // 4
-def columns(groups):
-    widths = [extent(legend_ids(rows),0) for rows in groups]
+hint_height = extent([b for r in (10, 11, 12, 13, 15, 16) for b in row_ids(r)], 1)
+hint_step = hint_height + S // 4
+title_h = extent(full_legend_title, 1)
+def cells(groups, y0, rows_max, row_step=None):
+    """Columns of rows, left to right from x = 8 PSX with a 6 PSX gap (10 before the hint group, which is the groups after
+    the first `rows_max`-row legend columns marked by a leading None); asserts they fit the 312 PSX screen width."""
+    row_step = row_step or step
+    gap_before = [g[0] is None for g in groups]
+    groups = [[r for r in g if r is not None] for g in groups]
+    widths = [extent([b for r in g for b in row_ids(r)], 0) for g in groups]
     xs = [8]
-    for w in widths[:-1]: xs.append(xs[-1] + (w + S - 1)//S + 6)
-    assert xs[-1]*S + widths[-1] <= 312*S
-    return xs
-full_x = columns([range(0,4),range(4,8),range(8,12)])
-status_x = columns([range(0,3),range(3,6),range(6,9),range(9,12)])
-assert full_y + 3*step + height <= 240*S
-assert status_y + 2*step + height <= 216*S
-out += ['static const short ov_full_legend_x[3]={' + ','.join(map(str,full_x)) + '};',
-        'static const short ov_status_legend_x[4]={' + ','.join(map(str,status_x)) + '};',
-        f'#define OV_FULL_LEGEND_Y {full_y}', f'#define OV_STATUS_LEGEND_Y {status_y}', f'#define OV_FULL_LEGEND_STEP {step}']
-print('legend geometry',full_x,full_y,status_x,status_y,step)
+    for i, w in enumerate(widths[:-1]): xs.append(xs[-1] + (w + S - 1) // S + (8 if gap_before[i + 1] else 4))
+    assert xs[-1] * S + widths[-1] <= 312 * S, ("legend too wide", xs, widths, [[(r, extent(row_ids(r), 0)) for r in g] for g in groups])
+    assert all(len(g) <= rows_max for g in groups)
+    out_cells = []
+    for g, x, hint in zip(groups, xs, gap_before):
+        for k, r in enumerate(g):
+            out_cells.append((r, x * S, y0 + (hint_step if hint else step) * k + ((step - hint_step) * 0 if hint else 0)))
+    return out_cells, xs
+full_y, status_y = 205 * S + title_h + S // 4, 185 * S + title_h + S // 4
+full_cells, full_x = cells([[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 14, 18], [None, 10, 11, 16], [12, 13, 15]], full_y, 4)
+status_cells, status_x = cells([[0, 1, 2], [3, 4, 5], [6, 7, 8], [9, 18], [None, 15]], status_y, 3)   # icons only: no name rows or readouts
+assert full_y + 3 * step + height <= 240 * S and status_y + 2 * step + height <= 216 * S
+hide_x = 8 * S + extent(full_legend_title, 0) + 4 * S   # [~] HIDE right after the title
+out += ['static const short ov_full_cells[%d][3]={%s};' % (len(full_cells), ','.join('{%d,%d,%d}' % c for c in full_cells)),
+        'static const short ov_status_cells[%d][3]={%s};' % (len(status_cells), ','.join('{%d,%d,%d}' % c for c in status_cells)),
+        f'#define OV_FULL_CELLS {len(full_cells)}', f'#define OV_STATUS_CELLS {len(status_cells)}', f'#define OV_HIDE_X {hide_x}']
+print('legend geometry', full_x, full_y, status_x, status_y, step)
 # player position: world (x, z) of the current room -> map TIM pixels (tools/fit.py; exe has no projection)
 _xf = json.loads((ROOT / 'data/room_xform.json').read_text())
 xrows = []
@@ -642,6 +952,21 @@ out.append('static const short ov_nav[4]={%d,%d,%d,%d};' % tuple(nav))
 _ap = arrow_atlas.tobytes()
 out.append('#define OV_ARROW_CELL %d' % (AR // S))
 out.append(f'#define OV_TILE_TEX {TILE}')
+# HD-off notice: drawn at 1 texel = 1 PSX pixel, because with Classic REbirth's HD loader off (or Retro Mode on) the x8 overlay
+# textures cannot be sampled and every other overlay raster would be unreadable. Short English text (two lines), 256 x 32.
+NOTICE_LINES = ('HD TEXTURES OFF - MAP TEXT IS UNREADABLE', 'Enable HDLoader / disable RetroMode (REbirth)')
+_nf = ImageFont.truetype(FONT, 9, index=FACE)
+_ni = Image.new('L', (256, 32))
+_nd = ImageDraw.Draw(_ni)
+_edge, _fill = Image.new('L', (256, 32)), Image.new('L', (256, 32))
+for _k, _t in enumerate(NOTICE_LINES):
+    ImageDraw.Draw(_edge).text((2, 2 + 12 * _k), _t, font=_nf, fill=255, stroke_width=1, stroke_fill=255)
+    ImageDraw.Draw(_fill).text((2, 2 + 12 * _k), _t, font=_nf, fill=255)
+_ni.paste(BLACK, mask=_edge.point(lambda v: 255 if v >= 96 else 0)); _ni.paste(PURE, mask=_fill.point(lambda v: 255 if v >= 110 else 0))
+assert max(_edge.getbbox()[2], _fill.getbbox()[2]) <= 254, 'notice text wider than its 256 texel raster'
+_np = list(_ni.getdata())
+out.append('static const unsigned char ov_notice_pixels[4096]={' + ','.join(str(_np[i] | (_np[i + 1] << 4)) for i in range(0, 256 * 32, 2)) + '};')
+_ni.resize((1024, 128), Image.NEAREST).convert('P').save(ROOT / 'local/candidate-8/hd-notice-x4.png') if (ROOT / 'local/candidate-8').is_dir() else None
 out.append(f'static const unsigned char ov_arrow_pixels[{TILE * TILE // 2}]={{' + ','.join(str(_ap[i] | (_ap[i + 1] << 4)) for i in range(0, len(_ap), 2)) + '};')
 # Original map geometry only; runtime applies the existing visited/current-room flags.
 item_m2 = ITEM_M2
@@ -683,17 +1008,17 @@ out.append('static const OvBitmap ov_bitmaps[]={' + ','.join(f'{{{w},{h},{o}}}' 
 out.append(f'static const unsigned char ov_pixels[{len(blob)}]={{' + ','.join(str(b) for b in blob) + '};')
 # lab[view][lang] = {bitmap, x, y}: view 0 status (texels relative to the map), 1 fullscreen (screen texels)
 out.append('typedef struct { short bid,x,y; } OvLabel;')
-out.append('typedef struct { unsigned char kind,page,stage,slot,flagtype,chars; unsigned short flag; short icon; short ico[2][2]; OvLabel lab[2][2]; unsigned short guard[2]; unsigned char side, tstage, tslot; } OvMarker;')
+out.append('typedef struct { unsigned char kind,page,stage,slot,flagtype,chars; unsigned short flag; short icon; short ico[3][2]; OvLabel lab[3][2]; unsigned short guard[2]; unsigned char side, tstage, tslot; short cover[3]; unsigned char era; short hd; } OvMarker;')
 out.append(f'#define OV_MARKER_COUNT {len(markers)}')
 def lab(m, vi, lang):
     return m.get('lab', {}).get((vi, lang), (-1, 0, 0))
 out.append('static const OvMarker ov_markers[]={' + ','.join(
     f"{{{m['kind']},{m['page']},{m['stage']},{m['slot']},{m['flagtype']},{m['chars']},{m['flag']},{m['icon']},"
-    f"{{{{{m.get('ico', {}).get(0, (0, 0))[0]},{m.get('ico', {}).get(0, (0, 0))[1]}}},{{{m.get('ico', {}).get(1, (0, 0))[0]},{m.get('ico', {}).get(1, (0, 0))[1]}}}}},"
-    "{" + ','.join('{' + ','.join('{%d,%d,%d}' % lab(m, vi, lang) for lang in ('en', 'ko')) + '}' for vi in range(2)) + "}," + "{%d,%d}" % tuple(m.get('guard', (0xFFFF, 0xFFFF))) + ",%d,%d,%d}" % ((m.get('side', 0),) + tuple(m.get('target', (0, 0))))
+    "{" + ','.join('{%d,%d}' % m.get('ico', {}).get(v, (0, 0)) for v in range(3)) + "}," +
+    "{" + ','.join('{' + ','.join('{%d,%d,%d}' % lab(m, vi, lang) for lang in ('en', 'ko')) + '}' for vi in range(3)) + "}," + "{%d,%d}" % tuple(m.get('guard', (0xFFFF, 0xFFFF))) + ",%d,%d,%d,{%d,%d,%d},%d,%d}" % ((m.get('side', 0),) + tuple(m.get('target', (0, 0))) + tuple(m.get('cover', {}).get(v, -1) for v in range(3)) + (m.get('era', 0), m.get('hd_bid', -1)))
     for m in markers) + '};')
 # leader lines of room names placed outside their room (texels, same spaces as the labels)
-lines = [(k, vi, li, *m['lines'][(vi, lang)]) for k, m in enumerate(markers) for vi in range(2) for li, lang in enumerate(('en', 'ko'))
+lines = [(k, vi, li, *m['lines'][(vi, lang)]) for k, m in enumerate(markers) for vi in range(3) for li, lang in enumerate(('en', 'ko'))
          if (vi, lang) in m.get('lines', {})]
 out.append('typedef struct { unsigned short marker; unsigned char view,lang; short x0,y0,x1,y1; } OvLine;')
 out.append(f'#define OV_LINE_COUNT {len(lines)}')
@@ -713,8 +1038,6 @@ amber3, amber4 = STP | (2 << 10) | (15 << 5) | 28, STP | (1 << 10) | (11 << 5) |
 terrain_palette = [0, 0x5ad6, 0x12dc, 0xe1, 0x81a4, 0x83f4, 0x279, 0x1f, amber3, amber4, 0, 0, 0, 0, 0, 0]
 out.append('static const unsigned short ov_terrain_palette[16]={' + ','.join(map(str, terrain_palette)) + '};')
 out.append('static const unsigned char ov_slot_variant[11][32]={' + ','.join('{' + ','.join(map(str, v)) + '}' for v in variant) + '};')
-out.append(f'#define OV_LEGEND_ROWS {len(legend)}')
-out.append('static const short ov_legend[][4]={' + ','.join('{%d,%d,%d,%d}' % t for t in legend) + '};')
 # per-room remaining-item list for the orange room tint: (stage, slot, flag, chars)
 tint = sorted({(i['map']['stage'], i['map']['slot'], i['flag'], sum(1 << c for c in i['chars'])) for i in d['items'] if i['map']})
 out.append(f'#define OV_TINT_COUNT {len(tint)}')
@@ -767,7 +1090,7 @@ for m in markers:
     dx, dy = dr['dx'] * sgn, dr['dy'] * sgn
     page = m['page']
     dcx, dcy = to_tex(VIEWS[1], page, dr['cx'] * S, dr['cy'] * S)
-    iw, ih = bitmaps[m['icon']][:2]
+    iw, ih = bitmaps[HD_BOX1 if 'hd_bid' in m else m['icon']][:2]   # the full-map layout used the HD icon box
     ix, iy = m['ico'][1]
     for lang in ('en', 'ko'):
         bid, lx, ly = m['lab'][(1, lang)]
@@ -781,8 +1104,12 @@ for m in markers:
 print('lock layout self-check ok:', sum(1 for m in markers if m.get('side')), 'lock markers')
 # ---- self-check: names that can be on screen together (same character; not the two sides of one door) must not overlap
 # each other or cover more than half of a visible icon (fullscreen view)
+# Room names are exempt (RE0 rule: drawn first, nothing avoids them); the lock variants of one door (side 3 / 1 / 2) and
+# markers hidden under a key item ('cover') are never on screen together.
 def _covis(a, b):
-    return a is not b and a['chars'] & b['chars'] and not (a.get('door') and a.get('door') is b.get('door') and a['side'] != b['side'])
+    if a is b or not a['chars'] & b['chars'] or a.get('centre') or b.get('centre') or 1 in a.get('cover', {}) or 1 in b.get('cover', {}):
+        return False
+    return not (a['kind'] == b['kind'] == KIND['lock'] and a['flag'] == b['flag'] and a.get('side') != b.get('side'))
 overlaps = []
 for lang in ('en', 'ko'):
     for page in range(len(d['pages'])):
@@ -797,7 +1124,7 @@ for lang in ('en', 'ko'):
             for b in ms:
                 if 1 not in b.get('ico', {}) or not _covis(a, b):
                     continue
-                (ix, iy), (iw, ih) = b['ico'][1], bitmaps[b['icon']][:2]
+                (ix, iy), (iw, ih) = b['ico'][1], bitmaps[HD_BOX1 if 'hd_bid' in b else b['icon']][:2]
                 ow = max(0, min(xa + wa, ix + iw) - max(xa, ix)) * max(0, min(ya + ha, iy + ih) - max(ya, iy))
                 if ow > iw * ih / 2:
                     overlaps.append((lang, page, 'name/icon', (a['kind'], b['kind']), (xa // S, ya // S)))

@@ -3,7 +3,7 @@ Annotated Map: Survivor's Notes - Resident Evil (1996)
 
 지원: GOG 일본어판 Resident Evil(Biohazard.exe) + Classic REbirth 1.1.4 + Ultimate ASI Loader.
 Classic REbirth는 별도로 설치해야 합니다. Ultimate ASI Loader v9.7.4(MIT)는 dsound.dll로 포함되어 있습니다.
-지도 화면에 방 이름, 잠긴 문과 열쇠, 핵심 아이템, 문서·지도, 퍼즐, 일반 아이템, 타자기·아이템 상자를 표시합니다.
+지도 화면에 방 이름, 잠긴 문과 열쇠, 핵심 아이템, 문서·지도, 퍼즐, 이벤트, 일반 아이템, 적, 타자기·아이템 상자를 표시합니다.
 
 설치
 1. 게임을 종료합니다.
@@ -18,11 +18,18 @@ Classic REbirth는 별도로 설치해야 합니다. Ultimate ASI Loader v9.7.4(
 사용
 - 탐색 중이나 상태창 지도에서 Tab 또는 패드 START(Menu/Options): 전체 화면 지도 열기. Tab, Esc, 취소 버튼: 닫기.
 - 지도에서 앞/뒤 이동: 층 선택, 좌/우 이동: 장소 선택.
-- 숫자 키: 0 전체 표시, 1 방 이름·저장, 2 문·열쇠, 3 핵심 아이템, 4 문서·지도, 5 퍼즐, 6 일반 아이템,
-  8 표시 범위(방문한 방 → 공개된 방 → 모든 방), 9 한국어 / English.
-- 이름 크기: - / = (+), 불투명도: Shift + 위 키. 숫자패드 -/+도 지원합니다.
-- 기본값: 영어, 이름100%, 불투명도70%, 방 표시만 켬.
+- 숫자 키: 0 전체 표시, 1 방 이름, 2 잠긴 문, 3 핵심 아이템(무기 포함), 4 문서·지도, 5 퍼즐, 6 이벤트(스토리 장면, 스포일러),
+  7 일반 아이템, 8 적, 9 표시 범위(방문한 방 → 공개된 방 → 모든 방). 한국어 / English는 \(₩) 키입니다.
+  1.1.x까지 6 일반 아이템·7 적·8 범위·9 언어였으므로 번호가 바뀌었습니다.
+- H: 전체 화면 지도의 아이템 이름 켜기/끄기. ~ (1 왼쪽 키): 범례 접기/펴기.
+- 이름 크기: - · = (+)(숫자패드 - · + 포함), 이름 불투명도: [ · ].
+- 아이콘 크기: Shift + - · = (+), 아이콘 불투명도: Shift + [ · ]. INI의 [Keys] Modifier=CTRL이면 Shift 대신 Ctrl.
+  1.1.2까지 Shift + - · +는 이름 불투명도였습니다. 저장된 값은 유지됩니다.
+- F12: 버그 제보용 디버그 기록(scripts/RE1.AnnotatedMap.capture.txt).
+- 기본값: 영어, 이름100%, 불투명도70%, 아이템 이름 끔, 아이콘100%·불투명도80%, 방 표시만 켬.
+- 잠긴 문의 열쇠는 문 위에 표시합니다. INI의 KeySide=1이면 문 옆, 아직 가지 않은 쪽 방에 표시합니다.
 - 설정은 scripts/RE1.AnnotatedMap.ini에 저장됩니다([Keys]에서 열기·닫기 키 변경).
+- 분류별 색은 INI의 [Colors](Rooms, Locks, KeyItems, Files, Puzzles, Events, CommonItems, Enemies = #RRGGBB)에서 바꿉니다. 게임 안에서 저장해도 이 구역과 주석은 그대로 남습니다.
 
 패드 지도 버튼 변경 (기존 1.1.0에서도 지원)
 게임 종료 후 위 INI의 [Keys]에서 OpenPad=START를 사용하지 않는 버튼으로 바꿉니다.
@@ -46,7 +53,7 @@ English
 Supported: GOG Japanese Resident Evil (Biohazard.exe) + Classic REbirth 1.1.4 + Ultimate ASI Loader.
 Classic REbirth must be installed separately. Ultimate ASI Loader v9.7.4 (MIT) is included as dsound.dll.
 Shows room names, locked doors and required keys, key items, documents and maps,
-puzzles, common items, typewriters and item boxes on the map.
+puzzles, common items, enemies, typewriters and item boxes on the map.
 
 Installation
 1. Close the game.
@@ -63,11 +70,17 @@ Controls
   Press Tab, START, Esc or the cancel button to close it.
 - On the map: move forward/backward to select a floor; left/right to select an area.
 - Number keys: 0 all annotations, 1 room names/typewriters/item boxes, 2 doors/keys,
-  3 key items, 4 documents/maps, 5 puzzles, 6 common items,
+  3 key items (including weapons), 4 documents/maps, 5 puzzles, 6 common items, 7 enemies,
   8 visibility (visited/revealed/all rooms),
   9 Korean/English.
-- Name size: - / = (+); opacity: Shift + those keys. Numpad -/+ is supported.
-- Defaults: English, size 100%, opacity 70%, Rooms only.
+- H: item names on the full-screen map on/off. ~ (left of 1): fold or show the legend.
+- Name size: - · = (+) (numpad - · + too); name opacity: [ · ].
+- Icon size: Shift + - · = (+); icon opacity: Shift + [ · ]. With [Keys] Modifier=CTRL in the INI, use Ctrl instead of Shift.
+  Up to 1.1.2, Shift + - · + changed name opacity. Saved values are kept.
+- F12: write a debug capture for bug reports (scripts/RE1.AnnotatedMap.capture.txt).
+- Defaults: English, size 100%, opacity 70%, item names off, icons 100% / opacity 80%, Rooms only.
+- Locked-door keys are shown on the door. With KeySide=1 in the INI they appear beside the door,
+  in the room not visited yet.
 - Settings are saved in scripts/RE1.AnnotatedMap.ini.
   Configure opening and closing controls under [Keys].
 
@@ -87,3 +100,6 @@ The EXE and save files are not modified.
 
 Unofficial fan mod, unaffiliated with Capcom. No game files are included.
 https://github.com/eggu/resident-evil-annotated-map
+
+Full map: the game's confirm/examine key (see Key_Def in config.ini) toggles 1x/2x zoom. While zoomed, the game map directions pan; press confirm to zoom out before changing floor/area. The map always opens at 1x (zoom is not saved). HDLoader=0 or RetroMode=1 in REbirth's config.ini hides the map text: enable HDLoader / disable RetroMode.
+전체 지도: 게임의 결정(확인·조사) 키(config.ini의 Key_Def)로 1배/2배 확대. 확대 중 게임의 지도 방향 입력으로 이동하며, 층/구역 변경은 결정 키로 축소 후 가능합니다. 지도는 항상 1배로 열립니다(확대 상태는 저장하지 않음). REbirth config.ini의 HDLoader=0 또는 RetroMode=1이면 지도 글자가 보이지 않으니 HDLoader를 켜고 RetroMode를 끄세요.

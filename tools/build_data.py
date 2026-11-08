@@ -26,6 +26,18 @@ COMMON = set(range(1, 19)) | {47, 65} | set(range(67, 76))
 DOCS = set(range(78, 84)) | set(range(95, 129))
 
 
+# enemy type -> icon kind (one per kind; zombie variants share one). 14 Plant 42 roots and 19+ (cobweb, computer hands,
+# player/NPC models) are not enemies on the map.
+ENEMY_KIND = {0: 'zombie', 1: 'zombie', 17: 'zombie', 2: 'cerberus', 3: 'spider', 4: 'black_tiger', 5: 'crow', 6: 'hunter',
+              7: 'wasp', 8: 'plant42', 9: 'chimera', 10: 'adder', 11: 'neptune', 12: 'tyrant', 16: 'tyrant', 13: 'yawn',
+              18: 'yawn', 15: 'fountain_plant'}
+
+
+# Plant 42 (40C0/40C1): the body carries kill flag Flg_3[96]; its vine parts and the corpse shown afterwards are em_set records
+# with kill 0xFF in the same room, so they take the body's flag (one boss marker, hidden once Plant 42 is dead)
+BOSS_PARTS = {8}
+
+
 def category(item):
     if item in COMMON:
         return 'common'
@@ -118,6 +130,22 @@ def door_clusters(stage, slot):
                     left.remove(n); group.append(n); stack.append(n)
         out.append(group)
     return out
+
+
+def beside_door(stage, room, target):
+    """Map point 2.5 px inside `room`'s slot from the centre of its door marker that touches slot `target` (game map data)."""
+    own, other = slots[(stage, room)], slots[(stage, target)]
+    near = [d for g in door_clusters(stage, room) for d in [g] if any(abs(x - qx) + abs(y - qy) <= 2 for x, y in g for qx, qy in other['mask'])]
+    assert near, ('no door marker between', stage, room, target)
+    group = near[0]
+    cx, cy = sum(p[0] for p in group) / len(group) + .5, sum(p[1] for p in group) / len(group) + .5
+    qx, qy = min(other['mask'], key=lambda q: (q[0] + .5 - cx) ** 2 + (q[1] + .5 - cy) ** 2)
+    dx, dy = cx - (qx + .5), cy - (qy + .5)
+    ux, uy = (math.copysign(1, dx), 0) if abs(dx) >= abs(dy) else (0, math.copysign(1, dy))
+    tx, ty = cx + 2.5 * ux, cy + 2.5 * uy
+    m = min(own['mask'], key=lambda q: (q[0] + .5 - tx) ** 2 + (q[1] + .5 - ty) ** 2)
+    inside = (int(tx), int(ty)) in own['mask']
+    return stage, room, round(tx if inside else m[0] + .5, 1), round(ty if inside else m[1] + .5, 1)
 
 
 def door_geometry(pr, target):
@@ -291,14 +319,18 @@ def main():
         stage, room = (int(t, 16) for t in pz['room'].split('-'))
         # 'at' = the world point of the AOT that triggers the puzzle (curated, with its RDT source); else the room anchor
         cand = room_slots(stage, room)
-        if pz.get('place'):   # evilresource direction inside the drawn room, where the AOT/fit disagrees
+        if pz.get('place') and pz['place'] != 'door':   # evilresource direction inside the drawn room, where the AOT/fit disagrees
             sl = (stage, pz.get('slot', room)); m = slots[sl]['mask']
             x0, y0, x1, y1 = slots[sl]['bbox']
             tx, ty = {'center': ((x0 + x1) / 2, (y0 + y1) / 2), 'sw': (x0, y1), 'e': (x1, (y0 + y1) / 2)}[pz['place']]
-            if pz['place'] != 'center':
+            if pz['place'] == 'center':
+                tx, ty = tx + .5, ty + .5
+            if pz['place'] != 'center' or (int(tx), int(ty)) not in m:   # the bbox centre of a ring-shaped room is outside it
                 tx, ty = min(m, key=lambda q: (q[0] + .5 - tx) ** 2 + (q[1] + .5 - ty) ** 2)
                 tx, ty = tx + .5, ty + .5
-            pr = (sl[0], sl[1], round(tx + (.5 if pz['place'] == 'center' else 0), 1), round(ty + (.5 if pz['place'] == 'center' else 0), 1))
+            pr = (sl[0], sl[1], round(tx, 1), round(ty, 1))
+        elif pz.get('place') == 'door':   # beside the map's own door marker towards door_to (the room fit is poor here)
+            pr = beside_door(stage, room, pz['door_to'])
         elif pz.get('at'):
             pr = project(stage, room, *pz['at'])
         elif cand and 'heliport' not in pz['source']:
@@ -306,20 +338,104 @@ def main():
         else:
             pr = None
         out_puz.append(dict(stage=stage, room=room, items=pz['items'], chars=pz.get('chars', [0, 1]), note=pz['note'],
-                            source=pz['source'], guide=pz.get('guide', False), name_en=pz['name_en'], name_ko=pz['name_ko'], solved_when=pz.get('solved_when', []), solved_source=pz.get('solved_source', ''),
+                            source=pz['source'], guide=pz.get('guide', False), name_en=pz['name_en'], name_ko=pz['name_ko'], solved_when=pz.get('solved_when', []), solved_source=pz.get('solved_source', ''), solved_by_char=pz.get('solved_by_char'),
                             items_en=[items[i]['en'] for i in pz['items']], items_ko=[items[i]['ko'] for i in pz['items']],
                             map=dict(zip(('stage', 'slot', 'px', 'py'), pr)) if pr else None))
+    # ---- enemies: init-SCD em_set (op 0x1B). Handler 0x4191b0 skips the spawn while Flg 0xC3874C[kill] is set and the
+    # death routines set that bit from em+0x163 (= kill); kill 0xFF has no flag. Types: BioRand Bio1ConstantTable.
+    revisit = {norm_room_key(v)[:2] for v in rdt.values() if v['stage'] >= 6}   # folders 6/7: the mansion revisit
+    foes = {}
+    for key, v in rdt.items():
+        stage, room, player = norm_room_key(v)
+        for x in v['records']:
+            if x['op'] != 'enemy' or x['type'] not in ENEMY_KIND:
+                continue
+            era = 2 if v['stage'] >= 6 else 1 if (stage, room) in revisit else 0
+            kill = x['kill']
+            if kill == 255 and x['type'] in BOSS_PARTS:   # vines / corpse of a boss spawn without a flag: they go with the boss body
+                kill = next((y['kill'] for y in v['records'] if y['op'] == 'enemy' and y['type'] == x['type'] and y['kill'] != 255), 255)
+            k = (stage, room, era, x['type'], kill) if kill != 255 else (stage, room, era, x['type'], x['x'], x['z'])
+            e = foes.setdefault(k, dict(type=x['type'], kind=ENEMY_KIND[x['type']], kill=kill, stage=stage, room=room,
+                                        era=era, chars=set(), folders=set(), positions=set(), alts={}))
+            alt = [dict(negated=g['negated'], conds=[[c['group'], c['bit'], c['is_set']] for c in g['conds'] if c['kind'] == 'ck'],
+                        exact=all(c['kind'] == 'ck' for c in g['conds'])) for g in x['guards']]
+            if alt not in e['alts'].setdefault(player, []):
+                e['alts'][player].append(alt)
+            e['chars'].add(player); e['folders'].add(v['stage']); e['positions'].add((x['x'], x['z']))
+    out_foes = []
+    for e in foes.values():
+        pos = sorted(e['positions'])
+        pr = project(e['stage'], e['room'], sum(p[0] for p in pos) / len(pos), sum(p[1] for p in pos) / len(pos))
+        if pr:
+            out_foes.append(dict(e, chars=sorted(e['chars']), folders=sorted(e['folders']), positions=pos,
+                                 guards={str(c): a for c, a in e['alts'].items()}, alts=None,
+                                 map=dict(zip(('stage', 'slot', 'px', 'py'), pr))))
+    out_foes.sort(key=lambda e: (e['stage'], e['room'], e['era'], e['type'], e['kill'], e['positions']))
+    # ---- events: story scenes from tools/extract_events.py (flag-hidden); position = the room's event AOT, else the room anchor
+    ev_src = json.loads((D / 'events.json').read_text()) if (D / 'events.json').exists() else dict(events=[], undetermined=[], skipped=[])
+    puzzle_flags = set()   # (group, bit, player): the Chris and Jill scripts reuse bits for different things
+    for pz in cur['puzzles']:
+        for c in pz.get('chars', [0, 1]):
+            for g, b, _ in (pz.get('solved_by_char') or {}).get(str(c)) or pz.get('solved_when') or []:
+                puzzle_flags.add((g, b, c))
+    is_puzzle = lambda e: (*e['flag'], rdt[e['key']]['player']) in puzzle_flags
+    ev_puzzle = [dict(e, reason='done-flag is a puzzle completion flag (the scene animates the puzzle)') for e in ev_src['events'] if is_puzzle(e)]
+    # Main Hall movie (Flg_1[4]): gated by system flag 4.1 and never set in any Chris or Jill save, even on Lab saves
+    ev_skip = [dict(e, reason='Main Hall movie gated by system flag 4.1: never plays on a normal run (unset in every save)')
+               for e in ev_src['events'] if e['flag'] == [1, 4] and e['key'][1:3] == '06']
+    # Cell Entry AOT (Flg_0[101]) is not the rescue scene: that plays in the Private Corridor (5080/5081 init evt_exec 1)
+    # once the partner is freed (Flg_1[75]); done-flag Flg_1[172] (Chris) / Flg_1[179] (Jill). Shown only after the rescue.
+    ev_skip += [dict(e, reason='replaced by the Private Corridor rescue scene') for e in ev_src['events'] if e['key'] in ('50B0', '50B1') and e['flag'] == [0, 101]]
+    # Main Hall 1F has two scenes for both characters: game start (Flg_1[0]) and the return from the Tea Room (init: Flg_1[3]
+    # off and Flg_1[2] on, set by the Tea Room scene -> sets Flg_1[3]; Chris evt 9, Jill evt 5). Jill's Flg_1[7] there is
+    # Main Hall 2F's scene, not a 1F one.
+    ev_skip += [dict(e, reason='Jill Flg_1[7] belongs to Main Hall 2F; 1F scenes are Flg_1[0] and Flg_1[3]')
+                for e in ev_src['events'] if e['key'] in ('1061', '6061') and e['flag'] == [1, 7]]
+    skipped_keys = {(e['key'], tuple(e['flag'])) for e in ev_skip}
+    ev_list = [e for e in ev_src['events'] if (e['key'], tuple(e['flag'])) not in skipped_keys]
+    ev_list += [dict(key=k, stage=1, room=6, player=1, trigger='evt_exec', block='init', flag=[1, 3], at=None) for k in ('1061', '6061')]
+    ev_list += [dict(key=k, stage=5, room=8, player=pl, trigger='evt_exec', block='init', flag=[1, f], at=None,
+                     hidden_also=[[[1, 75, 0]]]) for k, pl, f in (('5080', 0, 172), ('5081', 1, 179))]
+    # Room 002 (Jill 4061, needs Flg_1[174]): Room 005's scene sets either 174 or 175, so once 175 is set it can no longer play
+    ev_list = [dict(e, hidden_also=[[[1, 175, 1]]]) if (e['key'], e['flag']) == ('4061', [1, 178]) else e for e in ev_list]
+    merged = {}   # one marker per (map room, era, done-flag): Chris/Jill and repeated triggers of the same scene merge
+    for e in ev_list:
+        if is_puzzle(e):
+            continue
+        stage, room, player = norm_room_key(rdt[e['key']])
+        era = 2 if e['stage'] >= 6 else 0
+        m = merged.setdefault((stage, room, era, tuple(e['flag'])), dict(stage=stage, room=room, era=era, flag=e['flag'], chars=set(), at=[], keys=set(), hidden_also=e.get('hidden_also', [])))
+        m['chars'].add(player); m['keys'].add(e['key'])
+        if e['at']:
+            m['at'].append(e['at'])
+    for (stage, room, era, flag), m in list(merged.items()):
+        if era == 2 and (stage, room, 0, flag) in merged:   # the revisit copy of a first-visit room: same scene, same flag
+            merged[(stage, room, 0, flag)]['chars'] |= m['chars']; merged[(stage, room, 0, flag)]['keys'] |= m['keys']
+            del merged[(stage, room, era, flag)]
+    out_events = []
+    for (stage, room, era, _), m in sorted(merged.items()):
+        at = [sum(p[0] for p in m['at']) / len(m['at']), sum(p[1] for p in m['at']) / len(m['at'])] if m['at'] else None
+        pr = project(stage, room, *at) if at else None
+        if pr is None and room_slots(stage, room):
+            sl = room_slots(stage, room)[0]; a = slots[sl]['anchor']; pr = (sl[0], sl[1], a[0] + .5, a[1] + .5)
+        if pr:
+            r = rooms.get(f'{pr[0]}-{pr[1]:02X}', {})
+            out_events.append(dict(stage=stage, room=room, chars=sorted(m['chars']), flag=m['flag'], keys=sorted(m['keys']), era=era,
+                                   name_en=f"Event: {r.get('name_en')}", name_ko=f"이벤트: {r.get('name_ko')}",
+                                   exact_position=bool(at), **({'hidden_also': m['hidden_also']} if m['hidden_also'] else {}), map=dict(zip(('stage', 'slot', 'px', 'py'), pr))))
     pages = [dict(page=p['page'], file=p['file'], stage=p['stage']) for p in maps['pages']]
     result = dict(
         native=dict(map_state=0xB38DE0, page_stage=maps['page_stage'], area_pages=maps['area_pages'],
                     stage_flag_base=maps['stage_flag_base'], visited_flags=0xC387A0, pickup_flags=0xC3876C,
                     door_flags=0xC38744, stage_no=0xC386F0, room_no=0xC386F1),
-        pages=pages, rooms=rooms, items=out_items, items_excluded=excluded, locks=out_locks, saves=out_saves, puzzles=out_puz)
+        pages=pages, rooms=rooms, items=out_items, items_excluded=excluded, locks=out_locks, saves=out_saves, puzzles=out_puz,
+        enemies=out_foes, events=out_events, events_undetermined=ev_src['undetermined'], events_skipped=ev_src.get('skipped', []) + ev_puzzle + ev_skip)
     (D / 'annotated.json').write_text(json.dumps(result, indent=1, ensure_ascii=False))
     cats = defaultdict(int)
     for i in out_items:
         cats[i['category']] += 1
-    print('rooms', len(rooms), 'items', dict(cats), 'locks', len(out_locks), 'saves', len(out_saves), 'puzzles', len(out_puz))
+    print('rooms', len(rooms), 'items', dict(cats), 'locks', len(out_locks), 'saves', len(out_saves), 'puzzles', len(out_puz),
+          'enemies', len(out_foes))
     print('excluded', len(excluded), sorted({(e['name_en'], e['evidence'][CHARS[c]]['status']) for e in excluded for c in e['hidden_chars']}))
     print('unnamed slots', [k for k, r in rooms.items() if not r['name_en']])
     print('no-ko', sorted({r['name_en'] for r in rooms.values() if r['name_en'] and not r['name_ko']}))

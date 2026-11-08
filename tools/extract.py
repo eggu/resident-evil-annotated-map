@@ -1,4 +1,4 @@
-"""Extract doors, item pickups and interaction AOTs (with SCD guard conditions) from every RE1 RDT.
+"""Extract doors, item pickups, enemy spawns and interaction AOTs (with SCD guard conditions) from every RE1 RDT.
 
 Output: data/rdt.json  {"<stage><room><player>": {...}}
 Stage digit is the folder number (1..7); map stage = (stage-1) % 5.
@@ -82,6 +82,11 @@ def walk(code, sink, block):
             rec.update(op='aot_delete', id=raw[1], raw=raw.hex())
         elif op in (5, 8):
             rec.update(op='set' if op == 5 else 'setb', group=raw[1], bit=raw[2], value=raw[3])
+        elif op == 0x1b:   # enemy spawn: handler 0x4191b0 skips it while Flg 0xC3874C[kill] is set (kill 0xFF: no flag)
+            x, y, z = struct.unpack_from('<hhh', raw, 12)
+            rec.update(op='enemy', type=raw[1], state=raw[2], kill=raw[3], x=x, y=y, z=z, slot=raw[0x12] & 15)
+        elif op == 0x14:   # evt_exec: runs event script raw[3] (RDT offset 8)
+            rec.update(op='evt_exec', event=raw[3])
         elif op == 0x2c:
             rec.update(op='remove_item', item=raw[1])
         elif op == 0x2d:

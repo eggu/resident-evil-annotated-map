@@ -3,6 +3,7 @@
 Usage: RE1_GAME_DIR=<game folder> .venv/bin/python build.py [--extract] [--package]
   --extract  re-run data extraction first (needs every ROOM*.RDT and refs/evilresource pages)
   --package  write dist/RE1-Annotated-Map-<VERSION>.zip
+  --candidate N  write a test build to dist/candidates/RE1-Annotated-Map-candidate-N.zip instead (never overwrites)
 The build itself reads only Biohazard.exe (native test) and jpn/Item_m2 MAP*.TIM / Map_blue.tim.
 """
 import argparse, os, subprocess, sys
@@ -22,6 +23,7 @@ def run(cmd):
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--extract', action='store_true')
 parser.add_argument('--package', action='store_true')
+parser.add_argument('--candidate', type=int)
 for option in ('font', 'title-font-en', 'title-font-ko'):
     parser.add_argument('--' + option, type=Path, help='Custom font file (defaults to the bundled open-source font)')
 args = parser.parse_args()
@@ -46,12 +48,14 @@ run([sys.executable, '-m', 'ziglang', 'cc', '-target', 'x86-windows-gnu', '-shar
      'src/re1_map.c', '-lkernel32', '-luser32', '-o', 'mod_annotated_map/RE1.AnnotatedMap.dll'])
 run([sys.executable, 'tests/test_native.py'])
 run([sys.executable, 'tests/test_map_settings.py'])
-if args.package:
+if args.package or args.candidate:
     # release ZIP: copy-into-game-folder layout; bundled Ultimate ASI Loader (dsound.dll) loads scripts/*.asi
     import zipfile
     ver = (ROOT / 'VERSION').read_text().strip()
-    out = ROOT / f'dist/RE1-Annotated-Map-{ver}.zip'
-    out.parent.mkdir(exist_ok=True)
+    out = ROOT / (f'dist/candidates/RE1-Annotated-Map-candidate-{args.candidate}.zip' if args.candidate else f'dist/RE1-Annotated-Map-{ver}.zip')
+    if args.candidate and out.exists():
+        sys.exit(f'{out} exists: candidates are numbered once, pick the next number')
+    out.parent.mkdir(parents=True, exist_ok=True)
     with zipfile.ZipFile(out, 'w', zipfile.ZIP_DEFLATED) as z:
         z.write(ROOT / 'mod_annotated_map/RE1.AnnotatedMap.dll', 'scripts/RE1.AnnotatedMap.asi')
         z.write(ROOT / 'packaging/RE1.AnnotatedMap.ini', 'scripts/RE1.AnnotatedMap.ini')

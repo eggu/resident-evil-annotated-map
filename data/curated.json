@@ -172,14 +172,24 @@
    "source": "RDT 1050 useitem event 4/5 (fireplace hollow; ER: west side)",
    "name_en": "Emblem hollow",
    "name_ko": "엠블럼 홈",
-   "solved_when": [
-    [
-     1,
-     167,
-     1
+   "solved_when": [],
+   "solved_source": "RDT 1050 (Chris) / 1051 (Jill) main: the Gold Emblem placed in the hollow sets Flg_1 bit 168 (Chris) / 171 (Jill); the old 167 / 170 is the first Emblem",
+   "solved_by_char": {
+    "0": [
+     [
+      1,
+      168,
+      1
+     ]
+    ],
+    "1": [
+     [
+      1,
+      171,
+      1
+     ]
     ]
-   ],
-   "solved_source": "RDT 1050 useitem guard: active while ck(1,167)=0 and ck(1,168)=0; 167 set when the Gold Emblem is placed"
+   }
   },
   {
    "room": "0-0F",
@@ -216,14 +226,24 @@
    "source": "RDT 10F0 useitem event 4/5 (statue in the hidden passage)",
    "name_en": "Bar passage statue",
    "name_ko": "바 비밀통로 석상",
-   "solved_when": [
-    [
-     1,
-     164,
-     1
+   "solved_when": [],
+   "solved_source": "RDT 10F0 (Chris) / 10F1 (Jill) main: the Emblem placed on the statue sets Flg_1 bit 164 (Chris) / 167 (Jill)",
+   "solved_by_char": {
+    "0": [
+     [
+      1,
+      164,
+      1
+     ]
+    ],
+    "1": [
+     [
+      1,
+      167,
+      1
+     ]
     ]
-   ],
-   "solved_source": "RDT 10F0 item guard ck(1,164): set when the Emblem replaces the Gold Emblem"
+   }
   },
   {
    "room": "0-0D",
@@ -298,7 +318,30 @@
    ],
    "source": "RDT 11A0 useitem events 14/17/18/19 (crest mount)",
    "name_en": "Crest mount",
-   "name_ko": "문장 받침대"
+   "name_ko": "문장 받침대",
+   "solved_when": [
+    [
+     0,
+     105,
+     1
+    ],
+    [
+     0,
+     106,
+     1
+    ],
+    [
+     0,
+     107,
+     1
+    ],
+    [
+     0,
+     108,
+     1
+    ]
+   ],
+   "solved_source": "RDT 11A0/11A1 event scripts 3-6 each set one of Flg_0[105..108] (one per crest); main evt_exec 7 waits for all four"
   },
   {
    "room": "0-0C",
@@ -334,7 +377,25 @@
    ],
    "source": "RDT 20F0 useitem event 21 (candles)",
    "name_en": "Candles",
-   "name_ko": "촛대"
+   "name_ko": "촛대",
+   "solved_by_char": {
+    "0": [
+     [
+      0,
+      10,
+      1
+     ]
+    ],
+    "1": [
+     [
+      0,
+      10,
+      1
+     ]
+    ]
+   },
+   "solved_when": [],
+   "solved_source": "RDT 20F0/20F1 main: the Lighter on the candles sets Flg_0 bit 10"
   },
   {
    "room": "1-0B",
@@ -370,7 +431,25 @@
    ],
    "source": "RDT 20D0 event AOT (Richard; ER: lying on the floor)",
    "name_en": "Serum (Richard)",
-   "name_ko": "혈청(리처드)"
+   "name_ko": "혈청(리처드)",
+   "solved_by_char": {
+    "0": [
+     [
+      1,
+      97,
+      1
+     ]
+    ],
+    "1": [
+     [
+      1,
+      97,
+      1
+     ]
+    ]
+   },
+   "solved_when": [],
+   "solved_source": "RDT 20D0/20D1 main: Richard resolved (Serum given, or the other outcome) sets Flg_1 bit 97"
   },
   {
    "room": "2-01",
@@ -384,7 +463,15 @@
    ],
    "source": "RDT 3010 useitem event 2 (crank socket)",
    "name_en": "Crank socket",
-   "name_ko": "크랭크 구멍"
+   "name_ko": "크랭크 구멍",
+   "solved_when": [
+    [
+     0,
+     82,
+     1
+    ]
+   ],
+   "solved_source": "RDT 3010/3011 event 16 (drain movie, run by main evt_exec 1 while Flg_0[82] is clear) sets Flg_0[82]"
   },
   {
    "room": "2-02",
@@ -398,7 +485,15 @@
    ],
    "source": "RDT 3020 useitem event 12 (elevator)",
    "name_en": "Elevator battery",
-   "name_ko": "엘리베이터 배터리"
+   "name_ko": "엘리베이터 배터리",
+   "solved_when": [
+    [
+     0,
+     50,
+     1
+    ]
+   ],
+   "solved_source": "RDT 3020/3021 event 6 (main evt_exec 6, guard Flg_0[50] clear) sets Flg_0[50]"
   },
   {
    "room": "2-05",
@@ -414,7 +509,25 @@
    "source": "RDT 3050 useitem events 9/10: midpoint of the east (eagle) and west (wolf) hollows; marker at the fountain centre (hole of the drawn ring)",
    "place": "center",
    "name_en": "Medal hollows",
-   "name_ko": "메달 홈"
+   "name_ko": "메달 홈",
+   "solved_by_char": {
+    "0": [
+     [
+      0,
+      29,
+      1
+     ]
+    ],
+    "1": [
+     [
+      0,
+      29,
+      1
+     ]
+    ]
+   },
+   "solved_when": [],
+   "solved_source": "RDT 3050/3051 main: both medals placed sets Flg_0 bit 29"
   },
   {
    "room": "2-07",
@@ -428,7 +541,15 @@
    ],
    "source": "RDT 3070 useitem event 3",
    "name_en": "Hex crank",
-   "name_ko": "육각 크랭크"
+   "name_ko": "육각 크랭크",
+   "solved_when": [
+    [
+     1,
+     71,
+     1
+    ]
+   ],
+   "solved_source": "RDT 3070/3071 event 0 sets Flg_1[71]; init evt_exec 1 runs only while it is clear"
   },
   {
    "room": "2-0F",
@@ -442,7 +563,15 @@
    ],
    "source": "RDT 30F0 useitem event 3 (item-check areas excluded)",
    "name_en": "Hex crank",
-   "name_ko": "육각 크랭크"
+   "name_ko": "육각 크랭크",
+   "solved_when": [
+    [
+     0,
+     76,
+     1
+    ]
+   ],
+   "solved_source": "RDT 30F0/30F1 event 0 sets Flg_0[76]; the crank use-item AOTs 10/11 are placed only while it is clear"
   },
   {
    "room": "2-06",
@@ -456,7 +585,15 @@
    ],
    "source": "RDT 3060 useitem event 3",
    "name_en": "Hex crank",
-   "name_ko": "육각 크랭크"
+   "name_ko": "육각 크랭크",
+   "solved_when": [
+    [
+     0,
+     60,
+     1
+    ]
+   ],
+   "solved_source": "RDT 3060/3061 use-item AOT 1 runs event 3, which sets Flg_0[60]"
   },
   {
    "room": "2-03",
@@ -481,7 +618,15 @@
    ],
    "source": "RDT 40F0 useitem event 0 (Plant 42's roots; ER: meeting room)",
    "name_en": "Plant 42 roots",
-   "name_ko": "식물 42 뿌리"
+   "name_ko": "식물 42 뿌리",
+   "solved_when": [
+    [
+     0,
+     19,
+     1
+    ]
+   ],
+   "solved_source": "RDT 40F0/40F1 event 2 sets Flg_0[19]; the root use-item AOTs are placed only while it is clear"
   },
   {
    "room": "4-01",
@@ -495,7 +640,15 @@
    ],
    "source": "RDT 5010 useitem event 12 (elevator)",
    "name_en": "Elevator battery",
-   "name_ko": "엘리베이터 배터리"
+   "name_ko": "엘리베이터 배터리",
+   "solved_when": [
+    [
+     1,
+     70,
+     1
+    ]
+   ],
+   "solved_source": "RDT 5010/5011 event 2 sets Flg_1[70]; the battery use-item AOT 4 is placed only while it is clear"
   },
   {
    "room": "4-04",
@@ -679,10 +832,20 @@
     7000,
     10300
    ],
-   "source": "RDT 4080 door to the Drug Storeroom",
+   "source": "RDT 4080 door 1 to the Drug Storeroom; the code panel stands beside that door",
    "guide": true,
    "name_en": "Door code",
-   "name_ko": "문 암호"
+   "name_ko": "문 암호",
+   "place": "door",
+   "door_to": 9,
+   "solved_when": [
+    [
+     0,
+     33,
+     1
+    ]
+   ],
+   "solved_source": "RDT 4080/4081 main: door AOT 1 (to the Drug Storeroom) is switched by Flg_0[33], which the code panel sets when the door unlocks; in the 12 saves it is set exactly when the Drug Storeroom has been visited"
   },
   {
    "room": "3-09",
@@ -695,7 +858,15 @@
    "source": "RDT 4090 event 6/17",
    "guide": true,
    "name_en": "Mix V-JOLT",
-   "name_ko": "V-JOLT 조합"
+   "name_ko": "V-JOLT 조합",
+   "solved_when": [
+    [
+     1,
+     59,
+     1
+    ]
+   ],
+   "solved_source": "RDT 4090 event 6 (event AOT 13 at the mixing table, guard Flg_1[59] clear) sets Flg_1[59]"
   },
   {
    "room": "4-07",
@@ -708,7 +879,35 @@
    "source": "RDT 5070 useitem type-4 targets (vents at z 6430/9820)",
    "guide": true,
    "name_en": "Poison gas vents",
-   "name_ko": "독가스 환기구"
+   "name_ko": "독가스 환기구",
+   "solved_when": [],
+   "solved_source": "RDT 5070 (Chris) events 1/2 set Flg_1[105]/[106], 5071 (Jill) Flg_1[103]/[104], one per vent; main evt_exec 3/4 wait for them",
+   "solved_by_char": {
+    "0": [
+     [
+      1,
+      105,
+      1
+     ],
+     [
+      1,
+      106,
+      1
+     ]
+    ],
+    "1": [
+     [
+      1,
+      103,
+      1
+     ],
+     [
+      1,
+      104,
+      1
+     ]
+    ]
+   }
   },
   {
    "room": "4-06",
@@ -721,7 +920,15 @@
    "source": "RDT 5060 event 0 (computer)",
    "guide": true,
    "name_en": "Lock computer",
-   "name_ko": "잠금 컴퓨터"
+   "name_ko": "잠금 컴퓨터",
+   "solved_when": [
+    [
+     0,
+     32,
+     1
+    ]
+   ],
+   "solved_source": "RDT 5060/5061 event AOT 1 runs event 0, which sets Flg_0[32]"
   },
   {
    "room": "4-0F",
@@ -734,7 +941,15 @@
    "source": "RDT 50F0 event 0",
    "guide": true,
    "name_en": "Power terminal",
-   "name_ko": "전력 단말기"
+   "name_ko": "전력 단말기",
+   "solved_when": [
+    [
+     0,
+     46,
+     1
+    ]
+   ],
+   "solved_source": "RDT 50F0/50F1 event 1 sets Flg_0[46]; the terminal event AOT 2 is placed only while it is clear"
   },
   {
    "room": "4-11",
@@ -748,7 +963,15 @@
    "guide": true,
    "place": "e",
    "name_en": "Elevator power",
-   "name_ko": "엘리베이터 전원"
+   "name_ko": "엘리베이터 전원",
+   "solved_when": [
+    [
+     0,
+     45,
+     1
+    ]
+   ],
+   "solved_source": "RDT 5110/5111 event 0 sets Flg_0[45] (set together with Power Room Flg_0[46] in the saves)"
   },
   {
    "room": "3-0D",
@@ -758,7 +981,25 @@
    "source": "whole passage (pool = useitem type-4 areas); room anchor",
    "guide": true,
    "name_en": "Crate bridge",
-   "name_ko": "상자 다리"
+   "name_ko": "상자 다리",
+   "solved_by_char": {
+    "0": [
+     [
+      8,
+      96,
+      1
+     ]
+    ],
+    "1": [
+     [
+      8,
+      96,
+      1
+     ]
+    ]
+   },
+   "solved_when": [],
+   "solved_source": "no script flag: the crates are objects. The passage leads only to the Water Tank (3-0E), so its visited bit (Flg_8, 82 + 14) proves the bridge is done"
   }
  ],
  "event_items": [

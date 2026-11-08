@@ -1,0 +1,4561 @@
+{
+ "events": [
+  {
+   "key": "1000",
+   "stage": 1,
+   "room": 0,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 324,
+   "script": 0,
+   "scripts": [
+    0
+   ],
+   "xa": 9,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     36
+    ],
+    [
+     1,
+     57
+    ],
+    [
+     1,
+     34
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     36,
+     0
+    ],
+    [
+     1,
+     98,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    57
+   ],
+   "at": null
+  },
+  {
+   "key": "1000",
+   "stage": 1,
+   "room": 0,
+   "player": 0,
+   "trigger": "aot",
+   "block": "init",
+   "pos": 514,
+   "script": 1,
+   "scripts": [
+    1,
+    26,
+    27
+   ],
+   "xa": 12,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     60
+    ],
+    [
+     1,
+     40
+    ],
+    [
+     1,
+     42
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     39,
+     0
+    ],
+    [
+     1,
+     44,
+     0
+    ],
+    [
+     1,
+     36,
+     1
+    ],
+    [
+     1,
+     57,
+     0
+    ],
+    [
+     1,
+     60,
+     0
+    ],
+    [
+     1,
+     34,
+     1
+    ],
+    [
+     1,
+     42,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    60
+   ],
+   "at": [
+    5300,
+    7550
+   ]
+  },
+  {
+   "key": "1000",
+   "stage": 1,
+   "room": 0,
+   "player": 0,
+   "trigger": "aot",
+   "block": "init",
+   "pos": 542,
+   "script": 22,
+   "scripts": [
+    22,
+    28,
+    29,
+    41
+   ],
+   "xa": 2,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     60
+    ],
+    [
+     1,
+     40
+    ],
+    [
+     1,
+     41
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     39,
+     0
+    ],
+    [
+     1,
+     44,
+     0
+    ],
+    [
+     1,
+     36,
+     1
+    ],
+    [
+     1,
+     57,
+     0
+    ],
+    [
+     1,
+     60,
+     0
+    ],
+    [
+     1,
+     34,
+     1
+    ],
+    [
+     1,
+     40,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    60
+   ],
+   "at": [
+    5300,
+    7550
+   ]
+  },
+  {
+   "key": "1000",
+   "stage": 1,
+   "room": 0,
+   "player": 0,
+   "trigger": "aot",
+   "block": "init",
+   "pos": 570,
+   "script": 22,
+   "scripts": [
+    22,
+    28,
+    29,
+    41
+   ],
+   "xa": 2,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     60
+    ],
+    [
+     1,
+     40
+    ],
+    [
+     1,
+     41
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     39,
+     0
+    ],
+    [
+     1,
+     44,
+     0
+    ],
+    [
+     1,
+     36,
+     1
+    ],
+    [
+     1,
+     57,
+     0
+    ],
+    [
+     1,
+     60,
+     0
+    ],
+    [
+     1,
+     34,
+     1
+    ],
+    [
+     1,
+     41,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    60
+   ],
+   "at": [
+    5300,
+    7550
+   ]
+  },
+  {
+   "key": "1040",
+   "stage": 1,
+   "room": 4,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 18,
+   "script": 2,
+   "scripts": [
+    2
+   ],
+   "xa": 0,
+   "movie": 1,
+   "sets": [
+    [
+     1,
+     2
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     2,
+     0
+    ],
+    [
+     5,
+     26,
+     1
+    ]
+   ],
+   "flag": [
+    1,
+    2
+   ],
+   "at": null
+  },
+  {
+   "key": "1041",
+   "stage": 1,
+   "room": 4,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 18,
+   "script": 2,
+   "scripts": [
+    2
+   ],
+   "xa": 0,
+   "movie": 1,
+   "sets": [
+    [
+     1,
+     2
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     2,
+     0
+    ],
+    [
+     5,
+     26,
+     1
+    ]
+   ],
+   "flag": [
+    1,
+    2
+   ],
+   "at": null
+  },
+  {
+   "key": "1051",
+   "stage": 1,
+   "room": 5,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 944,
+   "script": 15,
+   "scripts": [
+    15,
+    16,
+    17,
+    18
+   ],
+   "xa": 5,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     173
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     173,
+     0
+    ],
+    [
+     1,
+     172,
+     1
+    ],
+    [
+     1,
+     2,
+     1
+    ]
+   ],
+   "flag": [
+    1,
+    173
+   ],
+   "at": null
+  },
+  {
+   "key": "1051",
+   "stage": 1,
+   "room": 5,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 16,
+   "script": 4,
+   "scripts": [
+    4,
+    9
+   ],
+   "xa": 4,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     162
+    ]
+   ],
+   "guard": [
+    [
+     4,
+     0,
+     1
+    ],
+    [
+     4,
+     4,
+     1
+    ]
+   ],
+   "flag": [
+    1,
+    162
+   ],
+   "at": null
+  },
+  {
+   "key": "1060",
+   "stage": 1,
+   "room": 6,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 330,
+   "script": 9,
+   "scripts": [
+    9
+   ],
+   "xa": 2,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     3
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     3,
+     0
+    ],
+    [
+     1,
+     2,
+     1
+    ]
+   ],
+   "flag": [
+    1,
+    3
+   ],
+   "at": null
+  },
+  {
+   "key": "1060",
+   "stage": 1,
+   "room": 6,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 474,
+   "script": 0,
+   "scripts": [
+    0
+   ],
+   "xa": 6,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     0
+    ],
+    [
+     1,
+     167
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     0,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    0
+   ],
+   "at": null
+  },
+  {
+   "key": "1060",
+   "stage": 1,
+   "room": 6,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 32,
+   "script": 13,
+   "scripts": [
+    13
+   ],
+   "xa": 0,
+   "movie": 1,
+   "sets": [
+    [
+     1,
+     4
+    ]
+   ],
+   "guard": [
+    [
+     4,
+     1,
+     0
+    ],
+    [
+     1,
+     4,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    4
+   ],
+   "at": null
+  },
+  {
+   "key": "1061",
+   "stage": 1,
+   "room": 6,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 260,
+   "script": 27,
+   "scripts": [
+    27,
+    28,
+    30
+   ],
+   "xa": 3,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     7
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     10,
+     0
+    ],
+    [
+     1,
+     7,
+     0
+    ],
+    [
+     7,
+     13,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    7
+   ],
+   "at": null
+  },
+  {
+   "key": "1061",
+   "stage": 1,
+   "room": 6,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 610,
+   "script": 0,
+   "scripts": [
+    0
+   ],
+   "xa": 5,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     0
+    ],
+    [
+     1,
+     170
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     0,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    0
+   ],
+   "at": null
+  },
+  {
+   "key": "1061",
+   "stage": 1,
+   "room": 6,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 406,
+   "script": 31,
+   "scripts": [
+    31
+   ],
+   "xa": 0,
+   "movie": 1,
+   "sets": [
+    [
+     1,
+     4
+    ]
+   ],
+   "guard": [
+    [
+     4,
+     1,
+     0
+    ],
+    [
+     1,
+     4,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    4
+   ],
+   "at": null
+  },
+  {
+   "key": "1091",
+   "stage": 1,
+   "room": 9,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 222,
+   "script": 0,
+   "scripts": [
+    0
+   ],
+   "xa": 5,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     33
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     32,
+     1
+    ],
+    [
+     1,
+     33,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    33
+   ],
+   "at": null
+  },
+  {
+   "key": "10F0",
+   "stage": 1,
+   "room": 15,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 456,
+   "script": 8,
+   "scripts": [
+    0,
+    8
+   ],
+   "xa": 4,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     162
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     162,
+     0
+    ],
+    [
+     1,
+     160,
+     1
+    ],
+    [
+     1,
+     161,
+     1
+    ]
+   ],
+   "flag": [
+    1,
+    162
+   ],
+   "at": null
+  },
+  {
+   "key": "10F0",
+   "stage": 1,
+   "room": 15,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 28,
+   "script": 1,
+   "scripts": [
+    1,
+    3,
+    4
+   ],
+   "xa": 12,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     160
+    ]
+   ],
+   "guard": [
+    [
+     4,
+     36,
+     1
+    ],
+    [
+     1,
+     98,
+     1
+    ],
+    [
+     1,
+     97,
+     1
+    ],
+    [
+     1,
+     36,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    160
+   ],
+   "at": null
+  },
+  {
+   "key": "10F0",
+   "stage": 1,
+   "room": 15,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 34,
+   "script": 2,
+   "scripts": [
+    2,
+    3,
+    4
+   ],
+   "xa": 11,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     160
+    ]
+   ],
+   "guard": [
+    [
+     4,
+     36,
+     1
+    ],
+    [
+     1,
+     98,
+     1
+    ],
+    [
+     1,
+     97,
+     1
+    ]
+   ],
+   "flag": [
+    1,
+    160
+   ],
+   "at": null
+  },
+  {
+   "key": "10F0",
+   "stage": 1,
+   "room": 15,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 52,
+   "script": 1,
+   "scripts": [
+    1,
+    3,
+    4
+   ],
+   "xa": 12,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     160
+    ]
+   ],
+   "guard": [
+    [
+     4,
+     36,
+     1
+    ],
+    [
+     1,
+     36,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    160
+   ],
+   "at": null
+  },
+  {
+   "key": "10F0",
+   "stage": 1,
+   "room": 15,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 58,
+   "script": 2,
+   "scripts": [
+    2,
+    3,
+    4
+   ],
+   "xa": 11,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     160
+    ]
+   ],
+   "guard": [
+    [
+     4,
+     36,
+     1
+    ]
+   ],
+   "flag": [
+    1,
+    160
+   ],
+   "at": null
+  },
+  {
+   "key": "2031",
+   "stage": 2,
+   "room": 3,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 228,
+   "script": 0,
+   "scripts": [
+    0,
+    1,
+    3
+   ],
+   "xa": 3,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     7
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     10,
+     0
+    ],
+    [
+     1,
+     7,
+     0
+    ],
+    [
+     7,
+     13,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    7
+   ],
+   "at": null
+  },
+  {
+   "key": "20A1",
+   "stage": 2,
+   "room": 10,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 534,
+   "script": 4,
+   "scripts": [
+    4
+   ],
+   "xa": 8,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     8
+    ]
+   ],
+   "guard": [
+    [
+     4,
+     34,
+     1
+    ]
+   ],
+   "flag": [
+    1,
+    8
+   ],
+   "at": null
+  },
+  {
+   "key": "20D0",
+   "stage": 2,
+   "room": 13,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 108,
+   "script": 0,
+   "scripts": [
+    0
+   ],
+   "xa": 10,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     98
+    ],
+    [
+     1,
+     45
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     97,
+     0
+    ],
+    [
+     4,
+     1,
+     0
+    ],
+    [
+     1,
+     98,
+     0
+    ],
+    [
+     1,
+     99,
+     0
+    ],
+    [
+     1,
+     100,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    98
+   ],
+   "at": null
+  },
+  {
+   "key": "20D0",
+   "stage": 2,
+   "room": 13,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 158,
+   "script": 1,
+   "scripts": [
+    1
+   ],
+   "xa": 9,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     101
+    ],
+    [
+     0,
+     127
+    ],
+    [
+     1,
+     97
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     97,
+     0
+    ],
+    [
+     4,
+     1,
+     0
+    ],
+    [
+     1,
+     98,
+     1
+    ],
+    [
+     1,
+     99,
+     1
+    ],
+    [
+     1,
+     100,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    97
+   ],
+   "at": null
+  },
+  {
+   "key": "20D1",
+   "stage": 2,
+   "room": 13,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 88,
+   "script": 1,
+   "scripts": [
+    1
+   ],
+   "xa": 9,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     98
+    ],
+    [
+     1,
+     35
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     97,
+     0
+    ],
+    [
+     4,
+     1,
+     0
+    ],
+    [
+     1,
+     98,
+     0
+    ],
+    [
+     1,
+     99,
+     0
+    ],
+    [
+     1,
+     100,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    98
+   ],
+   "at": null
+  },
+  {
+   "key": "20D1",
+   "stage": 2,
+   "room": 13,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 138,
+   "script": 2,
+   "scripts": [
+    2
+   ],
+   "xa": 4,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     101
+    ],
+    [
+     0,
+     127
+    ],
+    [
+     1,
+     97
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     97,
+     0
+    ],
+    [
+     4,
+     1,
+     0
+    ],
+    [
+     1,
+     98,
+     1
+    ],
+    [
+     1,
+     99,
+     1
+    ],
+    [
+     1,
+     100,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    97
+   ],
+   "at": null
+  },
+  {
+   "key": "20E0",
+   "stage": 2,
+   "room": 14,
+   "player": 0,
+   "trigger": "aot",
+   "block": "init",
+   "pos": 188,
+   "script": 0,
+   "scripts": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "xa": 5,
+   "movie": 0,
+   "sets": [
+    [
+     0,
+     71
+    ],
+    [
+     1,
+     94
+    ],
+    [
+     1,
+     46
+    ],
+    [
+     1,
+     39
+    ],
+    [
+     1,
+     95
+    ],
+    [
+     1,
+     89
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     67,
+     1
+    ],
+    [
+     0,
+     71,
+     0
+    ]
+   ],
+   "flag": [
+    0,
+    71
+   ],
+   "at": [
+    6110,
+    3250
+   ]
+  },
+  {
+   "key": "30A0",
+   "stage": 3,
+   "room": 10,
+   "player": 0,
+   "trigger": "aot",
+   "block": "init",
+   "pos": 122,
+   "script": 0,
+   "scripts": [
+    0
+   ],
+   "xa": 5,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     72
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     72,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    72
+   ],
+   "at": [
+    11100,
+    4850
+   ]
+  },
+  {
+   "key": "30A1",
+   "stage": 3,
+   "room": 10,
+   "player": 1,
+   "trigger": "aot",
+   "block": "init",
+   "pos": 126,
+   "script": 0,
+   "scripts": [
+    0,
+    1,
+    2,
+    5
+   ],
+   "xa": 14,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     72
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     72,
+     0
+    ],
+    [
+     1,
+     73,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    72
+   ],
+   "at": [
+    11100,
+    4850
+   ]
+  },
+  {
+   "key": "4050",
+   "stage": 4,
+   "room": 5,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 200,
+   "script": 1,
+   "scripts": [
+    1
+   ],
+   "xa": 10,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     171
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     171,
+     0
+    ],
+    [
+     0,
+     0,
+     1
+    ]
+   ],
+   "flag": [
+    1,
+    171
+   ],
+   "at": null
+  },
+  {
+   "key": "4051",
+   "stage": 4,
+   "room": 5,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 210,
+   "script": 1,
+   "scripts": [
+    1
+   ],
+   "xa": 10,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     175
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     175,
+     0
+    ],
+    [
+     0,
+     0,
+     1
+    ],
+    [
+     1,
+     178,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    175
+   ],
+   "at": null
+  },
+  {
+   "key": "4051",
+   "stage": 4,
+   "room": 5,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 220,
+   "script": 2,
+   "scripts": [
+    2
+   ],
+   "xa": 13,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     175
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     175,
+     0
+    ],
+    [
+     0,
+     0,
+     1
+    ]
+   ],
+   "flag": [
+    1,
+    175
+   ],
+   "at": null
+  },
+  {
+   "key": "4061",
+   "stage": 4,
+   "room": 6,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 364,
+   "script": 1,
+   "scripts": [
+    1,
+    2,
+    3
+   ],
+   "xa": 6,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     178
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     178,
+     0
+    ],
+    [
+     1,
+     174,
+     1
+    ],
+    [
+     1,
+     176,
+     0
+    ],
+    [
+     1,
+     177,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    178
+   ],
+   "at": null
+  },
+  {
+   "key": "4080",
+   "stage": 4,
+   "room": 8,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 218,
+   "script": 1,
+   "scripts": [
+    1,
+    2,
+    3
+   ],
+   "xa": 14,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     170
+    ]
+   ],
+   "guard": [
+    [
+     0,
+     0,
+     1
+    ],
+    [
+     1,
+     61,
+     1
+    ],
+    [
+     1,
+     170,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    170
+   ],
+   "at": null
+  },
+  {
+   "key": "4090",
+   "stage": 4,
+   "room": 9,
+   "player": 0,
+   "trigger": "aot",
+   "block": "init",
+   "pos": 456,
+   "script": 6,
+   "scripts": [
+    6,
+    8,
+    9
+   ],
+   "xa": 3,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     59
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     61,
+     1
+    ],
+    [
+     0,
+     0,
+     1
+    ],
+    [
+     1,
+     58,
+     0
+    ],
+    [
+     1,
+     59,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    59
+   ],
+   "at": [
+    7448,
+    5874
+   ]
+  },
+  {
+   "key": "40E1",
+   "stage": 4,
+   "room": 14,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 202,
+   "script": 6,
+   "scripts": [
+    6
+   ],
+   "xa": 0,
+   "movie": 1,
+   "sets": [
+    [
+     1,
+     9
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     9,
+     0
+    ],
+    [
+     4,
+     33,
+     1
+    ]
+   ],
+   "flag": [
+    1,
+    9
+   ],
+   "at": null
+  },
+  {
+   "key": "5011",
+   "stage": 5,
+   "room": 1,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 12,
+   "script": 2,
+   "scripts": [
+    2,
+    3,
+    4,
+    5,
+    6,
+    9
+   ],
+   "xa": 5,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     70
+    ]
+   ],
+   "guard": [],
+   "flag": [
+    1,
+    70
+   ],
+   "at": null
+  },
+  {
+   "key": "5021",
+   "stage": 5,
+   "room": 2,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 262,
+   "script": 1,
+   "scripts": [
+    1
+   ],
+   "xa": 6,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     84
+    ],
+    [
+     1,
+     192
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     37,
+     0
+    ],
+    [
+     0,
+     55,
+     1
+    ],
+    [
+     1,
+     192,
+     0
+    ],
+    [
+     1,
+     75,
+     1
+    ]
+   ],
+   "flag": [
+    1,
+    84
+   ],
+   "at": null
+  },
+  {
+   "key": "5021",
+   "stage": 5,
+   "room": 2,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 268,
+   "script": 0,
+   "scripts": [
+    0
+   ],
+   "xa": 3,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     84
+    ],
+    [
+     1,
+     192
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     37,
+     0
+    ],
+    [
+     0,
+     55,
+     1
+    ],
+    [
+     1,
+     192,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    84
+   ],
+   "at": null
+  },
+  {
+   "key": "5021",
+   "stage": 5,
+   "room": 2,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 350,
+   "script": 1,
+   "scripts": [
+    1
+   ],
+   "xa": 6,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     84
+    ],
+    [
+     1,
+     192
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     82,
+     1
+    ],
+    [
+     0,
+     55,
+     1
+    ],
+    [
+     1,
+     192,
+     0
+    ],
+    [
+     1,
+     75,
+     1
+    ]
+   ],
+   "flag": [
+    1,
+    84
+   ],
+   "at": null
+  },
+  {
+   "key": "5021",
+   "stage": 5,
+   "room": 2,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 356,
+   "script": 0,
+   "scripts": [
+    0
+   ],
+   "xa": 3,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     84
+    ],
+    [
+     1,
+     192
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     82,
+     1
+    ],
+    [
+     0,
+     55,
+     1
+    ],
+    [
+     1,
+     192,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    84
+   ],
+   "at": null
+  },
+  {
+   "key": "50B0",
+   "stage": 5,
+   "room": 11,
+   "player": 0,
+   "trigger": "aot",
+   "block": "init",
+   "pos": 72,
+   "script": 1,
+   "scripts": [
+    1
+   ],
+   "xa": 3,
+   "movie": 0,
+   "sets": [
+    [
+     0,
+     101
+    ]
+   ],
+   "guard": [
+    [
+     3,
+     112,
+     0
+    ],
+    [
+     0,
+     101,
+     0
+    ]
+   ],
+   "flag": [
+    0,
+    101
+   ],
+   "at": [
+    9850,
+    15500
+   ]
+  },
+  {
+   "key": "50B1",
+   "stage": 5,
+   "room": 11,
+   "player": 1,
+   "trigger": "aot",
+   "block": "init",
+   "pos": 72,
+   "script": 1,
+   "scripts": [
+    1
+   ],
+   "xa": 6,
+   "movie": 0,
+   "sets": [
+    [
+     0,
+     101
+    ]
+   ],
+   "guard": [
+    [
+     3,
+     112,
+     0
+    ],
+    [
+     0,
+     101,
+     0
+    ]
+   ],
+   "flag": [
+    0,
+    101
+   ],
+   "at": [
+    9850,
+    15500
+   ]
+  },
+  {
+   "key": "50C0",
+   "stage": 5,
+   "room": 12,
+   "player": 0,
+   "trigger": "aot",
+   "block": "init",
+   "pos": 232,
+   "script": 0,
+   "scripts": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "xa": 5,
+   "movie": 0,
+   "sets": [
+    [
+     0,
+     1
+    ]
+   ],
+   "guard": [
+    [
+     0,
+     1,
+     0
+    ]
+   ],
+   "flag": [
+    0,
+    1
+   ],
+   "at": [
+    16500,
+    25500
+   ]
+  },
+  {
+   "key": "50C0",
+   "stage": 5,
+   "room": 12,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 320,
+   "script": 6,
+   "scripts": [
+    6
+   ],
+   "xa": 7,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     90
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     192,
+     0
+    ],
+    [
+     0,
+     55,
+     1
+    ],
+    [
+     1,
+     90,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    90
+   ],
+   "at": null
+  },
+  {
+   "key": "50C1",
+   "stage": 5,
+   "room": 12,
+   "player": 1,
+   "trigger": "aot",
+   "block": "init",
+   "pos": 210,
+   "script": 0,
+   "scripts": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+   ],
+   "xa": 8,
+   "movie": 0,
+   "sets": [
+    [
+     0,
+     1
+    ]
+   ],
+   "guard": [
+    [
+     0,
+     1,
+     0
+    ]
+   ],
+   "flag": [
+    0,
+    1
+   ],
+   "at": [
+    16500,
+    25500
+   ]
+  },
+  {
+   "key": "5120",
+   "stage": 5,
+   "room": 18,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 96,
+   "script": 0,
+   "scripts": [
+    0,
+    1,
+    2
+   ],
+   "xa": 8,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     75
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     75,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    75
+   ],
+   "at": null
+  },
+  {
+   "key": "5121",
+   "stage": 5,
+   "room": 18,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 70,
+   "script": 0,
+   "scripts": [
+    0,
+    1,
+    2
+   ],
+   "xa": 2,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     75
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     75,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    75
+   ],
+   "at": null
+  },
+  {
+   "key": "5140",
+   "stage": 5,
+   "room": 20,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 170,
+   "script": 3,
+   "scripts": [
+    3
+   ],
+   "xa": 5,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     76
+    ]
+   ],
+   "guard": [
+    [
+     0,
+     55,
+     1
+    ],
+    [
+     1,
+     192,
+     0
+    ],
+    [
+     1,
+     76,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    76
+   ],
+   "at": null
+  },
+  {
+   "key": "5141",
+   "stage": 5,
+   "room": 20,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 296,
+   "script": 6,
+   "scripts": [
+    6
+   ],
+   "xa": 2,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     76
+    ],
+    [
+     0,
+     43
+    ]
+   ],
+   "guard": [
+    [
+     0,
+     55,
+     1
+    ],
+    [
+     1,
+     192,
+     0
+    ],
+    [
+     1,
+     91,
+     1
+    ],
+    [
+     1,
+     76,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    76
+   ],
+   "at": null
+  },
+  {
+   "key": "6000",
+   "stage": 6,
+   "room": 0,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 280,
+   "script": 2,
+   "scripts": [
+    2
+   ],
+   "xa": 10,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     52
+    ],
+    [
+     1,
+     44
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     34,
+     1
+    ],
+    [
+     1,
+     50,
+     1
+    ],
+    [
+     1,
+     52,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    52
+   ],
+   "at": null
+  },
+  {
+   "key": "6051",
+   "stage": 6,
+   "room": 5,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 944,
+   "script": 15,
+   "scripts": [
+    15,
+    16,
+    17,
+    18
+   ],
+   "xa": 5,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     173
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     173,
+     0
+    ],
+    [
+     1,
+     172,
+     1
+    ],
+    [
+     1,
+     2,
+     1
+    ]
+   ],
+   "flag": [
+    1,
+    173
+   ],
+   "at": null
+  },
+  {
+   "key": "6051",
+   "stage": 6,
+   "room": 5,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 16,
+   "script": 4,
+   "scripts": [
+    4,
+    9
+   ],
+   "xa": 4,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     162
+    ]
+   ],
+   "guard": [
+    [
+     4,
+     0,
+     1
+    ],
+    [
+     4,
+     4,
+     1
+    ]
+   ],
+   "flag": [
+    1,
+    162
+   ],
+   "at": null
+  },
+  {
+   "key": "6060",
+   "stage": 6,
+   "room": 6,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 330,
+   "script": 9,
+   "scripts": [
+    9
+   ],
+   "xa": 2,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     3
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     3,
+     0
+    ],
+    [
+     1,
+     2,
+     1
+    ]
+   ],
+   "flag": [
+    1,
+    3
+   ],
+   "at": null
+  },
+  {
+   "key": "6060",
+   "stage": 6,
+   "room": 6,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 474,
+   "script": 0,
+   "scripts": [
+    0
+   ],
+   "xa": 6,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     0
+    ],
+    [
+     1,
+     167
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     0,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    0
+   ],
+   "at": null
+  },
+  {
+   "key": "6060",
+   "stage": 6,
+   "room": 6,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 32,
+   "script": 13,
+   "scripts": [
+    13
+   ],
+   "xa": 0,
+   "movie": 1,
+   "sets": [
+    [
+     1,
+     4
+    ]
+   ],
+   "guard": [
+    [
+     4,
+     1,
+     0
+    ],
+    [
+     1,
+     4,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    4
+   ],
+   "at": null
+  },
+  {
+   "key": "6061",
+   "stage": 6,
+   "room": 6,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 256,
+   "script": 27,
+   "scripts": [
+    27,
+    28,
+    30
+   ],
+   "xa": 3,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     7
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     10,
+     0
+    ],
+    [
+     1,
+     7,
+     0
+    ],
+    [
+     7,
+     13,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    7
+   ],
+   "at": null
+  },
+  {
+   "key": "6061",
+   "stage": 6,
+   "room": 6,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 606,
+   "script": 0,
+   "scripts": [
+    0
+   ],
+   "xa": 5,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     0
+    ],
+    [
+     1,
+     170
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     0,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    0
+   ],
+   "at": null
+  },
+  {
+   "key": "6061",
+   "stage": 6,
+   "room": 6,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 406,
+   "script": 31,
+   "scripts": [
+    31
+   ],
+   "xa": 0,
+   "movie": 1,
+   "sets": [
+    [
+     1,
+     4
+    ]
+   ],
+   "guard": [
+    [
+     4,
+     1,
+     0
+    ],
+    [
+     1,
+     4,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    4
+   ],
+   "at": null
+  },
+  {
+   "key": "60A0",
+   "stage": 6,
+   "room": 10,
+   "player": 0,
+   "trigger": "aot",
+   "block": "init",
+   "pos": 168,
+   "script": 0,
+   "scripts": [
+    0
+   ],
+   "xa": 0,
+   "movie": 1,
+   "sets": [
+    [
+     1,
+     43
+    ],
+    [
+     1,
+     33
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     43,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    43
+   ],
+   "at": [
+    2800,
+    3450
+   ]
+  },
+  {
+   "key": "60A1",
+   "stage": 6,
+   "room": 10,
+   "player": 1,
+   "trigger": "aot",
+   "block": "init",
+   "pos": 140,
+   "script": 0,
+   "scripts": [
+    0
+   ],
+   "xa": 0,
+   "movie": 1,
+   "sets": [
+    [
+     1,
+     40
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     40,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    40
+   ],
+   "at": [
+    2800,
+    3450
+   ]
+  },
+  {
+   "key": "60F0",
+   "stage": 6,
+   "room": 15,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 456,
+   "script": 8,
+   "scripts": [
+    0,
+    8
+   ],
+   "xa": 4,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     162
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     162,
+     0
+    ],
+    [
+     1,
+     160,
+     1
+    ],
+    [
+     1,
+     161,
+     1
+    ]
+   ],
+   "flag": [
+    1,
+    162
+   ],
+   "at": null
+  },
+  {
+   "key": "60F0",
+   "stage": 6,
+   "room": 15,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 28,
+   "script": 1,
+   "scripts": [
+    1,
+    3,
+    4
+   ],
+   "xa": 12,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     160
+    ]
+   ],
+   "guard": [
+    [
+     4,
+     36,
+     1
+    ],
+    [
+     1,
+     98,
+     1
+    ],
+    [
+     1,
+     97,
+     1
+    ],
+    [
+     1,
+     36,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    160
+   ],
+   "at": null
+  },
+  {
+   "key": "60F0",
+   "stage": 6,
+   "room": 15,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 34,
+   "script": 2,
+   "scripts": [
+    2,
+    3,
+    4
+   ],
+   "xa": 11,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     160
+    ]
+   ],
+   "guard": [
+    [
+     4,
+     36,
+     1
+    ],
+    [
+     1,
+     98,
+     1
+    ],
+    [
+     1,
+     97,
+     1
+    ]
+   ],
+   "flag": [
+    1,
+    160
+   ],
+   "at": null
+  },
+  {
+   "key": "60F0",
+   "stage": 6,
+   "room": 15,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 52,
+   "script": 1,
+   "scripts": [
+    1,
+    3,
+    4
+   ],
+   "xa": 12,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     160
+    ]
+   ],
+   "guard": [
+    [
+     4,
+     36,
+     1
+    ],
+    [
+     1,
+     36,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    160
+   ],
+   "at": null
+  },
+  {
+   "key": "60F0",
+   "stage": 6,
+   "room": 15,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 58,
+   "script": 2,
+   "scripts": [
+    2,
+    3,
+    4
+   ],
+   "xa": 11,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     160
+    ]
+   ],
+   "guard": [
+    [
+     4,
+     36,
+     1
+    ]
+   ],
+   "flag": [
+    1,
+    160
+   ],
+   "at": null
+  },
+  {
+   "key": "7031",
+   "stage": 7,
+   "room": 3,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 228,
+   "script": 0,
+   "scripts": [
+    0,
+    1,
+    3
+   ],
+   "xa": 3,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     7
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     10,
+     0
+    ],
+    [
+     1,
+     7,
+     0
+    ],
+    [
+     7,
+     13,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    7
+   ],
+   "at": null
+  },
+  {
+   "key": "70A1",
+   "stage": 7,
+   "room": 10,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 534,
+   "script": 4,
+   "scripts": [
+    4
+   ],
+   "xa": 8,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     8
+    ]
+   ],
+   "guard": [
+    [
+     4,
+     34,
+     1
+    ]
+   ],
+   "flag": [
+    1,
+    8
+   ],
+   "at": null
+  },
+  {
+   "key": "70C1",
+   "stage": 7,
+   "room": 12,
+   "player": 1,
+   "trigger": "aot",
+   "block": "init",
+   "pos": 200,
+   "script": 0,
+   "scripts": [
+    0,
+    17,
+    18
+   ],
+   "xa": 9,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     38
+    ]
+   ],
+   "guard": [
+    [
+     3,
+     62,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    38
+   ],
+   "at": [
+    3000,
+    4750
+   ]
+  },
+  {
+   "key": "70C1",
+   "stage": 7,
+   "room": 12,
+   "player": 1,
+   "trigger": "aot",
+   "block": "init",
+   "pos": 276,
+   "script": 0,
+   "scripts": [
+    0,
+    17,
+    18
+   ],
+   "xa": 9,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     38
+    ]
+   ],
+   "guard": [],
+   "flag": [
+    1,
+    38
+   ],
+   "at": [
+    3000,
+    4750
+   ]
+  },
+  {
+   "key": "70C1",
+   "stage": 7,
+   "room": 12,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 132,
+   "script": 46,
+   "scripts": [
+    46
+   ],
+   "xa": 8,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     37
+    ]
+   ],
+   "guard": [
+    [
+     4,
+     10,
+     1
+    ],
+    [
+     4,
+     13,
+     0
+    ]
+   ],
+   "flag": [
+    1,
+    37
+   ],
+   "at": null
+  },
+  {
+   "key": "71C0",
+   "stage": 7,
+   "room": 28,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 10,
+   "script": 0,
+   "scripts": [
+    0
+   ],
+   "xa": 0,
+   "movie": 1,
+   "sets": [
+    [
+     0,
+     51
+    ]
+   ],
+   "guard": [
+    [
+     4,
+     24,
+     1
+    ],
+    [
+     0,
+     51,
+     0
+    ]
+   ],
+   "flag": [
+    0,
+    51
+   ],
+   "at": null
+  },
+  {
+   "key": "71C1",
+   "stage": 7,
+   "room": 28,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 10,
+   "script": 0,
+   "scripts": [
+    0
+   ],
+   "xa": 0,
+   "movie": 1,
+   "sets": [
+    [
+     0,
+     51
+    ]
+   ],
+   "guard": [
+    [
+     4,
+     24,
+     1
+    ],
+    [
+     0,
+     51,
+     0
+    ]
+   ],
+   "flag": [
+    0,
+    51
+   ],
+   "at": null
+  }
+ ],
+ "undetermined": [
+  {
+   "key": "1061",
+   "stage": 1,
+   "room": 6,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 226,
+   "script": 14,
+   "scripts": [
+    14
+   ],
+   "xa": 2,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     4,
+     9,
+     1
+    ],
+    [
+     4,
+     10,
+     1
+    ],
+    [
+     4,
+     16,
+     1
+    ]
+   ],
+   "reason": "no persistent flag set by the scene"
+  },
+  {
+   "key": "1061",
+   "stage": 1,
+   "room": 6,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 298,
+   "script": 18,
+   "scripts": [
+    18
+   ],
+   "xa": 2,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     4,
+     9,
+     1
+    ],
+    [
+     4,
+     11,
+     1
+    ],
+    [
+     4,
+     16,
+     1
+    ]
+   ],
+   "reason": "no persistent flag set by the scene"
+  },
+  {
+   "key": "1061",
+   "stage": 1,
+   "room": 6,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 370,
+   "script": 23,
+   "scripts": [
+    23
+   ],
+   "xa": 2,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     4,
+     9,
+     1
+    ],
+    [
+     4,
+     12,
+     1
+    ],
+    [
+     4,
+     16,
+     1
+    ]
+   ],
+   "reason": "no persistent flag set by the scene"
+  },
+  {
+   "key": "20D0",
+   "stage": 2,
+   "room": 13,
+   "player": 0,
+   "trigger": "aot",
+   "block": "init",
+   "pos": 230,
+   "script": 3,
+   "scripts": [
+    3
+   ],
+   "xa": 2,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     1,
+     98,
+     1
+    ],
+    [
+     1,
+     97,
+     0
+    ]
+   ],
+   "reason": "no persistent flag set by the scene"
+  },
+  {
+   "key": "5010",
+   "stage": 5,
+   "room": 1,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 12,
+   "script": 2,
+   "scripts": [
+    2,
+    3,
+    4,
+    5,
+    6
+   ],
+   "xa": 7,
+   "movie": 0,
+   "sets": [],
+   "guard": [],
+   "reason": "no persistent flag set by the scene"
+  },
+  {
+   "key": "5140",
+   "stage": 5,
+   "room": 20,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 114,
+   "script": 0,
+   "scripts": [
+    0,
+    1,
+    2
+   ],
+   "xa": 27,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     0,
+     55,
+     0
+    ]
+   ],
+   "reason": "no persistent flag set by the scene"
+  },
+  {
+   "key": "5141",
+   "stage": 5,
+   "room": 20,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 112,
+   "script": 0,
+   "scripts": [
+    0,
+    3,
+    4
+   ],
+   "xa": 36,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     0,
+     55,
+     0
+    ],
+    [
+     1,
+     192,
+     0
+    ]
+   ],
+   "reason": "no persistent flag set by the scene"
+  },
+  {
+   "key": "5141",
+   "stage": 5,
+   "room": 20,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 118,
+   "script": 5,
+   "scripts": [
+    5
+   ],
+   "xa": 15,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     0,
+     55,
+     0
+    ]
+   ],
+   "reason": "no persistent flag set by the scene"
+  },
+  {
+   "key": "6010",
+   "stage": 6,
+   "room": 1,
+   "player": 0,
+   "trigger": "aot",
+   "block": "init",
+   "pos": 256,
+   "script": 5,
+   "scripts": [
+    5
+   ],
+   "xa": 10,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     1,
+     49,
+     1
+    ]
+   ],
+   "reason": "no persistent flag set by the scene"
+  },
+  {
+   "key": "6061",
+   "stage": 6,
+   "room": 6,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 226,
+   "script": 14,
+   "scripts": [
+    14
+   ],
+   "xa": 2,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     4,
+     9,
+     1
+    ],
+    [
+     4,
+     10,
+     1
+    ],
+    [
+     4,
+     16,
+     1
+    ]
+   ],
+   "reason": "no persistent flag set by the scene"
+  },
+  {
+   "key": "6061",
+   "stage": 6,
+   "room": 6,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 298,
+   "script": 18,
+   "scripts": [
+    18
+   ],
+   "xa": 2,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     4,
+     9,
+     1
+    ],
+    [
+     4,
+     11,
+     1
+    ],
+    [
+     4,
+     16,
+     1
+    ]
+   ],
+   "reason": "no persistent flag set by the scene"
+  },
+  {
+   "key": "6061",
+   "stage": 6,
+   "room": 6,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 370,
+   "script": 23,
+   "scripts": [
+    23
+   ],
+   "xa": 2,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     4,
+     9,
+     1
+    ],
+    [
+     4,
+     12,
+     1
+    ],
+    [
+     4,
+     16,
+     1
+    ]
+   ],
+   "reason": "no persistent flag set by the scene"
+  },
+  {
+   "key": "6090",
+   "stage": 6,
+   "room": 9,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 390,
+   "script": 1,
+   "scripts": [
+    1,
+    2
+   ],
+   "xa": 2,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     1,
+     33,
+     1
+    ],
+    [
+     1,
+     34,
+     1
+    ]
+   ],
+   "reason": "no persistent flag set by the scene"
+  },
+  {
+   "key": "6090",
+   "stage": 6,
+   "room": 9,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 420,
+   "script": 3,
+   "scripts": [
+    3,
+    4
+   ],
+   "xa": 3,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     1,
+     33,
+     1
+    ],
+    [
+     1,
+     54,
+     1
+    ]
+   ],
+   "reason": "no persistent flag set by the scene"
+  },
+  {
+   "key": "60A0",
+   "stage": 6,
+   "room": 10,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 24,
+   "script": 2,
+   "scripts": [
+    2,
+    3
+   ],
+   "xa": 2,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     3,
+     2,
+     1
+    ],
+    [
+     1,
+     33,
+     1
+    ],
+    [
+     1,
+     34,
+     1
+    ]
+   ],
+   "reason": "no persistent flag set by the scene"
+  },
+  {
+   "key": "60A0",
+   "stage": 6,
+   "room": 10,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 40,
+   "script": 4,
+   "scripts": [
+    4,
+    5
+   ],
+   "xa": 3,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     3,
+     2,
+     1
+    ],
+    [
+     1,
+     33,
+     1
+    ],
+    [
+     1,
+     54,
+     1
+    ]
+   ],
+   "reason": "no persistent flag set by the scene"
+  },
+  {
+   "key": "60B0",
+   "stage": 6,
+   "room": 11,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 256,
+   "script": 0,
+   "scripts": [
+    0,
+    1
+   ],
+   "xa": 2,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     5,
+     8,
+     0
+    ],
+    [
+     1,
+     33,
+     1
+    ],
+    [
+     1,
+     34,
+     1
+    ]
+   ],
+   "reason": "no persistent flag set by the scene"
+  },
+  {
+   "key": "60B0",
+   "stage": 6,
+   "room": 11,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 280,
+   "script": 2,
+   "scripts": [
+    2,
+    3
+   ],
+   "xa": 3,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     5,
+     8,
+     0
+    ],
+    [
+     1,
+     33,
+     1
+    ],
+    [
+     1,
+     54,
+     1
+    ]
+   ],
+   "reason": "no persistent flag set by the scene"
+  },
+  {
+   "key": "6170",
+   "stage": 6,
+   "room": 23,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 534,
+   "script": 0,
+   "scripts": [
+    0,
+    1
+   ],
+   "xa": 2,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     1,
+     33,
+     1
+    ],
+    [
+     1,
+     34,
+     1
+    ]
+   ],
+   "reason": "no persistent flag set by the scene"
+  },
+  {
+   "key": "6170",
+   "stage": 6,
+   "room": 23,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 564,
+   "script": 2,
+   "scripts": [
+    2,
+    3
+   ],
+   "xa": 3,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     1,
+     33,
+     1
+    ],
+    [
+     1,
+     54,
+     1
+    ]
+   ],
+   "reason": "no persistent flag set by the scene"
+  },
+  {
+   "key": "6190",
+   "stage": 6,
+   "room": 25,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 172,
+   "script": 4,
+   "scripts": [
+    4,
+    5
+   ],
+   "xa": 2,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     5,
+     8,
+     0
+    ],
+    [
+     1,
+     33,
+     1
+    ],
+    [
+     1,
+     34,
+     1
+    ]
+   ],
+   "reason": "no persistent flag set by the scene"
+  },
+  {
+   "key": "6190",
+   "stage": 6,
+   "room": 25,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 192,
+   "script": 6,
+   "scripts": [
+    6,
+    7
+   ],
+   "xa": 3,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     5,
+     8,
+     0
+    ],
+    [
+     1,
+     33,
+     1
+    ],
+    [
+     1,
+     54,
+     1
+    ]
+   ],
+   "reason": "no persistent flag set by the scene"
+  },
+  {
+   "key": "6191",
+   "stage": 6,
+   "room": 25,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 172,
+   "script": 4,
+   "scripts": [
+    4,
+    5
+   ],
+   "xa": 2,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     5,
+     8,
+     0
+    ],
+    [
+     1,
+     33,
+     1
+    ],
+    [
+     1,
+     34,
+     1
+    ]
+   ],
+   "reason": "no persistent flag set by the scene"
+  },
+  {
+   "key": "6191",
+   "stage": 6,
+   "room": 25,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 192,
+   "script": 6,
+   "scripts": [
+    6,
+    7
+   ],
+   "xa": 3,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     5,
+     8,
+     0
+    ],
+    [
+     1,
+     33,
+     1
+    ],
+    [
+     1,
+     54,
+     1
+    ]
+   ],
+   "reason": "no persistent flag set by the scene"
+  },
+  {
+   "key": "61A0",
+   "stage": 6,
+   "room": 26,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 308,
+   "script": 3,
+   "scripts": [
+    3,
+    4
+   ],
+   "xa": 2,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     1,
+     33,
+     1
+    ],
+    [
+     1,
+     34,
+     1
+    ]
+   ],
+   "reason": "no persistent flag set by the scene"
+  },
+  {
+   "key": "61A0",
+   "stage": 6,
+   "room": 26,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 328,
+   "script": 5,
+   "scripts": [
+    5,
+    6
+   ],
+   "xa": 3,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     1,
+     33,
+     1
+    ],
+    [
+     1,
+     54,
+     1
+    ]
+   ],
+   "reason": "no persistent flag set by the scene"
+  }
+ ],
+ "skipped": [
+  {
+   "key": "3010",
+   "stage": 3,
+   "room": 1,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 116,
+   "script": 1,
+   "scripts": [
+    1,
+    7,
+    16,
+    17
+   ],
+   "xa": 0,
+   "movie": 1,
+   "sets": [
+    [
+     0,
+     47
+    ],
+    [
+     0,
+     82
+    ]
+   ],
+   "guard": [
+    [
+     0,
+     47,
+     0
+    ],
+    [
+     4,
+     33,
+     1
+    ]
+   ],
+   "reason": "Water Gate drain movie (puzzle)"
+  },
+  {
+   "key": "3011",
+   "stage": 3,
+   "room": 1,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 116,
+   "script": 1,
+   "scripts": [
+    1,
+    7,
+    16,
+    17
+   ],
+   "xa": 0,
+   "movie": 1,
+   "sets": [
+    [
+     0,
+     47
+    ],
+    [
+     0,
+     82
+    ]
+   ],
+   "guard": [
+    [
+     0,
+     47,
+     0
+    ],
+    [
+     4,
+     33,
+     1
+    ]
+   ],
+   "reason": "Water Gate drain movie (puzzle)"
+  },
+  {
+   "key": "3030",
+   "stage": 3,
+   "room": 3,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 146,
+   "script": 0,
+   "scripts": [
+    0
+   ],
+   "xa": 2,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     4,
+     12,
+     0
+    ],
+    [
+     4,
+     11,
+     1
+    ],
+    [
+     4,
+     35,
+     0
+    ],
+    [
+     4,
+     36,
+     0
+    ]
+   ],
+   "reason": "Tyrant boss (Heliport)"
+  },
+  {
+   "key": "3031",
+   "stage": 3,
+   "room": 3,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 146,
+   "script": 0,
+   "scripts": [
+    0
+   ],
+   "xa": 2,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     4,
+     12,
+     0
+    ],
+    [
+     4,
+     11,
+     1
+    ],
+    [
+     4,
+     35,
+     0
+    ],
+    [
+     4,
+     36,
+     0
+    ]
+   ],
+   "reason": "Tyrant boss (Heliport)"
+  },
+  {
+   "key": "3050",
+   "stage": 3,
+   "room": 5,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 184,
+   "script": 11,
+   "scripts": [
+    11
+   ],
+   "xa": 0,
+   "movie": 1,
+   "sets": [
+    [
+     0,
+     29
+    ]
+   ],
+   "guard": [
+    [
+     0,
+     27,
+     1
+    ],
+    [
+     0,
+     28,
+     1
+    ],
+    [
+     0,
+     29,
+     0
+    ]
+   ],
+   "reason": "Fountain drain movie (puzzle)"
+  },
+  {
+   "key": "3051",
+   "stage": 3,
+   "room": 5,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 184,
+   "script": 11,
+   "scripts": [
+    11
+   ],
+   "xa": 0,
+   "movie": 1,
+   "sets": [
+    [
+     0,
+     29
+    ]
+   ],
+   "guard": [
+    [
+     0,
+     27,
+     1
+    ],
+    [
+     0,
+     28,
+     1
+    ],
+    [
+     0,
+     29,
+     0
+    ]
+   ],
+   "reason": "Fountain drain movie (puzzle)"
+  },
+  {
+   "key": "40C0",
+   "stage": 4,
+   "room": 12,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 752,
+   "script": 0,
+   "scripts": [
+    0
+   ],
+   "xa": 6,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     61
+    ],
+    [
+     1,
+     56
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     55,
+     0
+    ],
+    [
+     1,
+     34,
+     0
+    ],
+    [
+     1,
+     100,
+     0
+    ],
+    [
+     1,
+     89,
+     1
+    ],
+    [
+     1,
+     93,
+     1
+    ]
+   ],
+   "reason": "Plant 42 boss"
+  },
+  {
+   "key": "40C0",
+   "stage": 4,
+   "room": 12,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 772,
+   "script": 0,
+   "scripts": [
+    0
+   ],
+   "xa": 6,
+   "movie": 0,
+   "sets": [
+    [
+     1,
+     61
+    ],
+    [
+     1,
+     56
+    ]
+   ],
+   "guard": [
+    [
+     1,
+     55,
+     0
+    ],
+    [
+     1,
+     34,
+     0
+    ],
+    [
+     1,
+     100,
+     0
+    ]
+   ],
+   "reason": "Plant 42 boss"
+  },
+  {
+   "key": "40C1",
+   "stage": 4,
+   "room": 12,
+   "player": 1,
+   "trigger": "aot",
+   "block": "init",
+   "pos": 130,
+   "script": 12,
+   "scripts": [
+    12
+   ],
+   "xa": 2,
+   "movie": 0,
+   "sets": [
+    [
+     0,
+     68
+    ]
+   ],
+   "guard": [],
+   "reason": "Plant 42 boss"
+  },
+  {
+   "key": "40C1",
+   "stage": 4,
+   "room": 12,
+   "player": 1,
+   "trigger": "aot",
+   "block": "init",
+   "pos": 536,
+   "script": 12,
+   "scripts": [
+    12
+   ],
+   "xa": 2,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     4,
+     15,
+     1
+    ],
+    [
+     1,
+     39,
+     0
+    ]
+   ],
+   "reason": "Plant 42 boss"
+  },
+  {
+   "key": "40C1",
+   "stage": 4,
+   "room": 12,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "main",
+   "pos": 158,
+   "script": 1,
+   "scripts": [
+    1
+   ],
+   "xa": 5,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     4,
+     15,
+     1
+    ],
+    [
+     3,
+     96,
+     0
+    ],
+    [
+     0,
+     41,
+     1
+    ],
+    [
+     4,
+     14,
+     0
+    ]
+   ],
+   "reason": "Plant 42 boss"
+  },
+  {
+   "key": "5130",
+   "stage": 5,
+   "room": 19,
+   "player": 0,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 560,
+   "script": 8,
+   "scripts": [
+    8,
+    12
+   ],
+   "xa": 11,
+   "movie": 1,
+   "sets": [],
+   "guard": [
+    [
+     4,
+     7,
+     0
+    ]
+   ],
+   "reason": "Tyrant boss (Main Lab)"
+  },
+  {
+   "key": "5131",
+   "stage": 5,
+   "room": 19,
+   "player": 1,
+   "trigger": "aot",
+   "block": "init",
+   "pos": 204,
+   "script": 23,
+   "scripts": [
+    23
+   ],
+   "xa": 4,
+   "movie": 0,
+   "sets": [],
+   "guard": [
+    [
+     4,
+     7,
+     0
+    ]
+   ],
+   "reason": "Tyrant boss (Main Lab)"
+  },
+  {
+   "key": "5131",
+   "stage": 5,
+   "room": 19,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 752,
+   "script": 8,
+   "scripts": [
+    8
+   ],
+   "xa": 9,
+   "movie": 1,
+   "sets": [],
+   "guard": [
+    [
+     4,
+     7,
+     0
+    ],
+    [
+     1,
+     91,
+     0
+    ]
+   ],
+   "reason": "Tyrant boss (Main Lab)"
+  },
+  {
+   "key": "5131",
+   "stage": 5,
+   "room": 19,
+   "player": 1,
+   "trigger": "evt_exec",
+   "block": "init",
+   "pos": 786,
+   "script": 12,
+   "scripts": [
+    12
+   ],
+   "xa": 8,
+   "movie": 1,
+   "sets": [],
+   "guard": [
+    [
+     4,
+     7,
+     0
+    ]
+   ],
+   "reason": "Tyrant boss (Main Lab)"
+  }
+ ]
+}

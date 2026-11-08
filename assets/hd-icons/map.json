@@ -1,0 +1,164 @@
+{
+ "common": {
+  "Beretta": {
+   "icon": "3",
+   "basis": "name"
+  },
+  "Colt Python": {
+   "icon": "11",
+   "basis": "name"
+  },
+  "Combat Knife": {
+   "icon": "66",
+   "basis": "name"
+  },
+  "Flamethrower": {
+   "icon": "12",
+   "basis": "name"
+  },
+  "Grenade Gun": {
+   "icon": "7",
+   "basis": "name"
+  },
+  "Rocket Launcher": {
+   "icon": "10",
+   "basis": "name"
+  },
+  "Shotgun": {
+   "icon": "6",
+   "basis": "name"
+  },
+  "Shotgun Shells": {
+   "icon": "18",
+   "basis": "name"
+  },
+  "Hand Gun Bullets": {
+   "icon": "17",
+   "basis": "name"
+  },
+  "Magnum Rounds": {
+   "icon": "25",
+   "basis": "name"
+  },
+  "Acid Rounds": {
+   "icon": "19",
+   "basis": "name"
+  },
+  "Explosive Rounds": {
+   "icon": "16",
+   "basis": "name"
+  },
+  "Flame Rounds": {
+   "icon": "20",
+   "basis": "name"
+  },
+  "First Aid Spray": {
+   "icon": "33",
+   "basis": "name"
+  },
+  "Ink Ribbon": {
+   "icon": "68",
+   "basis": "name"
+  },
+  "Green Herb": {
+   "icon": "34",
+   "basis": "name"
+  },
+  "Red Herb": {
+   "icon": "35",
+   "basis": "name"
+  },
+  "Blue Herb": {
+   "icon": "36",
+   "basis": "name"
+  }
+ },
+ "key": {
+  "Blue Jewel": {
+   "icon": "73",
+   "basis": "look"
+  },
+  "Red Jewel": {
+   "icon": "72",
+   "basis": "look"
+  },
+  "Star Crest": {
+   "icon": "56",
+   "basis": "look"
+  },
+  "Wind Crest": {
+   "icon": "57",
+   "basis": "look"
+  },
+  "Sun Crest": {
+   "icon": "58",
+   "basis": "look"
+  },
+  "Moon Crest": {
+   "icon": "59",
+   "basis": "look"
+  },
+  "Lighter": {
+   "icon": "77",
+   "basis": "look"
+  },
+  "Battery": {
+   "icon": "67",
+   "basis": "look"
+  },
+  "MO-Disk": {
+   "icon": "93",
+   "basis": "look"
+  },
+  "Hexagonal Crank": {
+   "icon": "60",
+   "basis": "look"
+  },
+  "Square Crank": {
+   "icon": "61",
+   "basis": "look"
+  },
+  "Desk Key": {
+   "icon": "44",
+   "basis": "look"
+  },
+  "Music Score": {
+   "icon": "129",
+   "basis": "look"
+  },
+  "Doom Book 1": {
+   "icon": "91",
+   "basis": "look"
+  },
+  "Doom Book 2": {
+   "icon": "90",
+   "basis": "look"
+  }
+ },
+ "document": {
+  "*document": {
+   "icon": "badge-document",
+   "basis": "badge"
+  },
+  "*map": {
+   "icon": "badge-map",
+   "basis": "badge"
+  }
+ },
+ "puzzle": {
+  "*puzzle": {
+   "icon": "badge-puzzle",
+   "basis": "badge"
+  }
+ },
+ "save": {
+  "typewriter": {
+   "icon": "badge-typewriter",
+   "basis": "badge"
+  },
+  "itembox": {
+   "icon": "badge-itembox",
+   "basis": "badge"
+  }
+ }
+}
