@@ -29,8 +29,12 @@ with tempfile.TemporaryDirectory() as tmp:
         assert z.read('scripts/RE1.AnnotatedMap.asi') == (ROOT / 'mod_annotated_map/RE1.AnnotatedMap.dll').read_bytes()
         config = configparser.ConfigParser()
         config.read_string(bundled.decode('ascii'))
-        assert dict(config['Keys']) == dict(openkey='TAB', openpad='START', closekey='ESC', closeoncancel='1')
-        assert dict(config['AnnotatedMap']) == dict(all='1', rooms='1', locks='0', keyitems='0', documents='0',
-            puzzles='0', commonitems='0', language='en', scope='1', namesize='100', nameopacity='70', roomtint='1')
+        assert dict(config['Keys']) == dict(openkey='TAB', openpad='START', closekey='ESC', closeoncancel='1',
+                                            modifier='SHIFT', capturekey='F12')
+        assert dict(config['AnnotatedMap']) == dict(hdicons='1', uploadbudget='12', all='1', rooms='1', locks='0', keyitems='0', documents='0',
+            puzzles='0', events='0', commonitems='0', enemies='0', language='en', scope='1', namesize='100', nameopacity='70',
+            itemnames='0', iconsize='100', iconopacity='80', legend='1', keyside='0', roomtint='1', version='5')
+        assert dict(config['Colors']) == dict(rooms='#F0E2BE', locks='#FFCD46', keyitems='#5ADCFF', files='#FF8CD2', puzzles='#FF9628',
+                                              events='#B070FF', commonitems='#B8BCC4', enemies='#DC3C32')
         assert dict(config['Calibration']) == dict(offsetx='0', offsety='0', z='16', arrowrotation='0')
 print('ASI release layout, module identity and commented default INI passed')
