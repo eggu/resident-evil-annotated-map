@@ -23,3 +23,14 @@ mod_annotated_map/*.log
 # CI inputs (decrypted game files never land in git)
 local/
 .ci-inputs/
+# internal working notes and unused screenshots (kept locally, not published)
+docs/controller-reply.en.md
+docs/rebirth-compatibility.md
+docs/enemy-icon-brief.md
+docs/hd-icons-brief.md
+docs/hd-icons-feasibility.md
+docs/pickup-flag-review.md
+docs/re0-alignment-review.md
+docs/zoom-feasibility.md
+docs/screenshots/ko/
+docs/screenshots/en/*_revealed.png
