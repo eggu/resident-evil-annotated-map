@@ -12,7 +12,8 @@ Classic REbirth는 별도로 설치해야 합니다. Ultimate ASI Loader v9.7.4(
    REuncap 등으로 Ultimate ASI Loader가 이미 dsound.dll로 설치되어 있으면 dsound.dll은 건너뛰어도 됩니다.
    ASI 로더가 아닌 다른 dsound.dll(예: DSOAL)이 있으면 덮어쓰지 말고, 포함된 dsound.dll을 winmm.dll 이름으로 복사하세요.
 3. 게임을 실행합니다. REbirth MOD SELECTION에서 체크할 필요가 없습니다.
-1.1.0에서 업그레이드: 게임 폴더의 RE1.AnnotatedMap.dll과 mod_annotated_map 폴더를 지웁니다.
+1.1.x에서 업그레이드: ZIP을 기존 파일 위에 풀고, 기존 scripts/RE1.AnnotatedMap.ini는 건너뛰거나 백업 후 복원하세요(설정 유지).
+1.0.x/1.1.0에서 업그레이드: 먼저 게임 폴더의 RE1.AnnotatedMap.dll과 mod_annotated_map 폴더를 지웁니다.
 기존 설정을 유지하려면 mod_annotated_map/RE1.AnnotatedMap.ini를 scripts/로 옮겨 기본 INI 대신 사용하세요.
 
 사용
@@ -20,9 +21,10 @@ Classic REbirth는 별도로 설치해야 합니다. Ultimate ASI Loader v9.7.4(
 - 지도에서 앞/뒤 이동: 층 선택, 좌/우 이동: 장소 선택.
 - 숫자 키: 0 전체 표시, 1 방 이름, 2 잠긴 문, 3 핵심 아이템(무기 포함), 4 문서·지도, 5 퍼즐, 6 이벤트(스토리 장면, 스포일러),
   7 일반 아이템, 8 적, 9 표시 범위(방문한 방 → 공개된 방 → 모든 방). 한국어 / English는 \(₩) 키입니다.
-  1.1.x까지 6 일반 아이템·7 적·8 범위·9 언어였으므로 번호가 바뀌었습니다.
+  1.1.2까지는 6 일반 아이템·8 범위·9 언어였으므로 번호가 바뀌었습니다.
 - H: 전체 화면 지도의 아이템 이름 켜기/끄기. ~ (1 왼쪽 키): 범례 접기/펴기.
 - 이름 크기: - · = (+)(숫자패드 - · + 포함), 이름 불투명도: [ · ].
+- 결정(확인·조사) 키: 전체 화면 지도 1배/2배 확대. 확대 중에는 게임의 지도 방향 입력으로 이동.
 - 아이콘 크기: Shift + - · = (+), 아이콘 불투명도: Shift + [ · ]. INI의 [Keys] Modifier=CTRL이면 Shift 대신 Ctrl.
   1.1.2까지 Shift + - · +는 이름 불투명도였습니다. 저장된 값은 유지됩니다.
 - F12: 버그 제보용 디버그 기록(scripts/RE1.AnnotatedMap.capture.txt).
@@ -62,7 +64,8 @@ Installation
    If Ultimate ASI Loader is already installed as dsound.dll (e.g. by REuncap), you can skip dsound.dll.
    If you have a different dsound.dll (e.g. DSOAL), do not overwrite it: copy the included one as winmm.dll.
 3. Launch the game. Nothing needs to be enabled in REbirth MOD SELECTION.
-Upgrading from 1.1.0: delete RE1.AnnotatedMap.dll and the mod_annotated_map folder from the game folder.
+Upgrading from 1.1.x: extract the ZIP over the old files, skipping your existing scripts/RE1.AnnotatedMap.ini (or back it up and restore it) to keep your settings.
+Upgrading from 1.0.x/1.1.0: first delete RE1.AnnotatedMap.dll and the mod_annotated_map folder from the game folder.
 To keep your settings, move mod_annotated_map/RE1.AnnotatedMap.ini into scripts/ instead of the default INI.
 
 Controls
@@ -70,11 +73,13 @@ Controls
   Press Tab, START, Esc or the cancel button to close it.
 - On the map: move forward/backward to select a floor; left/right to select an area.
 - Number keys: 0 all annotations, 1 room names/typewriters/item boxes, 2 doors/keys,
-  3 key items (including weapons), 4 documents/maps, 5 puzzles, 6 common items, 7 enemies,
-  8 visibility (visited/revealed/all rooms),
-  9 Korean/English.
+  3 key items (including weapons), 4 documents/maps, 5 puzzles, 6 events (story scenes, spoilers),
+  7 common items, 8 enemies, 9 visibility (visited/revealed/all rooms).
+  Korean/English is the \ (backslash; Korean keyboards: won sign) key.
+  Up to 1.1.2 the keys were 6 common items, 8 visibility, 9 language, so the numbers changed.
 - H: item names on the full-screen map on/off. ~ (left of 1): fold or show the legend.
 - Name size: - · = (+) (numpad - · + too); name opacity: [ · ].
+- Confirm / examine key: zoom the full-screen map 1x / 2x; the game's map directions pan while zoomed.
 - Icon size: Shift + - · = (+); icon opacity: Shift + [ · ]. With [Keys] Modifier=CTRL in the INI, use Ctrl instead of Shift.
   Up to 1.1.2, Shift + - · + changed name opacity. Saved values are kept.
 - F12: write a debug capture for bug reports (scripts/RE1.AnnotatedMap.capture.txt).
@@ -101,5 +106,5 @@ The EXE and save files are not modified.
 Unofficial fan mod, unaffiliated with Capcom. No game files are included.
 https://github.com/eggu/resident-evil-annotated-map
 
-Full map: the game's confirm/examine key (see Key_Def in config.ini) toggles 1x/2x zoom. While zoomed, the game map directions pan; press confirm to zoom out before changing floor/area. The map always opens at 1x (zoom is not saved). HDLoader=0 or RetroMode=1 in REbirth's config.ini hides the map text: enable HDLoader / disable RetroMode.
-전체 지도: 게임의 결정(확인·조사) 키(config.ini의 Key_Def)로 1배/2배 확대. 확대 중 게임의 지도 방향 입력으로 이동하며, 층/구역 변경은 결정 키로 축소 후 가능합니다. 지도는 항상 1배로 열립니다(확대 상태는 저장하지 않음). REbirth config.ini의 HDLoader=0 또는 RetroMode=1이면 지도 글자가 보이지 않으니 HDLoader를 켜고 RetroMode를 끄세요.
+If the map text is unreadable, REbirth's config.ini has HDLoader=0 or RetroMode=1: enable HDLoader and disable RetroMode.
+REbirth config.ini에서 HDLoader=0 또는 RetroMode=1이면 지도 글자가 보이지 않습니다. HDLoader를 켜고 RetroMode를 끄세요.
