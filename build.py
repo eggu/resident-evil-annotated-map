@@ -63,4 +63,6 @@ if args.package or args.candidate:
         z.write(ual / 'dsound.dll', 'dsound.dll')
         z.write(ual / 'UltimateASILoader-LICENSE.txt', 'scripts/UltimateASILoader-LICENSE.txt')
         z.write(ROOT / 'packaging/README.txt', 'RE1-Annotated-Map-README.txt')
+        z.write(ROOT / 'LICENSE', 'LICENSE')
+        z.write(ROOT / 'NOTICE.md', 'NOTICE.md')
     print('package', out)

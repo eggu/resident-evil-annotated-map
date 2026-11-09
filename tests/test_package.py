@@ -18,7 +18,7 @@ with tempfile.TemporaryDirectory() as tmp:
         runpy.run_path(str(ROOT / 'build.py'), run_name='__main__')
     with zip_type(archive) as z:
         assert z.testzip() is None
-        assert sorted(z.namelist()) == ['RE1-Annotated-Map-README.txt', 'dsound.dll', 'scripts/RE1.AnnotatedMap.asi',
+        assert sorted(z.namelist()) == ['LICENSE', 'NOTICE.md', 'RE1-Annotated-Map-README.txt', 'dsound.dll', 'scripts/RE1.AnnotatedMap.asi',
                                         'scripts/RE1.AnnotatedMap.ini', 'scripts/UltimateASILoader-LICENSE.txt']
         # unmodified Ultimate ASI Loader v9.7.4 x86 (Ultimate-ASI-Loader-NoPDB.zip dinput8.dll)
         assert hashlib.sha256(z.read('dsound.dll')).hexdigest() == \
