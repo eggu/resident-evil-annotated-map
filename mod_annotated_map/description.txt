@@ -1,5 +1,5 @@
 Annotated Map: Survivor's Notes 1.2.0
-For Classic REbirth 1.1.4 (GOG Biohazard.exe).
+For Classic REbirth 1.1.3 or later (GOG Biohazard.exe).
 
 Map overlay: room names, typewriters/item boxes, locked doors and their keys, key items, files/maps, puzzles, story events, common items, enemies.
 Tab (or pad START): full-screen map. Map hotkeys: 0 all, 1 rooms, 2 locks, 3 key items, 4 files, 5 puzzles, 6 events,

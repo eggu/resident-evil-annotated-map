@@ -1,7 +1,7 @@
 Annotated Map: Survivor's Notes - Resident Evil (1996)
 상세 지도: 생존자의 메모
 
-지원: GOG 일본어판 Resident Evil(Biohazard.exe) + Classic REbirth 1.1.4 + Ultimate ASI Loader.
+지원: GOG 일본어판 Resident Evil(Biohazard.exe) + Classic REbirth 1.1.3 이상 + Ultimate ASI Loader.
 Classic REbirth는 별도로 설치해야 합니다. Ultimate ASI Loader v9.7.4(MIT)는 dsound.dll로 포함되어 있습니다.
 지도 화면에 방 이름, 잠긴 문과 열쇠, 핵심 아이템, 문서·지도, 퍼즐, 이벤트, 일반 아이템, 적, 타자기·아이템 상자를 표시합니다.
 
@@ -52,7 +52,7 @@ https://github.com/eggu/resident-evil-annotated-map
 English
 ================================================================
 
-Supported: GOG Japanese Resident Evil (Biohazard.exe) + Classic REbirth 1.1.4 + Ultimate ASI Loader.
+Supported: GOG Japanese Resident Evil (Biohazard.exe) + Classic REbirth 1.1.3 or later + Ultimate ASI Loader.
 Classic REbirth must be installed separately. Ultimate ASI Loader v9.7.4 (MIT) is included as dsound.dll.
 Shows room names, locked doors and required keys, key items, documents and maps,
 puzzles, common items, enemies, typewriters and item boxes on the map.
