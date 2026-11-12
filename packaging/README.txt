@@ -106,5 +106,5 @@ The EXE and save files are not modified.
 Unofficial fan mod, unaffiliated with Capcom. No game files are included.
 https://github.com/eggu/resident-evil-annotated-map
 
-If the map text is unreadable, REbirth's config.ini has HDLoader=0 or RetroMode=1: enable HDLoader and disable RetroMode.
-REbirth config.ini에서 HDLoader=0 또는 RetroMode=1이면 지도 글자가 보이지 않습니다. HDLoader를 켜고 RetroMode를 끄세요.
+With REbirth's HD textures off (config.ini HDLoader=0 or missing, or RetroMode=1) the map switches to SD mode (pixel markers and pixel-font names). INI DisplayMode=Auto|HD|SD overrides this.
+REbirth HD 텍스처가 꺼져 있으면(config.ini HDLoader=0이거나 없음, 또는 RetroMode=1) 지도가 SD 모드(픽셀 표식·픽셀 글꼴 이름)로 바뀝니다. INI DisplayMode=Auto|HD|SD로 바꿀 수 있습니다.
