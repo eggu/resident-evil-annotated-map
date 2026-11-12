@@ -50,6 +50,7 @@ run([sys.executable, '-m', 'ziglang', 'cc', '-target', 'x86-windows-gnu', '-shar
 run([sys.executable, 'tests/test_native.py'])
 run([sys.executable, 'tests/test_sd.py'])
 run([sys.executable, 'tests/test_sd_native.py'])
+run([sys.executable, 'tests/test_sd_auto.py'])
 run([sys.executable, 'tests/test_hd_off.py'])
 run([sys.executable, 'tests/test_map_settings.py'])
 if args.package or args.candidate:

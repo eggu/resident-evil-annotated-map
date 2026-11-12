@@ -67,10 +67,12 @@ def cstr(a):
     return b[:b.index(0)].decode('latin1')
 
 
-def imp_GetModuleFileNameA():
-    u.mem_write(arg(1), b'C:\\game\\RE1.AnnotatedMap.asi\0'); return 28
+def imp_GetModuleFileNameA():   # the ddraw handle (0x70000000) lives where state['ddraw'] says (REbirth beside the exe by default)
+    path = (state.get('ddraw') or 'C:\\game\\ddraw.dll') if arg(0) == 0x70000000 else 'C:\\game\\RE1.AnnotatedMap.asi'
+    u.mem_write(arg(1), path.encode() + b'\0'); return len(path)
 def imp_GetModuleHandleA():
-    return 0x400000 if arg(0) == 0 else 0x70000000
+    if arg(0) == 0: return 0x400000
+    return 0 if cstr(arg(0)).lower() == 'ddraw.dll' and 'ddraw' in state and state['ddraw'] is None else 0x70000000   # ddraw None: not loaded at all
 def ini_key():   # [Colors] keys share names with the category toggles ([AnnotatedMap] Rooms...): look them up as 'Colors.<key>'
     return ('Colors.' if cstr(arg(0)) == 'Colors' else '') + cstr(arg(1))
 def imp_GetPrivateProfileIntA():

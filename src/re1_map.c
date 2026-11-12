@@ -56,7 +56,7 @@ __declspec(dllexport) int ov_zoom, ov_pan_x = 96, ov_pan_y = 112;
 static int map_paint;
 __declspec(dllexport) int ov_hd_on = 1;   /* INI HdIcons: HD-style icons on the full map (the status screen always keeps the pixel icons); exported for tests */
 static int sd_mode, display_mode;   /* SD mode (src/sd_draw.h): 1x pixel markers and names; INI DisplayMode 0 Auto, 1 HD, 2 SD */
-static int hd_off;   /* config.ini [DLL] HDLoader=0 or RetroMode=1: the x8 overlay textures cannot be sampled, only the notice is drawn */
+static int hd_off;   /* no HD: REbirth missing, or HDLoader not 1, or RetroMode / LowResEnable on: the x8 overlay textures cannot be sampled (HD forced: only the notice is drawn) */
 static int notice_draw, notice_failed;
 __declspec(dllexport) int ov_upload_budget = 12;   /* texture uploads per frame (INI UploadBudget); exported for tests */
 static int zoomed(void) { return ov_fullscreen && ov_zoom; }
@@ -95,12 +95,32 @@ static int key_code(const char *v, int def);
 static int pad_code(const char *v, int def);
 static int open_vk, close_vk, open_pad, close_on_cancel, capture_vk, ctrl_mod;
 static int clamp10(int v, int lo, int hi) { return v < lo ? lo : v > hi ? hi : (v + 5) / 10 * 10; }
-static void detect_hd_off(void) {   /* config.ini beside Biohazard.exe: [DLL] HDLoader / RetroMode (REbirth 1.1.4) */
+/* Classic REbirth is the ddraw.dll beside the game exe; a system ddraw.dll (or none) means no REbirth. */
+static int rebirth_loaded(void) {
+    HMODULE m = GetModuleHandleA("ddraw.dll");
+    char dll[MAX_PATH], exe[MAX_PATH];
+    if (!m || !GetModuleFileNameA(m, dll, MAX_PATH) || !GetModuleFileNameA(NULL, exe, MAX_PATH)) return 0;
+    char *da = dll, *db = exe;
+    for (char *q = dll; *q; q++) if (*q == '\\' || *q == '/') da = q;
+    for (char *q = exe; *q; q++) if (*q == '\\' || *q == '/') db = q;
+    *da = *db = 0;
+    return !lstrcmpiA(dll, exe);
+}
+/* Auto (user 2026-11-13, RE1-RE3): HD only when Classic REbirth is loaded with HDLoader=1 and neither RetroMode nor LowResEnable;
+ * every other case, including no REbirth at all, is SD. 1 = SD. */
+static int sd_auto(int rebirth, int hd_loader, int retro, int low_res) { return !(rebirth && hd_loader == 1 && !retro && !low_res); }
+__declspec(dllexport) int __cdecl AnnotatedMapTestSdAuto(int rebirth, int hd_loader, int retro, int low_res) { return sd_auto(rebirth, hd_loader, retro, low_res); }
+static void detect_hd_off(void) {   /* config.ini beside Biohazard.exe: [DLL] HDLoader / RetroMode / LowResEnable (REbirth 1.1.4) */
     char cfg[MAX_PATH]; DWORD n = GetModuleFileNameA(NULL, cfg, MAX_PATH);
+    int rebirth = rebirth_loaded(), hd = -1, retro = 0, low = 0;
     while (n && n < MAX_PATH && cfg[n - 1] != '\\') n--;
-    if (!n || n + 11 >= MAX_PATH) return;
-    memcpy(cfg + n, "config.ini", 11);
-    hd_off = GetPrivateProfileIntA("DLL", "HDLoader", 0, cfg) == 0 || GetPrivateProfileIntA("DLL", "RetroMode", 0, cfg) != 0;   /* a missing HDLoader counts as off */
+    if (n && n + 11 < MAX_PATH) {
+        memcpy(cfg + n, "config.ini", 11);
+        hd = (int)GetPrivateProfileIntA("DLL", "HDLoader", -1, cfg);   /* a missing key is not 1 */
+        retro = GetPrivateProfileIntA("DLL", "RetroMode", 0, cfg) != 0; low = GetPrivateProfileIntA("DLL", "LowResEnable", 0, cfg) != 0;
+    }
+    hd_off = sd_auto(rebirth, hd, retro, low);
+    log_fmt("HD inputs: REbirth=%d HDLoader=%d RetroMode=%d LowResEnable=%d", rebirth, hd, retro, low);
 }
 /* [Colors]: one #RRGGBB per category. The legend CLUT (names and legend rows use it) is copied from the generated palette and the
  * category indices are overwritten before any upload; unset or invalid keys keep the generated colour. 5 bits per channel, rounded
@@ -169,8 +189,8 @@ static void load_settings(void) {
     char dm[8]; GetPrivateProfileStringA("AnnotatedMap", "DisplayMode", "Auto", dm, sizeof dm, ini_path);
     display_mode = !lstrcmpiA(dm, "HD") ? 1 : !lstrcmpiA(dm, "SD") ? 2 : 0;
     sd_mode = display_mode == 2 || (display_mode == 0 && hd_off);
-    if (sd_mode) { ov_key_side = 0; log_text("SD mode: 1x markers and names (HD textures off or DisplayMode=SD); size, opacity and item-name settings do not apply"); }
-    else if (hd_off) log_text("WARNING: DisplayMode=HD but HD textures are off (config.ini [DLL] HDLoader=0 or RetroMode=1): only a notice is drawn. Use DisplayMode=Auto or SD.");
+    if (sd_mode) { ov_key_side = 0; log_text("SD mode: 1x markers and names (HD not available or DisplayMode=SD); size, opacity and item-name settings do not apply"); }
+    else if (hd_off) log_text("WARNING: DisplayMode=HD but HD is not available (needs Classic REbirth with HDLoader=1, RetroMode and LowResEnable off): only a notice is drawn. Use DisplayMode=Auto or SD.");
     else log_text("HD mode");
     /* Version: written on the next save. 1 -> 2 changes no scale (new keys take their defaults), so nothing is converted;
      * a later scale change converts here once, keyed on the old version. */
@@ -1301,7 +1321,7 @@ BOOL WINAPI DllMain(HINSTANCE inst, DWORD reason, void *unused) {
     if ((uintptr_t)GetModuleHandleA(NULL) != 0x400000) return TRUE;
     IMAGE_NT_HEADERS32 *nt = (void *)(0x400000 + ((IMAGE_DOS_HEADER *)0x400000)->e_lfanew);
     if (nt->FileHeader.TimeDateStamp != EXE_TIMESTAMP || nt->OptionalHeader.SizeOfImage != EXE_IMAGE_SIZE) { log_text("Unsupported Biohazard.exe; not installed"); return TRUE; }
-    if (!GetModuleHandleA("ddraw.dll")) { log_text("Classic REbirth ddraw.dll not loaded; not installed"); return TRUE; }
+    /* No Classic REbirth is fine: the map hooks below patch the exe's own call sites (checked first) and use its texture/sprite functions; only the HD overlay needs REbirth (SD mode then). */
     static const uintptr_t draw_sites[] = {0x43c491, 0x43c4f3, 0x43c53f, 0x43c5f5, 0x43c620, 0x43c645, 0x43c704, 0x43c773, 0x43c784};
     /* verify everything before patching anything */
     for (unsigned i = 0; i < sizeof draw_sites / sizeof *draw_sites; i++) {

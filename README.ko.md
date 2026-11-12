@@ -4,12 +4,12 @@
 
 <p align="center"><img src="docs/logo.png" alt="RE1 Annotated Map — Survivor’s Notes" width="320"></p>
 
-**상세 지도: 생존자의 메모** — 원작 Resident Evil PC판(GOG 일본어판 `Biohazard.exe` + [Classic REbirth 1.1.3 이상](https://classicrebirth.com/index.php/re1cb-changelog/))의 지도에 방 이름, 잠긴 문과 필요한 열쇠, 핵심 아이템, 문서·지도, 퍼즐, 스토리 이벤트, 일반 아이템, 적, 타자기·아이템 상자를 표시하는 ASI 모드입니다. 한국어/영어를 지원합니다.
+**상세 지도: 생존자의 메모** — 원작 Resident Evil PC판(GOG 일본어판 `Biohazard.exe`, HD 모드에는 [Classic REbirth 1.1.3 이상](https://classicrebirth.com/index.php/re1cb-changelog/) 필요)의 지도에 방 이름, 잠긴 문과 필요한 열쇠, 핵심 아이템, 문서·지도, 퍼즐, 스토리 이벤트, 일반 아이템, 적, 타자기·아이템 상자를 표시하는 ASI 모드입니다. 한국어/영어를 지원합니다.
 
 - 상태 화면 지도에는 아이콘만, **Tab**(패드 **START**)으로 여는 전체 화면 지도에는 방 이름과, **H**로 아이템 이름까지 표시합니다.
 - 주운 아이템, 연 문, 푼 퍼즐, 이미 일어난 스토리 이벤트, 쓰러뜨린 적은 지도에서 사라집니다. 아이템이 남은 방은 호박색으로 칠합니다.
 - 잠긴 문의 열쇠는 문 위에 표시합니다(`KeySide=1`이면 아직 가지 않은 쪽 방). 전체 화면 지도에는 현재 위치와 바라보는 방향을 화살표로 표시합니다.
-- Classic REbirth의 HD 텍스처가 꺼져 있어도 읽기 쉬운 SD 배치로 바뀝니다([SD 모드](#sd-모드)).
+- HD 모드는 Classic REbirth에서 `HDLoader=1`이고 `RetroMode`와 `LowResEnable`이 꺼져 있을 때만 쓰입니다. 그 밖의 모든 경우(Classic REbirth가 없을 때 포함)에는 읽기 쉬운 SD 배치로 바뀝니다([SD 모드](#sd-모드)).
 - 전체 화면 지도에서 게임의 결정 키로 확대할 수 있고, 아이템·열쇠·문서·퍼즐은 HD풍 아이콘으로 표시합니다.
 - 크리스/질의 아이템 배치 차이를 반영합니다.
 
@@ -32,7 +32,7 @@
 
 1. [Releases](https://github.com/eggu/resident-evil-annotated-map/releases)에서 `RE1-Annotated-Map-<버전>.zip`을 받습니다. `Source code`는 설치 파일이 아닙니다.
 2. 게임을 종료하고 ZIP의 내용(`dsound.dll`, `scripts/`)을 `Biohazard.exe`가 있는 게임 폴더에 폴더 구조 그대로 복사합니다. REbirth **MOD SELECTION**에서 체크할 필요는 없습니다.
-3. Classic REbirth는 별도로 설치해야 합니다. ASI 로더인 [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader) v9.7.4(MIT)가 `dsound.dll`로 포함되어 있습니다.
+3. Classic REbirth는 별도로 설치하며 HD 모드에만 필요합니다. ASI 로더인 [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader) v9.7.4(MIT)가 `dsound.dll`로 포함되어 있습니다.
    - REuncap 등으로 Ultimate ASI Loader가 이미 `dsound.dll`로 설치되어 있으면 `dsound.dll`은 건너뛰어도 됩니다.
    - ASI 로더가 아닌 다른 `dsound.dll`(예: DSOAL)이 있으면 덮어쓰지 말고, 포함된 `dsound.dll`을 `winmm.dll` 이름으로 복사하세요.
 
@@ -103,7 +103,7 @@ OpenPad=LS
 | `[Keys] CloseOnCancel` | `1` | 게임의 취소 버튼으로 닫기 |
 | `[Keys] Modifier` | `SHIFT` | 이름 대신 아이콘을 바꿀 때 누르는 키: `SHIFT` 또는 `CTRL` |
 | `[Keys] CaptureKey` | `F12` | 디버그 기록 키(`OpenKey`와 같은 이름), `NONE` |
-| `[AnnotatedMap] DisplayMode` | `Auto` | `Auto`는 REbirth HD 텍스처가 꺼져 있으면(`HDLoader=0` 또는 없음, `RetroMode=1`) SD 모드, 아니면 HD 모드. `HD`/`SD`로 고정. 게임 시작 때 한 번 결정 |
+| `[AnnotatedMap] DisplayMode` | `Auto` | `Auto`는 Classic REbirth가 설치되어 있고(게임 폴더의 `ddraw.dll`) `config.ini`에서 `HDLoader=1`, `RetroMode`·`LowResEnable` 꺼짐일 때만 HD 모드이고, 그 밖의 모든 경우는 SD 모드. `HD`/`SD`로 고정. 게임 시작 때 한 번 결정 |
 | `[AnnotatedMap] RoomTint` | `1` | `0`이면 아이템이 남은 방 색칠 끄기 |
 | `[AnnotatedMap] NameSize` | `100` | 이름 크기(50–150), 기존 크기가100 |
 | `[AnnotatedMap] NameOpacity` | `70` | 이름 불투명도(10–100) |
@@ -135,14 +135,14 @@ OpenPad=LS
 |---|---|
 | ![SD 모드 — 전체 화면 지도, 저택 1층](docs/screenshots/sd/sd_full_map_mansion_1f.png) | ![SD 모드 — 확대 지도, 저택 1층](docs/screenshots/sd/sd_zoom_map_mansion_1f.png) |
 
-Classic REbirth의 HD 텍스처가 꺼져 있으면(게임 `config.ini`에서 `HDLoader=0`이거나 없음, 또는 `RetroMode=1`) 원래 해상도로 그립니다. 9×9 픽셀 표식(상태 화면 지도에서는 7×7, 퍼즐 주황 `!`, 이벤트 보라 `?`, 핵심 아이템 하늘색 원, 허브·탄약·스프레이·리본·문서·지도·타자기·아이템 상자, 적은 작은 빨간 십자, 잠긴 문은 열쇠마다 색과 무늬가 다른 자물쇠), 방 바깥에 가느다란 지시선으로 연결한 픽셀 글꼴 방 이름, 간결한 범례가 표시됩니다. 모드는 게임을 시작할 때 한 번 정해지므로 REbirth의 HD 설정을 바꾼 뒤에는 게임을 다시 시작하거나 `DisplayMode`를 직접 지정하세요. 이름·아이콘 크기, 불투명도, 아이템 이름은 SD 모드에서 적용되지 않고, 나머지 키와 확대, 언어는 그대로 동작합니다. 방 이름은 지도에 고정되어 지도와 함께 움직이며, 확대한 지도에서는 방 안에 들어가면 방 안에 표시합니다. 방이 많은 저택 1층·2층은 확대했을 때만 방 이름을 표시합니다.
+HD 모드를 쓸 수 없으면(Classic REbirth가 없거나, 게임 `config.ini`에서 `HDLoader`가 1이 아니거나 `RetroMode`·`LowResEnable`이 켜진 경우) 원래 해상도로 그립니다. 9×9 픽셀 표식(상태 화면 지도에서는 7×7, 퍼즐 주황 `!`, 이벤트 보라 `?`, 핵심 아이템 하늘색 원, 허브·탄약·스프레이·리본·문서·지도·타자기·아이템 상자, 적은 작은 빨간 십자, 잠긴 문은 열쇠마다 색과 무늬가 다른 자물쇠), 방 바깥에 가느다란 지시선으로 연결한 픽셀 글꼴 방 이름, 간결한 범례가 표시됩니다. 모드는 게임을 시작할 때 한 번 정해지므로 REbirth의 HD 설정을 바꾼 뒤에는 게임을 다시 시작하거나 `DisplayMode`를 직접 지정하세요. 이름·아이콘 크기, 불투명도, 아이템 이름은 SD 모드에서 적용되지 않고, 나머지 키와 확대, 언어는 그대로 동작합니다. 방 이름은 지도에 고정되어 지도와 함께 움직이며, 확대한 지도에서는 방 안에 들어가면 방 안에 표시합니다. 방이 많은 저택 1층·2층은 확대했을 때만 방 이름을 표시합니다.
 
 ### 알려진 제한
 
 - 이름과 아이콘을 키우면 기존 위치를 유지하므로 서로 겹칠 수 있습니다. 필요하면 크기를 줄이세요.
 - 적 표식은 방에 들어갈 때 배치되는 위치이며 움직임은 따라가지 않습니다. 저택 재방문 때의 적은 재방문한 저택에 있을 때만 표시합니다.
 - 이벤트 표식은 게임 스크립트에서 분명하게 확인되는 장면만 포함합니다.
-- `DisplayMode=HD`는 REbirth의 HD 텍스처가 필요합니다. `HDLoader=0` 또는 `RetroMode=1`이면 지도에 짧은 영어 안내문만 표시됩니다. 이 경우 `DisplayMode=Auto`로 두면 SD 모드가 됩니다.
+- `DisplayMode=HD`는 HD 텍스처를 켠 Classic REbirth가 필요하며, 아니면 지도에 짧은 영어 안내문만 표시됩니다. 이 경우 `DisplayMode=Auto`로 두면 SD 모드가 됩니다.
 
 ## 빌드
 

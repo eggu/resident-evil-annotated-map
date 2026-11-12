@@ -2,7 +2,7 @@ Annotated Map: Survivor's Notes - Resident Evil (1996)
 상세 지도: 생존자의 메모
 
 지원: GOG 일본어판 Resident Evil(Biohazard.exe) + Classic REbirth 1.1.3 이상 + Ultimate ASI Loader.
-Classic REbirth는 별도로 설치해야 합니다. Ultimate ASI Loader v9.7.4(MIT)는 dsound.dll로 포함되어 있습니다.
+Classic REbirth는 별도로 설치하며 HD 모드에만 필요합니다. Ultimate ASI Loader v9.7.4(MIT)는 dsound.dll로 포함되어 있습니다.
 지도 화면에 방 이름, 잠긴 문과 열쇠, 핵심 아이템, 문서·지도, 퍼즐, 이벤트, 일반 아이템, 적, 타자기·아이템 상자를 표시합니다.
 
 설치
@@ -53,7 +53,7 @@ English
 ================================================================
 
 Supported: GOG Japanese Resident Evil (Biohazard.exe) + Classic REbirth 1.1.3 or later + Ultimate ASI Loader.
-Classic REbirth must be installed separately. Ultimate ASI Loader v9.7.4 (MIT) is included as dsound.dll.
+Classic REbirth is installed separately and is needed only for HD mode. Ultimate ASI Loader v9.7.4 (MIT) is included as dsound.dll.
 Shows room names, locked doors and required keys, key items, documents and maps,
 puzzles, common items, enemies, typewriters and item boxes on the map.
 
@@ -106,5 +106,5 @@ The EXE and save files are not modified.
 Unofficial fan mod, unaffiliated with Capcom. No game files are included.
 https://github.com/eggu/resident-evil-annotated-map
 
-With REbirth's HD textures off (config.ini HDLoader=0 or missing, or RetroMode=1) the map switches to SD mode (pixel markers and pixel-font names). INI DisplayMode=Auto|HD|SD overrides this.
-REbirth HD 텍스처가 꺼져 있으면(config.ini HDLoader=0이거나 없음, 또는 RetroMode=1) 지도가 SD 모드(픽셀 표식·픽셀 글꼴 이름)로 바뀝니다. INI DisplayMode=Auto|HD|SD로 바꿀 수 있습니다.
+HD mode needs Classic REbirth with HDLoader=1 and RetroMode and LowResEnable off (config.ini). In every other case, including without Classic REbirth, the map uses SD mode (pixel markers and pixel-font names). INI DisplayMode=Auto|HD|SD overrides this.
+HD 모드는 Classic REbirth에서 HDLoader=1이고 RetroMode·LowResEnable이 꺼져 있을 때만 쓰이며(config.ini), 그 밖의 모든 경우(Classic REbirth가 없을 때 포함)에는 SD 모드(픽셀 표식·픽셀 글꼴 이름)입니다. INI DisplayMode=Auto|HD|SD로 바꿀 수 있습니다.

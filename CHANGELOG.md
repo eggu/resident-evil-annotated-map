@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+English
+- `DisplayMode=Auto` now uses HD mode only with Classic REbirth installed, `HDLoader=1`, and `RetroMode` and `LowResEnable` off; every other case, including no Classic REbirth, is SD (the mod no longer refuses to start without it).
+
+한국어
+- `DisplayMode=Auto`는 Classic REbirth가 설치되어 있고 `HDLoader=1`, `RetroMode`·`LowResEnable`이 꺼져 있을 때만 HD 모드이며, 그 밖의 모든 경우(Classic REbirth가 없을 때 포함)는 SD 모드입니다. Classic REbirth가 없어도 모드가 시작됩니다.
+
 ## 1.3.0 - 2026-11-13
 
 English

@@ -14,12 +14,12 @@ LANG_KEY = 0xDC
 
 
 class Emu:
-    def __init__(self, ini):
+    def __init__(self, ini, ddraw=0):   # ddraw: path of the loaded ddraw.dll, None = not loaded, 0 = REbirth beside the exe
         src = (ROOT / 'tests/test_native.py').read_text().split('# 1) unvisited', 1)[0]
         src = src.replace('ROOT = Path(__file__).resolve().parent.parent', f'ROOT = Path({str(ROOT)!r})')
         old = "ini=dict(Rooms=0, Locks=0, KeyItems=1, Documents=0, Puzzles=0, CommonItems=0, UploadBudget=200, HdIcons=0, HDLoader=1)"
         assert old in src
-        src = src.replace(old, 'ini=' + repr(ini))
+        src = src.replace(old, 'ini=' + repr(ini) + (', ddraw=' + repr(ddraw) if ddraw != 0 else ''))
         g = {'__name__': 'sd_emu_child', '__file__': str(ROOT / 'tests/test_native.py')}
         exec(compile(src, 'prefix', 'exec'), g)
         self.g = g
@@ -89,7 +89,7 @@ class Emu:
         return img, sp
 
 
-def boot(**extra):
+def boot(ddraw=0, **extra):
     ini = dict(ALL_ON, UploadBudget=200, HdIcons=0, **extra)
     ini.setdefault('HDLoader', 1)
-    return Emu({k: v for k, v in ini.items() if v is not None})   # None removes a key (a missing HDLoader counts as SD)
+    return Emu({k: v for k, v in ini.items() if v is not None}, ddraw)   # None removes a key (a missing HDLoader counts as SD)

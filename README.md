@@ -4,14 +4,14 @@ English | [한국어](README.ko.md)
 
 <p align="center"><img src="docs/logo.png" alt="RE1 Annotated Map — Survivor’s Notes" width="320"></p>
 
-A bilingual ASI map mod for the original Resident Evil PC release (GOG Japanese `Biohazard.exe` with [Classic REbirth 1.1.3 or later](https://classicrebirth.com/index.php/re1cb-changelog/)). Shows room names, locked doors and required keys, key items, documents and maps, puzzles, story events, common items, enemies, typewriters and item boxes.
+A bilingual ASI map mod for the original Resident Evil PC release (GOG Japanese `Biohazard.exe`; [Classic REbirth 1.1.3 or later](https://classicrebirth.com/index.php/re1cb-changelog/) is needed for HD mode). Shows room names, locked doors and required keys, key items, documents and maps, puzzles, story events, common items, enemies, typewriters and item boxes.
 
 - The status-screen map shows icons; the full-screen map opened with **Tab** (controller **START**) also shows room names, and item names with **H**.
 - Collected items, unlocked doors, solved puzzles, story events that have happened and killed enemies disappear. Rooms with remaining items are tinted amber.
 - Required keys appear on locked doors (or, with `KeySide=1`, on the unvisited side). The full-screen map shows your position and facing direction.
 - On the full-screen map, press the game's confirm key to zoom in; items, keys, documents and puzzles use HD-style icons.
 - Supports Chris and Jill item placements, with Korean and English labels.
-- Works with Classic REbirth's HD textures on or off: with HD textures off (`HDLoader=0`, or `RetroMode=1`) the map switches to a readable SD layout (see [SD mode](#sd-mode)).
+- HD mode needs Classic REbirth with `HDLoader=1` and `RetroMode` and `LowResEnable` off. In every other case, including without Classic REbirth, the map uses a readable SD layout (see [SD mode](#sd-mode)).
 
 ## Screenshots
 
@@ -32,7 +32,7 @@ A bilingual ASI map mod for the original Resident Evil PC release (GOG Japanese 
 
 1. Download `RE1-Annotated-Map-<version>.zip` from [Releases](https://github.com/eggu/resident-evil-annotated-map/releases). The `Source code` archives are not installable packages.
 2. Close the game and copy the ZIP contents (`dsound.dll`, `scripts/`) into the folder containing `Biohazard.exe`, preserving the directory structure. No REbirth **MOD SELECTION** step is needed.
-3. Classic REbirth must be installed separately. [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader) v9.7.4 (MIT) is included as `dsound.dll`.
+3. Classic REbirth is installed separately and is needed only for HD mode. [Ultimate ASI Loader](https://github.com/ThirteenAG/Ultimate-ASI-Loader) v9.7.4 (MIT) is included as `dsound.dll`.
    - If Ultimate ASI Loader is already installed as `dsound.dll` (for example by REuncap), you can skip `dsound.dll`.
    - If a different `dsound.dll` (such as DSOAL) is present, do not overwrite it; copy the included `dsound.dll` as `winmm.dll` instead.
 
@@ -103,7 +103,7 @@ Both map views show the same legend wording and current state. The status-screen
 | `[Keys] CloseOnCancel` | `1` | Close with the game's cancel button |
 | `[Keys] Modifier` | `SHIFT` | Key held to change icons instead of names: `SHIFT` or `CTRL` |
 | `[Keys] CaptureKey` | `F12` | Debug capture key (same names as `OpenKey`), or `NONE` |
-| `[AnnotatedMap] DisplayMode` | `Auto` | `Auto` uses SD mode when REbirth's HD textures are off (`HDLoader=0` or missing, or `RetroMode=1`) and HD mode otherwise; `HD` or `SD` forces one. Chosen once at game start |
+| `[AnnotatedMap] DisplayMode` | `Auto` | `Auto` uses HD mode only with Classic REbirth installed (its `ddraw.dll` in the game folder), `HDLoader=1` and `RetroMode` and `LowResEnable` off in its `config.ini`; every other case is SD. `HD` or `SD` forces one. Chosen once at game start |
 | `[AnnotatedMap] RoomTint` | `1` | Set to `0` to disable tinting rooms with remaining items |
 | `[AnnotatedMap] NameSize` | `100` | Name size (50–150); 100 is the original size |
 | `[AnnotatedMap] NameOpacity` | `70` | Label opacity (10–100) |
@@ -135,14 +135,14 @@ The full-screen map uses HD-style icons for items, keys, documents, puzzles, typ
 |---|---|
 | ![SD mode — full-screen map, Mansion 1F](docs/screenshots/sd/sd_full_map_mansion_1f.png) | ![SD mode — zoomed map, Mansion 1F](docs/screenshots/sd/sd_zoom_map_mansion_1f.png) |
 
-With Classic REbirth's HD textures off (`HDLoader=0` or missing, or `RetroMode=1` in the game's `config.ini`) the mod draws at the game's original resolution: 9×9 pixel markers (7×7 on the status-screen map; puzzles amber `!`, events purple `?`, key items cyan circle, herbs, ammo, spray, ribbon, files, maps, typewriters, item boxes; enemies are small red crosses; each locked door shows a padlock coloured and patterned for its key), room names in a pixel font that sit outside their room on a thin leader line, and a compact legend. The mode is chosen once when the game starts; restart the game after changing REbirth's HD setting, or set `DisplayMode` yourself. Name and icon size, opacity and item names do not apply in SD mode; the other keys, zoom and language work as usual. Room names are fixed on the map and scroll with it; on the zoomed map a name goes inside its room when it fits. On Mansion 1F and 2F, which have many rooms, names appear only on the zoomed map.
+Unless HD mode is available (Classic REbirth installed with `HDLoader=1` and `RetroMode` and `LowResEnable` off in the game's `config.ini`), including when Classic REbirth is not installed at all, the mod draws at the game's original resolution: 9×9 pixel markers (7×7 on the status-screen map; puzzles amber `!`, events purple `?`, key items cyan circle, herbs, ammo, spray, ribbon, files, maps, typewriters, item boxes; enemies are small red crosses; each locked door shows a padlock coloured and patterned for its key), room names in a pixel font that sit outside their room on a thin leader line, and a compact legend. The mode is chosen once when the game starts; restart the game after changing REbirth's HD setting, or set `DisplayMode` yourself. Name and icon size, opacity and item names do not apply in SD mode; the other keys, zoom and language work as usual. Room names are fixed on the map and scroll with it; on the zoomed map a name goes inside its room when it fits. On Mansion 1F and 2F, which have many rooms, names appear only on the zoomed map.
 
 ### Known limitations
 
 - Larger names and icons keep their anchor positions and may overlap; reduce the size if needed.
 - Enemy markers show where enemies are placed when a room loads, not where they move. Enemies of the mansion revisit are shown only while you are in the revisited mansion.
 - Event markers include only scenes that the game scripts identify clearly.
-- `DisplayMode=HD` needs REbirth's HD textures: with `HDLoader=0` or `RetroMode=1` the map then shows a short English notice instead. Leave `DisplayMode=Auto` to get SD mode there.
+- `DisplayMode=HD` needs Classic REbirth with HD textures on: otherwise the map shows a short English notice instead. Leave `DisplayMode=Auto` to get SD mode there.
 
 ## Build
 
