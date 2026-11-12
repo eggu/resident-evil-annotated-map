@@ -81,6 +81,35 @@ ICONS = {
     'enemy': 'kk.kk|krkrk|.krk.|krkrk|kk.kk',
 }
 # SD item icons (RE1 item ids): ammo by weapon, the three special rounds as grenades, herbs, spray, ribbon
+# Status-screen markers (user 2026-11-13): 7x7, enemies 3x3, same colours; locks keep a 2-row shackle with the pattern in a 5x3 interior.
+def herb7(f): return '.......|kkkkkkk|k%sk|.k%sk.|..k%sk..|...k...|.......' % (f * 5, f * 3, f)
+def ammo7(f): return '.......|.Y.Y.Y.|kkkkkkk|k%sk|kkkkkkk|.......|.......' % (f * 5)
+def grenade7(f): return '..kkk..|.k%sk.|.k%sk.|.kkkkk.|.kmmmk.|.kkkkk.|.......' % (f * 3, f * 3)
+def lock7(body, sym, fg):
+    pat = {'▽': 'xxxxx|.xxx.|..x..', 'sword3': '...x.|xxxxx|...x.', '∩': 'xxx|x.x|x.x', '|': '.x.|.x.|.x.', '□': 'xxx|x.x|xxx', 'x': 'x.x|.x.|x.x',
+           '||': 'x.x|x.x|x.x', '|||': 'x.x.x|x.x.x|x.x.x', 'check': 'x.x.x|.x.x.|x.x.x'}[sym].split('|')
+    pad = (5 - len(pat[0])) // 2
+    inner = [''.join(fg if c == 'x' else body for c in '.' * pad + r + '.' * (5 - pad - len(r))) for r in pat]
+    return '|'.join(['..kkk..', '.k...k.', 'kkkkkkk'] + ['k' + r + 'k' for r in inner] + ['kkkkkkk'])
+SMALL_LOCKS = {'Armor Key': lock7('Y', '▽', 'Q'), 'Sword Key': lock7('H', 'sword3', 'Q'), 'Helmet Key': lock7('H', '∩', 'Q'), 'Closet Key': lock7('Z', '|', 'w'),
+               'Shield Key': lock7('Y', '□', 'Q'), 'Master Key': lock7('Y', 'x', 'r'), 'Power Room Key': lock7('Q', '|', 'Y'),
+               'Key for Room 002': lock7('M', '||', 'Q'), 'Key for Room 003': lock7('b', '|||', 'w'), 'Control Room Key': lock7('H', 'check', 'Z'),
+               'Lockpick': lock7('H', '|', 'Q')}
+SMALL_ICONS = {
+    'puzzle': '...k...|..kYk..|.kYwYk.|kYYwYYk|.kYYYk.|..kwk..|...k...',
+    'event': '...k...|..kpk..|.kpwpk.|kpppwpk|.kpwpk.|..kpk..|...k...',
+    'key': '..kkk..|.kcccK.|kcccccK|kcccccK|kcccccK|.kcccK.|..kkk..'.replace('K', 'k'),
+    'herb_g': herb7('g'), 'herb_r': herb7('r'), 'herb_b': herb7('b'),
+    'ammo_handgun': ammo7('r'), 'ammo_shotgun': ammo7('o'), 'ammo_magnum': ammo7('H'),
+    'grenade': grenade7('m'), 'grenade_acid': grenade7('Y'), 'grenade_flame': grenade7('r'),
+    'spray': '..kkk..|..kmk..|.kwwwk.|.kwrwk.|.krrrk.|.kwrwk.|.kkkkk.',
+    'ribbon': '..kkk..|.kmmmk.|kmwwwmk|kmwkwmk|kmwwwmk|.kmmmk.|..kkk..',
+    'file': 'kkkkk..|kwwwmk.|kwwwwmk|kwZZZwk|kwwwwwk|kwZZwwk|kkkkkkk',
+    'map': '.......|kkkkkkk|kMrQYQk|kMMQgQk|kMMQMQk|kkkkkkk|.......',
+    'typewriter': '.......|..kkk..|..kwk..|kkkkkkk|kmmmmmk|kZZZZZk|kkkkkkk',
+    'itembox': '.......|kkkkkkk|kQQQQQk|kkkkkkk|kQQYQQk|kQQQQQk|kkkkkkk',
+    'enemy': 'r.r|.r.|r.r',
+}
 COMMON = {11: 'ammo_handgun', 12: 'ammo_shotgun', 14: 'ammo_magnum', 16: 'grenade', 17: 'grenade_acid', 18: 'grenade_flame',
           47: 'ribbon', 65: 'spray', 67: 'herb_r', 68: 'herb_g', 69: 'herb_b'}
 
@@ -147,6 +176,8 @@ def main():
         return icon_id[key]
     for k, p in ICONS.items(): add_icon(('icon', k), icon_image(p))
     for k, p in LOCKS.items(): add_icon(('lock', k), icon_image(p))
+    for k, p in SMALL_ICONS.items(): add_icon(('s-icon', k), icon_image(p))
+    for k, p in SMALL_LOCKS.items(): add_icon(('s-lock', k), icon_image(p))
     nav = [triangle(12, 9, [(6, 0), (11, 8), (0, 8)]), triangle(12, 9, [(0, 0), (11, 0), (6, 8)]),
            triangle(9, 12, [(8, 0), (8, 11), (0, 6)]), triangle(9, 12, [(0, 0), (0, 11), (8, 6)])]
     nav_ids = [add_icon(('nav', i), a) for i, a in enumerate(nav)]
@@ -182,39 +213,42 @@ def main():
     full_cells = cells([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 13], FULL_BAND, 3)   # the zoom hint (11) sits under the page title
     status_cells = cells([0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 12, 13], STATUS_BAND, 3)
     # markers -------------------------------------------------------------------------------------------------------------
-    def icon_of(m):
+    def art_of(m):   # (kind of art, name) of the marker's picture, or None
         k = m['kind']
-        if k == 1 and not m['centre']: return icon_id[('icon', m['sd'])] if m['sd'] in ('typewriter', 'itembox') else None
-        if k == 2: return None if m['side'] in (1, 2) else icon_id[('lock', 'Lockpick' if m['name'] == 'Lockpick' else m['name'])]
-        if k == 3: return icon_id[('icon', 'key')]
-        if k == 4: return icon_id[('icon', 'map' if 78 <= m['item'] <= 83 else 'file')]
-        if k == 5: return icon_id[('icon', 'puzzle')]
-        if k == 6: return icon_id[('icon', COMMON[m['item']])]
-        if k == 7: return icon_id[('icon', 'enemy')]
-        if k == 8: return icon_id[('icon', 'event')]
+        if k == 1 and not m['centre']: return ('icon', m['sd']) if m['sd'] in ('typewriter', 'itembox') else None
+        if k == 2: return None if m['side'] in (1, 2) else ('lock', m['name'])
+        if k == 3: return ('icon', 'key')
+        if k == 4: return ('icon', 'map' if 78 <= m['item'] <= 83 else 'file')
+        if k == 5: return ('icon', 'puzzle')
+        if k == 6: return ('icon', COMMON[m['item']])
+        if k == 7: return ('icon', 'enemy')
+        if k == 8: return ('icon', 'event')
         return None
-    marks = []   # per marker: icon, pos[3], cover[3]
+    marks = []   # per marker: icon, small (status screen) icon, pos[3], cover[3]
     for i, m in enumerate(ms):
-        ic = icon_of(m)
+        art = art_of(m)
+        ic = icon_id[art] if art else None
+        sm = icon_id[('s-' + art[0], art[1])] if art else None
         pos = []
         for v in VIEWS:
             if ic is None: pos.append((0, 0)); continue
             ox, oy = sd['origin'][m['page']] if v == 1 else (0, 0)
-            w, h = icons[ic][1:]
+            w, h = icons[sm if v == 0 else ic][1:]
             pos.append((ox + round(m['x'] * Z[v] - w / 2), oy + round(m['y'] * Z[v] - h / 2)))
-        marks.append(dict(icon=ic, pos=pos, cover=[-1, -1, -1]))
+        marks.append(dict(icon=ic, small=sm, pos=pos, cover=[-1, -1, -1]))
     # tiers (as the HD layout): key items and puzzles are never covered; a document on one moves to its bottom-right corner,
     # a common item or enemy waits until that marker is gone (run time 'cover')
     box = lambda p, ic: (p[0] + 2, p[1] + 2, p[0] + icons[ic][1] - 2, p[1] + icons[ic][2] - 2)
+    ik = lambda i, v: marks[i]['small'] if v == 0 else marks[i]['icon']   # the status screen has its own, smaller pictures
     hit = lambda a, b: a[0] < b[2] and b[0] < a[2] and a[1] < b[3] and b[1] < a[3]
     tops = [i for i, m in enumerate(ms) if m['kind'] in (3, 5) and marks[i]['icon'] is not None]
     for i, m in enumerate(ms):
         if marks[i]['icon'] is None or m['kind'] not in (4, 6, 7): continue
         for v in VIEWS:
-            t = next((t for t in tops if ms[t]['page'] == m['page'] and ms[t]['chars'] & m['chars'] and hit(box(marks[t]['pos'][v], marks[t]['icon']), box(marks[i]['pos'][v], marks[i]['icon']))), None)
+            t = next((t for t in tops if ms[t]['page'] == m['page'] and ms[t]['chars'] & m['chars'] and hit(box(marks[t]['pos'][v], ik(t, v)), box(marks[i]['pos'][v], ik(i, v)))), None)
             if t is None: continue
             if m['kind'] == 4:
-                tp = marks[t]['pos'][v]; marks[i]['pos'][v] = (tp[0] + 6, tp[1] + 6)
+                tp = marks[t]['pos'][v]; d = 4 if v == 0 else 6; marks[i]['pos'][v] = (tp[0] + d, tp[1] + d)
             else: marks[i]['cover'][v] = t
     # rooms -------------------------------------------------------------------------------------------------------------------
     named_on = {}
@@ -259,8 +293,8 @@ def main():
          'static const SdCell sd_full_cells[] = {' + ','.join('{%d,%d,%d}' % c for c in full_cells) + '};',
          'static const SdCell sd_status_cells[] = {' + ','.join('{%d,%d,%d}' % c for c in status_cells) + '};',
          f'#define SD_STATUS_FOLD_Y {STATUS_BAND[0]}', f'#define SD_FULL_BAND {FULL_BAND[0] - 1}   /* the opaque legend panel starts here */',
-         'typedef struct { unsigned short icon; short pos[3][2]; short cover[3]; } SdMark;   /* icon 0xFFFF: none; indexed like ov_markers */',
-         'static const SdMark sd_marks[] = {' + ','.join('{%d,{%s},{%s}}' % (0xFFFF if k['icon'] is None else k['icon'], ','.join('{%d,%d}' % p for p in k['pos']), ','.join(map(str, k['cover']))) for k in marks) + '};',
+         'typedef struct { unsigned short icon, small; short pos[3][2]; short cover[3]; } SdMark;   /* icon 0xFFFF: none; small: status screen; indexed like ov_markers */',
+         'static const SdMark sd_marks[] = {' + ','.join('{%d,%d,{%s},{%s}}' % (0xFFFF if k['icon'] is None else k['icon'], 0xFFFF if k['small'] is None else k['small'], ','.join('{%d,%d}' % p for p in k['pos']), ','.join(map(str, k['cover']))) for k in marks) + '};',
          'typedef struct { unsigned short sprite; short x, y; unsigned char n; short pt[6]; } SdName;',
          'typedef struct { unsigned short marker; SdName v[2][2]; } SdRoom;   /* [view 1 full, 2 zoom][lang] */',
          f'#define SD_ROOM_COUNT {len(room_rows)}',

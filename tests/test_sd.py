@@ -81,6 +81,17 @@ if any(t[1] != 1 or t[2] != 'en' for t in forced) or len(forced) > 3: problems.a
 # atlas ---------------------------------------------------------------------------------------------------------------------
 assert max(max(B.icon_image(p).flat) for p in list(B.ICONS.values()) + list(B.LOCKS.values())) < 16
 assert len(B.PAL) == 16
+for name, art in list(B.SMALL_ICONS.items()) + list(B.SMALL_LOCKS.items()):   # status-screen markers: 7x7, enemies 3x3, same palette
+    r = art.split('|')
+    assert len({len(x) for x in r}) == 1 and (len(r), len(r[0])) == ((3, 3) if name == 'enemy' else (7, 7)), (name, art)
+    assert set(''.join(r)) <= set(B.PAL), name
+assert set(B.SMALL_ICONS) == set(B.ICONS) and set(B.SMALL_LOCKS) == set(B.LOCKS), 'a status marker is missing'
+by_small = {}
+for name, art in B.SMALL_LOCKS.items(): by_small.setdefault(art, []).append(name)
+assert all(len(v) == 1 for v in by_small.values()), ('two keys share one small padlock', [v for v in by_small.values() if len(v) > 1])
+for page in range(11):
+    keys = {m['name'] for m in ms if m['kind'] == 2 and m['page'] == page and m['side'] in (0, 3)}
+    assert len({B.SMALL_LOCKS[k] for k in keys}) == len(keys), ('small padlocks of page', page, keys)
 for a in [B.player_arrow(k) for k in range(16)] + [B.triangle(12, 9, [(6, 0), (11, 8), (0, 8)])]:
     assert a.max() < 16
 for name, art in B.LOCKS.items():

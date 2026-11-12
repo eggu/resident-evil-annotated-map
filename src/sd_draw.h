@@ -56,10 +56,11 @@ static void sd_icons_pass(unsigned page, int view, int dx, int dy, int enemies) 
         const OvMarker *m = &ov_markers[i];
         if (k->icon == 0xFFFF || (m->kind == 7) != enemies || !marker_visible(m, page)) continue;
         if (k->cover[view] >= 0 && marker_visible(&ov_markers[k->cover[view]], page)) continue;   /* waits under a key item / puzzle */
-        const SdIcon *ic = &sd_icons[k->icon];
+        unsigned id = view == 0 ? k->small : k->icon;   /* the status screen has smaller pictures (7x7, enemies 3x3) */
+        const SdIcon *ic = &sd_icons[id];
         int x = k->pos[view][0] + dx, y = k->pos[view][1] + dy;
         if (view == 2 && (x < 0 || y < ZVIEW_TOP || x + ic->w > 320 || y + ic->h > zview_bottom())) continue;   /* a marker the window edge would slice is left out */
-        sd_icon(SD_LAYER_MAP, k->icon, x, y);
+        sd_icon(SD_LAYER_MAP, id, x, y);
     }
 }
 /* room names and leaders (views 1, 2), fixed on the map at build time (tools/sd_layout.py): they scroll with the room, nothing is

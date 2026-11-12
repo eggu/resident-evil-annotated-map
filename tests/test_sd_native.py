@@ -12,8 +12,8 @@ import build_sd as B
 hdr = (ROOT / 'src/sd_assets.h').read_text()
 icon_px = [int(v) for v in re.search(r'sd_icon_px\[\d+\] = \{([\d,]+)\}', hdr)[1].split(',')]
 icons = [tuple(map(int, m)) for m in re.findall(r'\{(\d+),(\d+),(\d+)\}', re.search(r'sd_icons\[\] = \{(.*?)\};', hdr, re.S)[1])]
-marks = re.findall(r'\{(\d+),\{\{(-?\d+),(-?\d+)\},\{(-?\d+),(-?\d+)\},\{(-?\d+),(-?\d+)\}\},\{(-?\d+),(-?\d+),(-?\d+)\}\}', re.search(r'sd_marks\[\] = \{(.*?)\};\ntypedef', hdr, re.S)[1])
-marks = [dict(icon=int(m[0]), pos=[(int(m[1]), int(m[2])), (int(m[3]), int(m[4])), (int(m[5]), int(m[6]))], cover=list(map(int, m[7:]))) for m in marks]
+marks = re.findall(r'\{(\d+),(\d+),\{\{(-?\d+),(-?\d+)\},\{(-?\d+),(-?\d+)\},\{(-?\d+),(-?\d+)\}\},\{(-?\d+),(-?\d+),(-?\d+)\}\}', re.search(r'sd_marks\[\] = \{(.*?)\};\ntypedef', hdr, re.S)[1])
+marks = [dict(icon=int(m[0]), small=int(m[1]), pos=[(int(m[2]), int(m[3])), (int(m[4]), int(m[5])), (int(m[6]), int(m[7]))], cover=list(map(int, m[8:]))) for m in marks]
 sd = json.loads((ROOT / 'build/sd-markers.json').read_text())
 ms = sd['markers']
 assert len(marks) == len(ms)
@@ -21,9 +21,9 @@ PAL = list(B.PAL.values())
 rgb = lambda c: ((c[0] >> 3) << 3 | (c[0] >> 3) >> 2, (c[1] >> 3) << 3 | (c[1] >> 3) >> 2, (c[2] >> 3) << 3 | (c[2] >> 3) >> 2)
 
 
-def icon_at(img, mark, view, dx=0, dy=0):
+def icon_at(img, mark, view, dx=0, dy=0, small=False):
     """True when the marker's SD icon is on the image at its position (cream is the Rooms colour: not compared)."""
-    off, w, h = icons[mark['icon']]
+    off, w, h = icons[mark['small' if small else 'icon']]
     x0, y0 = mark['pos'][view][0] + dx, mark['pos'][view][1] + dy
     for j in range(h):
         for i in range(w):
@@ -151,4 +151,17 @@ assert any(s['flags'] == 0x50000000 for s in sp), 'arrows are drawn semi-transpa
 img, _ = emu.render(0, 2, mapstate={12: 3, 13: 2})
 assert green(img, 154, 2, 12, 9) < 5, 'no floor arrows on the zoom view (as HD)'
 print('floor / area arrows ok')
+# 11) status screen: its own smaller markers (7x7, enemies 3x3), at the map window's left/top (tests/test_native.py scene(): 48, 28)
+img, sp = emu.render(0, 0)
+seen = dict(ok=0, bad=[], skipped=0)
+sbox = lambda i: (marks[i]['pos'][0][0] + 48, marks[i]['pos'][0][1] + 28, marks[i]['pos'][0][0] + 48 + icons[marks[i]['small']][1], marks[i]['pos'][0][1] + 28 + icons[marks[i]['small']][2])
+for i in page:
+    m, k = ms[i], marks[i]
+    assert icons[k['small']][1:] == ((3, 3) if m['kind'] == 7 else (7, 7)), ('status marker size', i, icons[k['small']])
+    if m['kind'] == 7 or k['cover'][0] >= 0: seen['skipped'] += 1; continue
+    if icon_at(img, k, 0, 48, 28, small=True): seen['ok'] += 1
+    elif any(j != i and overlap(sbox(i), sbox(j)) for j in page): seen['skipped'] += 1
+    else: seen['bad'].append((i, m['kind'], m['name']))
+print('status screen: 7x7 icons exact', seen['ok'], 'overlapped/enemy/covered', seen['skipped'], 'not drawn', seen['bad'])
+assert seen['ok'] > 25 and len(seen['bad']) <= 5, seen
 print('SD native ok')
