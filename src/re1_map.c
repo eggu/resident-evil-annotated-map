@@ -55,6 +55,7 @@ __declspec(dllexport) volatile int ov_fullscreen;
 __declspec(dllexport) int ov_zoom, ov_pan_x = 96, ov_pan_y = 112;
 static int map_paint;
 __declspec(dllexport) int ov_hd_on = 1;   /* INI HdIcons: HD-style icons on the full map (the status screen always keeps the pixel icons); exported for tests */
+static int sd_mode, display_mode;   /* SD mode (src/sd_draw.h): 1x pixel markers and names; INI DisplayMode 0 Auto, 1 HD, 2 SD */
 static int hd_off;   /* config.ini [DLL] HDLoader=0 or RetroMode=1: the x8 overlay textures cannot be sampled, only the notice is drawn */
 static int notice_draw, notice_failed;
 __declspec(dllexport) int ov_upload_budget = 12;   /* texture uploads per frame (INI UploadBudget); exported for tests */
@@ -83,6 +84,7 @@ static void save_settings(void) {
     ok &= WritePrivateProfileStringA("AnnotatedMap", "ItemNames", v, tmp);
     ok &= WritePrivateProfileStringA("AnnotatedMap", "Legend", legend_on ? "1" : "0", tmp);
     ok &= WritePrivateProfileStringA("AnnotatedMap", "KeySide", ov_key_side ? "1" : "0", tmp);
+    ok &= WritePrivateProfileStringA("AnnotatedMap", "DisplayMode", display_mode == 1 ? "HD" : display_mode == 2 ? "SD" : "Auto", tmp);
     ok &= WritePrivateProfileStringA("AnnotatedMap", "Zoom", NULL, tmp);   /* zoom is never persisted: the map always opens at 1x; drop a key written by candidates 7-9 */
     wsprintfA(v, "%d", SETTINGS_VERSION); ok &= WritePrivateProfileStringA("AnnotatedMap", "Version", v, tmp);
     if (!ok || !MoveFileExA(tmp, ini_path, MOVEFILE_REPLACE_EXISTING)) {
@@ -98,8 +100,7 @@ static void detect_hd_off(void) {   /* config.ini beside Biohazard.exe: [DLL] HD
     while (n && n < MAX_PATH && cfg[n - 1] != '\\') n--;
     if (!n || n + 11 >= MAX_PATH) return;
     memcpy(cfg + n, "config.ini", 11);
-    hd_off = GetPrivateProfileIntA("DLL", "HDLoader", 1, cfg) == 0 || GetPrivateProfileIntA("DLL", "RetroMode", 0, cfg) != 0;
-    if (hd_off) log_text("WARNING: HD textures are off (config.ini [DLL] HDLoader=0 or RetroMode=1): the map text is unreadable. Enable HDLoader / disable RetroMode in the REbirth settings.");
+    hd_off = GetPrivateProfileIntA("DLL", "HDLoader", 0, cfg) == 0 || GetPrivateProfileIntA("DLL", "RetroMode", 0, cfg) != 0;   /* a missing HDLoader counts as off */
 }
 /* [Colors]: one #RRGGBB per category. The legend CLUT (names and legend rows use it) is copied from the generated palette and the
  * category indices are overwritten before any upload; unset or invalid keys keep the generated colour. 5 bits per channel, rounded
@@ -165,6 +166,12 @@ static void load_settings(void) {
     if (ov_upload_budget < 1) ov_upload_budget = 12;
     legend_on = GetPrivateProfileIntA("AnnotatedMap", "Legend", 1, ini_path) != 0;
     ov_key_side = GetPrivateProfileIntA("AnnotatedMap", "KeySide", 0, ini_path) != 0;   /* 0 door centre, 1 unvisited side */
+    char dm[8]; GetPrivateProfileStringA("AnnotatedMap", "DisplayMode", "Auto", dm, sizeof dm, ini_path);
+    display_mode = !lstrcmpiA(dm, "HD") ? 1 : !lstrcmpiA(dm, "SD") ? 2 : 0;
+    sd_mode = display_mode == 2 || (display_mode == 0 && hd_off);
+    if (sd_mode) { ov_key_side = 0; log_text("SD mode: 1x markers and names (HD textures off or DisplayMode=SD); size, opacity and item-name settings do not apply"); }
+    else if (hd_off) log_text("WARNING: DisplayMode=HD but HD textures are off (config.ini [DLL] HDLoader=0 or RetroMode=1): only a notice is drawn. Use DisplayMode=Auto or SD.");
+    else log_text("HD mode");
     /* Version: written on the next save. 1 -> 2 changes no scale (new keys take their defaults), so nothing is converted;
      * a later scale change converts here once, keyed on the old version. */
     int version = (int)GetPrivateProfileIntA("AnnotatedMap", "Version", 1, ini_path);
@@ -329,7 +336,10 @@ static void(__cdecl *const texture_free)(void *) = (void(__cdecl *)(void *))0x43
 
 /* ---------- tiles: 4bpp 256x256 TIMs, one native texture slot state each */
 typedef struct { int used; unsigned char state[SLOT_SIZE]; } Tile;
-static Tile notice_tile;
+static Tile notice_tile, sd_arrows;
+static void sd_frame(unsigned page, int left, int top);
+static void sd_service(void);
+static void sd_draw_layers(void);
 /* layer 0: titles, nav arrows (opaque); 1: names + leader lines (NameOpacity; legend CLUT, so a name has its legend row's
  * colour); 2: floor/area arrows (blinking); 3: opaque legend (legend CLUT); 4: marker icons (IconOpacity, IconSize).
  * Enemy icons are not composed into tiles: each kind has its own texture + CLUT (one shared CLUT turned every enemy brown)
@@ -661,6 +671,14 @@ __declspec(dllexport) int ov_name_offset(int axis, int ix, int iy, int bw, int b
                 : beyond(ix, ix + bw, lx, lx + lw) * (growth(bw, icon_size) + growth(lw, name_size));
 }
 static unsigned tile_failed;
+static void nav_can(int can[4]) {   /* floor / area arrows the current page has */
+    unsigned area = MAP_STATE[4], up_down = MAP_STATE[12], areas = MAP_STATE[13];
+    /* raw 0x80 (LEFT, RE1-Mod-SDK KEY_LEFT 8) -> area+1 / table 0x43bd08; raw 0x20 (RIGHT) -> area-1 / table 0x43bd18 */
+    static const signed char left_special[4] = {3, 2, -1, 1}, right_special[4] = {-1, 3, 1, 0};
+    can[0] = (up_down & 1) != 0; can[1] = (up_down & 2) != 0;
+    if (areas & 8) { can[2] = area < 4 && left_special[area] >= 0; can[3] = area < 4 && right_special[area] >= 0; }
+    else { can[2] = area != 2 && (areas & (1u << (area + 1))); can[3] = area > 0 && (areas & (1u << (area - 1))); }
+}
 static void compose(unsigned page, int ox, int oy) {
     /* clear only tiles the previous compose drew into (31 MB of tiles at OV_SCALE 16) */
     for (int k = 0; k < LAYERS; k++) for (unsigned t = 0; t < TILES_X * TILES_Y; t++)
@@ -674,11 +692,12 @@ static void compose(unsigned page, int ox, int oy) {
         memset(terrain_px, 0, sizeof terrain_px); memset(outline_px, 0, sizeof outline_px);
         compose_terrain(page);
         if (!background.used) upload_tile(&background, ov_background_pixels, ov_background_palette, BG_TEX);
-        if (!arrows.used) upload_tile(&arrows, ov_arrow_pixels, ov_palette, TILE_TEX);
+        if (!sd_mode && !arrows.used) upload_tile(&arrows, ov_arrow_pixels, ov_palette, TILE_TEX);
         release_tile(&terrain); release_tile(&outline);
         upload_tile(&terrain, terrain_px, ov_terrain_palette, BG_TEX);
         upload_tile(&outline, outline_px, ov_terrain_palette, BG_TEX);
     }
+    if (sd_mode) return;   /* SD names, icons and legend are composed every frame by sd_frame() */
     map_paint = 1;
     /* Lines may cross labels: draw them first so names remain readable. */
     if (toggles[T_ALL] && toggles[T_ROOMS])
@@ -763,13 +782,7 @@ static void compose(unsigned page, int ox, int oy) {
     layer = 0;
     if (ov_fullscreen) {
         blit(ov_page_titles[page][lang], 10 * OV_SCALE, 8 * OV_SCALE);
-        unsigned area = MAP_STATE[4], up_down = MAP_STATE[12], areas = MAP_STATE[13];
-        /* raw 0x80 (LEFT, RE1-Mod-SDK KEY_LEFT 8) -> area+1 / table 0x43bd08; raw 0x20 (RIGHT) -> area-1 / table 0x43bd18 */
-        static const signed char left_special[4] = {3, 2, -1, 1}, right_special[4] = {-1, 3, 1, 0};
-        int can[4];
-        can[0] = (up_down & 1) != 0; can[1] = (up_down & 2) != 0;
-        if (areas & 8) { can[2] = area < 4 && left_special[area] >= 0; can[3] = area < 4 && right_special[area] >= 0; }
-        else { can[2] = area != 2 && (areas & (1u << (area + 1))); can[3] = area > 0 && (areas & (1u << (area - 1))); }
+        int can[4]; nav_can(can);
         layer = 2;
         if (!zoomed() && can[0]) blit(ov_nav[0], (320 * OV_SCALE - ov_bitmaps[ov_nav[0]].w) / 2, 2 * OV_SCALE);
         if (!zoomed() && can[1]) blit(ov_nav[1], (320 * OV_SCALE - ov_bitmaps[ov_nav[1]].w) / 2, 203 * OV_SCALE - ov_bitmaps[ov_nav[1]].h);   /* above the legend */
@@ -806,6 +819,7 @@ static int upload_one(Tile *t, uint32_t *held, uint32_t want, const unsigned cha
 /* Upload the composed tiles that have no texture yet, legend first, at most ov_upload_budget per frame. */
 static void service_uploads(void) {
     upload_log_count += uploads_this_frame; uploads_this_frame = 0;
+    if (sd_mode) { sd_service(); return; }
     static const unsigned char order[LAYERS] = {3, 0, ICON_LAYER, 1, 2};
     for (int o = 0; o < LAYERS; o++) for (unsigned t = 0; t < TILES_X * TILES_Y; t++) {
         int k = order[o];
@@ -857,7 +871,8 @@ static void draw_player(void) {
     if (zoomed()) { sxp = zoom_coord((sxp - ov_full_origin[cached_page][0]) * 2 * OV_SCALE, cached_page, 0) / OV_SCALE; syp = zoom_coord((syp - ov_full_origin[cached_page][1]) * 2 * OV_SCALE, cached_page, 1) / OV_SCALE;
         if (sxp < 4 || sxp > 315 || syp < ZVIEW_TOP + 4 || syp > zview_bottom() - 5) return; }
     semi_layer = 2;
-    draw_part(&arrows, sxp - OV_ARROW_CELL / 2, syp - OV_ARROW_CELL / 2, (best % 4) * OV_ARROW_CELL, (best / 4) * OV_ARROW_CELL, OV_ARROW_CELL, OV_ARROW_CELL);
+    if (sd_mode) draw_part(&sd_arrows, sxp - 4, syp - 4, (best % 4) * 9, (best / 4) * 9, 9, 9);
+    else draw_part(&arrows, sxp - OV_ARROW_CELL / 2, syp - OV_ARROW_CELL / 2, (best % 4) * OV_ARROW_CELL, (best / 4) * OV_ARROW_CELL, OV_ARROW_CELL, OV_ARROW_CELL);
     semi_layer = 0;
 }
 static void draw_part(Tile *tile, int x, int y, int u, int v, int w, int h) {
@@ -879,7 +894,7 @@ static void draw_part(Tile *tile, int x, int y, int u, int v, int w, int h) {
     *(uint16_t *)(sp + 18) = 480;
     sp[20] = sp[21] = sp[22] = 128;
     memcpy(TEX_SLOT, tile->state, SLOT_SIZE);
-    ov_uv_scale = drawing_background || notice_draw ? 1 : OV_SCALE; add_sprt(sp, overlay_z, -2, 1); ov_uv_scale = 0;
+    ov_uv_scale = drawing_background || notice_draw || sd_mode ? 1 : OV_SCALE; add_sprt(sp, overlay_z, -2, 1); ov_uv_scale = 0;
 }
 /* Zoom: names, enemies, icons from the map-space tiles, shifted by the pan and clipped to the map window. A name or icon box the
  * window edge would slice mid-glyph is cut out of the tile draws together with the rest of its marker (icon, name, leader line). */
@@ -953,6 +968,7 @@ static void draw_tiles(void) {
         if (outline.used) draw_part(&outline, ov_full_origin[cached_page][0], ov_full_origin[cached_page][1], 0, 0, 256, 200);
         drawing_background = 0;
     }
+    if (sd_mode) { sd_draw_layers(); if (ov_fullscreen && sd_arrows.used) draw_player(); memcpy(TEX_SLOT, saved, SLOT_SIZE); return; }
     if (zoomed()) draw_zoom_map();
     blink_alpha = (GetTickCount() / 400) & 1 ? 0.85f : 0.35f;   /* arrows pulse bright/dim, never vanish */
     static const unsigned char order[LAYERS + 1] = {0, 1, ENEMY_PASS, ICON_LAYER, 2, 3};
@@ -1131,11 +1147,12 @@ static int poll_keys(void) {
     for (int k = 0; k < T_COUNT; k++) if (pressed & (1u << k)) { toggles[k] = !toggles[k]; retint |= k == T_ALL || k == T_KEYS || k == T_DOCS || k == T_COMMON; }
     if (pressed & (1u << 9)) scope = scope % 3 + 1;   /* visited -> revealed -> all */
     if (pressed & (1u << 16)) english = !english;
-    if (pressed & (1u << 14)) item_names = (item_names + 1) % 3;
+    if ((pressed & (1u << 14)) && !sd_mode) item_names = (item_names + 1) % 3;
     if (pressed & (1u << 15)) legend_on = !legend_on;
     int mod = modifier_held();
     int names = ((pressed >> 11) & 1) - ((pressed >> 10) & 1), icons = ((pressed >> 13) & 1) - ((pressed >> 12) & 1);   /* - +, [ ] */
     /* RE0 mapping: - + name size, [ ] name opacity; with the modifier: icon size, icon opacity */
+    if (sd_mode) names = icons = 0;
     if (names && mod) icon_size = step10(icon_size, names, 50, 200);
     else if (names) name_size = step10(name_size, names, 50, 150);
     if (icons && mod) { icon_opacity = step10(icon_opacity, icons, 10, 100); icon_alpha = (float)icon_opacity / 100.0f; }
@@ -1156,6 +1173,7 @@ static void __cdecl map_draw_hook(void *state) {
     if (s[0x1c / 2] != 0x1000 || s[0x1e / 2] != 0x1000) { ov_fullscreen = 0; return; }
     render_overlay(page, s[2] - s[0x18 / 2] + offset_x, s[3] - s[0x1a / 2] + offset_y);
 }
+#include "sd_draw.h"
 /* HD textures off: the overlay's x8 textures cannot be sampled, so draw only a small 1:1 English notice. */
 static unsigned char notice_px[TILE_TEX * TILE_TEX / 2];
 static void draw_hd_notice(void) {
@@ -1168,6 +1186,7 @@ static void draw_hd_notice(void) {
     memcpy(TEX_SLOT, saved, SLOT_SIZE);
 }
 static int upload_pending(void) {
+    if (sd_mode) return 0;
     for (int k = 0; k < LAYERS; k++) for (unsigned t = 0; t < TILES_X * TILES_Y; t++)
         if (tile_want[k][t] && !tiles[k][t].used && tile_hash[k][t] != tile_want[k][t]) return 1;
     if (zoomed()) for (int k = 0; k < 2; k++) for (unsigned t = 0; t < ZW * ZH; t++)
@@ -1179,7 +1198,7 @@ static int upload_pending(void) {
 }
 static void render_overlay(unsigned page, int left, int top) {
     if (page > 10) return;
-    if (hd_off) { draw_hd_notice(); return; }
+    if (hd_off && !sd_mode) { draw_hd_notice(); return; }
     int changed = poll_keys();
     if (compose_needed || changed || page != cached_page || ov_fullscreen != cached_fullscreen ||
         (!ov_fullscreen && (left != cached_left || top != cached_top))) {
@@ -1191,6 +1210,7 @@ static void render_overlay(unsigned page, int left, int top) {
         upload_log_from = GetTickCount(); upload_log_count = 0;
     }
     if (zoomed()) { ov_pan_y = clamp_range(ov_pan_y, zpan_min_y(), zpan_max_y()); ov_pan_x = clamp_range(ov_pan_x, zpan_min_x(), zpan_max_x()); }   /* the legend can change the viewport height */
+    if (sd_mode) sd_frame(page, left, top);
     service_uploads();
     if (upload_log_from && !upload_pending()) {   /* the composed tiles are all uploaded: how long the frames took to catch up */
         log_fmt("tiles uploaded: %d in %d ms (budget %d/frame)", (int)upload_log_count, (int)(GetTickCount() - upload_log_from), ov_upload_budget, 0);

@@ -42,11 +42,15 @@ if args.extract:
 run(PY + [ROOT / 'tools/gen_wiki.py'])
 run(PY + [ROOT / 'tools/preview.py'])
 run(PY + [ROOT / 'tools/gen_assets.py'] + font_args)
+run(PY + [ROOT / 'tools/build_sd.py'])   # SD atlas from build/sd-markers.json + data/sd-layout.json (tools/sd_layout.py regenerates the layout, slow)
 inc = Path(ziglang.__file__).parent / 'lib/libc/include/any-windows-any'
 run([sys.executable, '-m', 'ziglang', 'cc', '-target', 'x86-windows-gnu', '-shared', '-O2', '-fno-stack-protector',
      '-DWIN32_LEAN_AND_MEAN', '-nostdlib', f'-I{inc}', '-Wall', '-Wextra', '-Wl,--entry,DllMain@12',
      'src/re1_map.c', '-lkernel32', '-luser32', '-o', 'mod_annotated_map/RE1.AnnotatedMap.dll'])
 run([sys.executable, 'tests/test_native.py'])
+run([sys.executable, 'tests/test_sd.py'])
+run([sys.executable, 'tests/test_sd_native.py'])
+run([sys.executable, 'tests/test_hd_off.py'])
 run([sys.executable, 'tests/test_map_settings.py'])
 if args.package or args.candidate:
     # release ZIP: copy-into-game-folder layout; bundled Ultimate ASI Loader (dsound.dll) loads scripts/*.asi

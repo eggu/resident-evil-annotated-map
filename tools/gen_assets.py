@@ -336,7 +336,7 @@ for k, r in d['rooms'].items():
 for s in d['saves']:
     m = s['map']
     markers.append(dict(kind=KIND['save'], page=page_of(m), stage=m['stage'], slot=m['slot'], x=m['px'] * S, y=m['py'] * S,
-                        icon=ICON_ID['typewriter' if s['kind'] == 'typewriter' else 'itembox'], hdstem='badge-typewriter' if s['kind'] == 'typewriter' else 'badge-itembox',
+                        icon=ICON_ID['typewriter' if s['kind'] == 'typewriter' else 'itembox'], hdstem='badge-typewriter' if s['kind'] == 'typewriter' else 'badge-itembox', sd=s['kind'],
                         flagtype=FLAG_NONE, flag=0, chars=3))
 # RE0 map mod name rules: Korean 'A의 B' drops 의 unless the short form reads wrong (game-specific keep-list); 8+ characters
 # wrap at the space nearest the middle; one word never splits. No quantities (user override of the RE0 xN rule, 2026-11-07).
@@ -409,13 +409,13 @@ for i in d['items']:
     else:
         col, ic = WHITE, 'map' if 78 <= i['item'] <= 83 else 'doc'
     markers.append(dict(kind=KIND[cat], page=page_of(m), stage=m['stage'], slot=m['slot'], x=m['px'] * S, y=m['py'] * S,
-                        icon=ICON_ID[ic], text=item_text(i['name_en'], i['name_ko']), color=col,
+                        icon=ICON_ID[ic], text=item_text(i['name_en'], i['name_ko']), color=col, item=i['item'],
                         hdname=i['name_en'], hdstem='badge-map' if cat == 'document' and 78 <= i['item'] <= 83 else 'badge-document' if cat == 'document' else None,
                         flagtype=FLAG_PICKUP, flag=i['flag'], chars=chars, guard=guard))
 for e in d['enemies']:   # icon only, no name (RE0 rule); hidden once Flg 0xC3874C[kill] is set
     m = e['map']
     markers.append(dict(kind=KIND['enemy'], page=page_of(m), stage=m['stage'], slot=m['slot'], x=m['px'] * S, y=m['py'] * S,
-                        icon=ICON_ID['enemy_' + e['kind']], flagtype=FLAG_KILL, flag=e['kill'], era=e['era'],
+                        icon=ICON_ID['enemy_' + e['kind']], sd=e['kind'], flagtype=FLAG_KILL, flag=e['kill'], era=e['era'],
                         chars=sum(1 << c for c in e['chars']), guard=[guard_index(e['guards'].get(str(c))) for c in (0, 1)]))
 for p in d['puzzles']:
     m = p['map']
@@ -1043,6 +1043,14 @@ tint = sorted({(i['map']['stage'], i['map']['slot'], i['flag'], sum(1 << c for c
 out.append(f'#define OV_TINT_COUNT {len(tint)}')
 out.append('static const unsigned char ov_tint[][4]={' + ','.join('{%d,%d,%d,%d}' % t for t in tint) + '};')
 (ROOT / 'src/overlay_data.h').write_text('\n'.join(out) + '\n')
+# SD mode (tools/sd_layout.py, tools/build_sd.py): the marker table in ov_markers order, plus the texts the SD atlas redraws in its own font
+(ROOT / 'build').mkdir(exist_ok=True)
+(ROOT / 'build/sd-markers.json').write_text(json.dumps(dict(
+    markers=[dict(kind=m['kind'], page=m['page'], stage=m['stage'], slot=m['slot'], x=m['x'] / S, y=m['y'] / S, side=m.get('side', 0), chars=m['chars'],
+                  item=m.get('item'), name=m.get('hdname'), text=m.get('text'), centre=bool(m.get('centre')),
+                  sd=m.get('sd'), era=m.get('era'))
+             for m in markers],
+    page_names=page_names, origin=ORIGIN), ensure_ascii=False, indent=0) + '\n')
 print('bitmaps', len(bitmaps), 'pixels', len(blob), 'markers', len(markers), 'tint', len(tint))
 # ---- review previews: build/layout-<status|full>-<page>-<lang>.png (terrain + every marker/name/leader)
 PREVIEW_PAGES = [int(v) for v in os.environ.get('ANNOTATED_PREVIEW', '').split(',') if v]   # e.g. ANNOTATED_PREVIEW=0,1 (slow at S=8)

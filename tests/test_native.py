@@ -50,7 +50,7 @@ u.mem_map(STACK, 0x20000)
 u.mem_map(HEAP, 0x100000)
 
 # ---- imports -> stubs (python side effects + correct stdcall pop)
-state = dict(keys=set(), ini=dict(Rooms=0, Locks=0, KeyItems=1, Documents=0, Puzzles=0, CommonItems=0, UploadBudget=200, HdIcons=0), written={})
+state = dict(keys=set(), ini=dict(Rooms=0, Locks=0, KeyItems=1, Documents=0, Puzzles=0, CommonItems=0, UploadBudget=200, HdIcons=0, HDLoader=1), written={})
 POP = dict(GetModuleFileNameA=12, GetModuleHandleA=4, GetPrivateProfileIntA=16, GetPrivateProfileStringA=24,
            WritePrivateProfileStringA=16, VirtualProtect=16, FlushInstructionCache=12, GetCurrentProcess=0, CreateFileA=28,
            WriteFile=20, CloseHandle=4, DisableThreadLibraryCalls=4, lstrlenA=4, GetForegroundWindow=0,

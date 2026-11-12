@@ -1,5 +1,13 @@
 # Changelog
 
+## Unreleased
+
+English
+- SD mode: with Classic REbirth's HD textures off (`HDLoader=0` or missing, or `RetroMode=1`) the map is drawn at the original resolution with 9x9 pixel markers, padlocks per key, pixel-font room names on leader lines and a compact legend, instead of the old notice. New INI key `DisplayMode` (`Auto`, `HD`, `SD`).
+
+한국어
+- SD 모드: Classic REbirth의 HD 텍스처가 꺼져 있으면(`HDLoader=0`이거나 없음, 또는 `RetroMode=1`) 안내문 대신 원래 해상도로 9x9 픽셀 표식, 열쇠별 자물쇠, 지시선으로 연결한 픽셀 글꼴 방 이름, 간결한 범례를 표시합니다. INI 키 `DisplayMode`(`Auto`, `HD`, `SD`)를 추가했습니다.
+
 ## 1.2.0
 
 English

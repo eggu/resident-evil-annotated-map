@@ -9,7 +9,7 @@ source = (ROOT / 'tests/test_native.py').read_text()
 prefix = source.split('# 1) unvisited', 1)[0]
 
 def load(settings):
-    settings = {'UploadBudget': 200, 'HdIcons': 0, **settings}
+    settings = {'UploadBudget': 200, 'HdIcons': 0, 'HDLoader': 1, **settings}
     if settings['HdIcons'] is None: del settings['HdIcons']   # None: leave the key out of the INI (code default)
     # the deferral budget is tested on its own below; other checks want one-frame uploads
     code = re.sub(r'^state = dict\(keys=set\(\), ini=.*?, written=\{\}\)$',

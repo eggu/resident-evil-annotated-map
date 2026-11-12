@@ -13,7 +13,8 @@ data and documentation.
 - **Evil Resource** (https://www.evilresource.com/resident-evil): reference for room names, room contents and puzzle
   locations. The site's pages are not included.
 - **Fonts** in `fonts/` are under the SIL Open Font License 1.1 (license files alongside):
-  Pretendard (Copyright (c) 2021 Kil Hyung-jin), Nanum Myeongjo (NAVER), Noto Serif (Google).
+  Pretendard (Copyright (c) 2021 Kil Hyung-jin), Nanum Myeongjo (NAVER), Noto Serif (Google), Galmuri9 (Copyright (c) 2019-2023
+  Lee Minseo, SD mode text; `fonts/Galmuri-OFL.txt`).
 - **Enemy icons** in `assets/enemy-icons/` come from the author's own RE1 HD map mod (same series, made with AI
   assistance); see `assets/enemy-icons/README.md`.
 - **Ultimate ASI Loader** v9.7.4 (MIT, Copyright (c) 2023 ThirteenAG): the release ZIP includes its unmodified x86

@@ -11,6 +11,7 @@ A bilingual ASI map mod for the original Resident Evil PC release (GOG Japanese 
 - Required keys appear on locked doors (or, with `KeySide=1`, on the unvisited side). The full-screen map shows your position and facing direction.
 - On the full-screen map, press the game's confirm key to zoom in; items, keys, documents and puzzles use HD-style icons.
 - Supports Chris and Jill item placements, with Korean and English labels.
+- Works with Classic REbirth's HD textures on or off: with HD textures off (`HDLoader=0`, or `RetroMode=1`) the map switches to a readable SD layout (see [SD mode](#sd-mode)).
 
 ## Screenshots
 
@@ -102,6 +103,7 @@ Both map views show the same legend wording and current state. The status-screen
 | `[Keys] CloseOnCancel` | `1` | Close with the game's cancel button |
 | `[Keys] Modifier` | `SHIFT` | Key held to change icons instead of names: `SHIFT` or `CTRL` |
 | `[Keys] CaptureKey` | `F12` | Debug capture key (same names as `OpenKey`), or `NONE` |
+| `[AnnotatedMap] DisplayMode` | `Auto` | `Auto` uses SD mode when REbirth's HD textures are off (`HDLoader=0` or missing, or `RetroMode=1`) and HD mode otherwise; `HD` or `SD` forces one. Chosen once at game start |
 | `[AnnotatedMap] RoomTint` | `1` | Set to `0` to disable tinting rooms with remaining items |
 | `[AnnotatedMap] NameSize` | `100` | Name size (50–150); 100 is the original size |
 | `[AnnotatedMap] NameOpacity` | `70` | Label opacity (10–100) |
@@ -127,12 +129,16 @@ On the full-screen map, the game's own **confirm / examine key** toggles 1x/2x z
 
 The full-screen map uses HD-style icons for items, keys, documents, puzzles, typewriters, item boxes and enemies; the status-screen map keeps the pixel icons.
 
+### SD mode
+
+With Classic REbirth's HD textures off (`HDLoader=0` or missing, or `RetroMode=1` in the game's `config.ini`) the mod draws at the game's original resolution: 9×9 pixel markers (puzzles amber `!`, events purple `?`, key items cyan circle, herbs, ammo, spray, ribbon, files, maps, typewriters, item boxes; enemies are small red crosses; each locked door shows a padlock coloured and patterned for its key), room names in a pixel font that sit outside their room on a thin leader line, and a compact legend. The mode is chosen once when the game starts; restart the game after changing REbirth's HD setting, or set `DisplayMode` yourself. Name and icon size, opacity and item names do not apply in SD mode; the other keys, zoom and language work as usual. On the zoomed map a name cut by the screen edge is moved inside it.
+
 ### Known limitations
 
 - Larger names and icons keep their anchor positions and may overlap; reduce the size if needed.
 - Enemy markers show where enemies are placed when a room loads, not where they move. Enemies of the mansion revisit are shown only while you are in the revisited mansion.
 - Event markers include only scenes that the game scripts identify clearly.
-- The map text needs REbirth's HD textures. With `HDLoader=0` or `RetroMode=1` in REbirth's `config.ini` the map shows a short English notice instead; enable `HDLoader` and disable `RetroMode`.
+- `DisplayMode=HD` needs REbirth's HD textures: with `HDLoader=0` or `RetroMode=1` the map then shows a short English notice instead. Leave `DisplayMode=Auto` to get SD mode there.
 
 ## Build
 
