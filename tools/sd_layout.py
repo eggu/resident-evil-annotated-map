@@ -19,7 +19,10 @@ LINE_H = 11            # 10 px Galmuri9 + 1 px shadow
 LEADER_INSET = 3       # leaders start this far inside their room
 SCREEN_W, SCREEN_H = 320, 240
 LEGEND_TOP = 204       # the legend band starts here on the full-screen map
-VIEWS = {1: dict(z=2, W=SCREEN_W, H=SCREEN_H), 2: dict(z=4, W=512, H=400)}
+# The zoom view pans a quarter-screen (80 x 48 px) past the 512x400 canvas edges (src/re1_map.c zpan_*): names may lie in that margin.
+MARGIN = (80, 48)
+VIEWS = {1: dict(z=2, W=SCREEN_W, H=SCREEN_H), 2: dict(z=4, W=512 + 2 * MARGIN[0], H=400 + 2 * MARGIN[1])}
+CROWDED = 20   # pages with this many named rooms (Mansion 1F / 2F) show room names only on the zoom view (user 2026-11-13)
 # Screen furniture of the full-screen map in SD (x, y, w, h): page title, the four floor/area arrows (they appear only when the
 # page has a neighbour, but names keep clear of them always), and 6 px screen edges. src/sd_draw.h draws them in the same places.
 HUD = [(6, 6, 130, 26), (153, 1, 14, 11), (153, 193, 14, 11), (4, 113, 11, 14), (305, 113, 11, 14),
@@ -84,10 +87,42 @@ def icon_spots(markers, page, view, origin):
     return out
 
 
+def fit_inside(rows, markers, page, org, W, H, z):
+    """Rooms whose name (one line, else two) fits wholly on the room's floor, off the icons and the other inside names: the spot
+    nearest the room's centre. Returns {slot: placed entry} (box, no leader)."""
+    icons = np.zeros((H, W), np.int32)
+    for x, y in icon_spots(markers, page, 2, org):
+        for j in (-1, 0, 1):
+            for i in (-1, 0, 1):
+                if 0 <= x + i < W and 0 <= y + j < H: icons[y + j, x + i] = 1
+    taken = np.zeros((H, W), np.int32)
+    integral = lambda a: np.pad(a.cumsum(0).cumsum(1), ((1, 0), (1, 0)))
+    box_sums = lambda I, w, h: I[h:, w:] - I[:-h, w:] - I[h:, :-w] + I[:-h, :-w]
+    out = {}
+    for r in sorted(rows, key=lambda r: len(r['cells'])):
+        cs = np.array(sorted(r['cells']))
+        x0, y0 = (int(v) for v in cs.min(0)); x1, y1 = (int(v) + 1 for v in cs.max(0))
+        room = np.zeros((y1 - y0, x1 - x0), np.int32); room[cs[:, 1] - y0, cs[:, 0] - x0] = 1
+        Ir, Ii = integral(room), integral(icons[y0:y1, x0:x1])
+        cx, cy = cs.mean(0)
+        for text in [r['name']] + ([split(r['name'])] if ' ' in r['name'] else []):
+            w, h = size_of(text)
+            if w > x1 - x0 or h > y1 - y0: continue
+            ok = (box_sums(Ir, w, h) == w * h) & (box_sums(Ii, w, h) == 0) & (box_sums(integral(taken[y0:y1, x0:x1]), w, h) == 0)
+            if not ok.any(): continue
+            ys, xs = np.nonzero(ok)
+            k = int(np.argmin((xs + x0 + w / 2 - cx) ** 2 + (ys + y0 + h / 2 - cy) ** 2))
+            bx, by = int(xs[k]) + x0, int(ys[k]) + y0
+            taken[max(0, by - GAP):by + h + GAP, max(0, bx - GAP):bx + w + GAP] = 1
+            out[r['key']] = dict(text=text, box=(bx, by, w, h), cells=[], poly=None, inside=True)
+            break
+    return out
+
+
 def page_layout(page, view, lang, data):
     markers, rooms_json, page_file, origin = data['markers'], data['rooms'], data['file'], data['origin']
     z, W, H = VIEWS[view]['z'], VIEWS[view]['W'], VIEWS[view]['H']
-    ox, oy = origin if view == 1 else (0, 0)
+    ox, oy = origin if view == 1 else MARGIN
     px = map_pixels(page_file)
     global RUN, CROSS_LEADERS
     RUN = z + 1   # a wall is z cells thick: crossing it is fine, running along it for z + 1 is not
@@ -101,6 +136,11 @@ def page_layout(page, view, lang, data):
         part = anchor_part(map(tuple, [c for r in rooms_json['rooms'] if r['slot'] == m['slot'] for c in r['mask']]), int(m['x']), int(m['y']))
         rows.append(dict(key=m['slot'], name=m['text'][lang], cells=scaled(part)))
         text_of[m['slot']] = m['text']['en']
+    inside = {}
+    if view == 2:   # zoom (user 2026-11-13): a name that fits inside its room goes there, no leader; the others go outside on a leader
+        inside = fit_inside(rows, markers, page, (ox, oy), W, H, z)
+        rows = [r for r in rows if r['key'] not in inside]
+    fix0 = [(o['box'], []) for o in inside.values()]
     occ = {c: r['key'] for r in rows for c in r['cells']}
     other = {c for s, cs in cells_of.items() if s not in {r['key'] for r in rows} for c in cs}
     hud = {(x + i, y + j) for x, y, w, h in HUD for j in range(h) for i in range(w)} if view == 1 else set()
@@ -108,7 +148,7 @@ def page_layout(page, view, lang, data):
           if 0 <= x + i < W and 0 <= y + j < H} | hud
     blocked = Sat(bc, (H + 2, W + 2))
     def run(rows_, refine):
-        return place(rows_, size_of, occ, grey, blocked, W, H, edge_mids, refine=refine, other=other)
+        return place(rows_, size_of, occ, grey, blocked, W, H, edge_mids, refine=refine, fixed=fix0, other=other)
     placed = run(rows, lang == 'en')
     forced = {k for k, o in placed.items() if o.get('forced')}
     if forced and lang == 'en':   # full names first; abbreviate only what found no place
@@ -132,7 +172,7 @@ def page_layout(page, view, lang, data):
                 for r in stuck: r['name'] = abbr2(text_of[r['key']])
             light = Sat({(x + i, y + j) for x, y in icon_spots([m for m in markers if m['kind'] not in skip], page, view, (ox, oy)) for j in (-1, 0, 1) for i in (-1, 0, 1)
                          if 0 <= x + i < W and 0 <= y + j < H} | hud, (H + 2, W + 2))
-            fixed = [(o['box'], o['cells']) for o in placed.values() if o.get('box')]
+            fixed = fix0 + [(o['box'], o['cells']) for o in placed.values() if o.get('box')]
             keys = {r['key'] for r in stuck}
             rest = other | {c for c, k in occ.items() if k not in keys}
             RUN, CROSS_LEADERS = 99, True
@@ -146,13 +186,15 @@ def page_layout(page, view, lang, data):
         for r in rows: r['name'] = abbr2(text_of[r['key']])
         again = fallback(rows, run(rows, True))
         if sum(bool(o.get('forced')) for o in again.values()) < sum(bool(o.get('forced')) for o in placed.values()): placed = again
-    print(f'page {page} view {view} {lang}: {len(placed)} names, forced {[o["text"] for o in placed.values() if o.get("forced")]}', flush=True)
+    placed.update(inside)
+    print(f'page {page} view {view} {lang}: {len(placed)} names ({len(inside)} inside their room), forced {[o["text"] for o in placed.values() if o.get("forced")]}', flush=True)
     out = {}
     for slot, o in placed.items():
         w, h = size_of(o['text'])
+        mx, my = MARGIN if view == 2 else (0, 0)   # back to map coordinates
         out[str(slot)] = dict(
-            text=o['text'], x=o['box'][0] if o.get('box') else round(o['x'] - w / 2), y=o['box'][1] if o.get('box') else round(o['y'] - h / 2),
-            leader=[[x, y] for x, y in (o.get('poly') or [])], forced=bool(o.get('forced')), loose=o.get('loose', 0))
+            text=o['text'], x=(o['box'][0] if o.get('box') else round(o['x'] - w / 2)) - mx, y=(o['box'][1] if o.get('box') else round(o['y'] - h / 2)) - my,
+            leader=[[x - mx, y - my] for x, y in (o.get('poly') or [])], forced=bool(o.get('forced')), loose=o.get('loose', 0), inside=bool(o.get('inside')))
     return out
 
 
@@ -170,15 +212,20 @@ def main():
     from concurrent.futures import ProcessPoolExecutor
     pages = sorted({m['page'] for m in json.loads((ROOT / 'build/sd-markers.json').read_text())['markers'] if m['centre']})
     views = [int(a[7:]) for a in sys.argv[1:] if a.startswith('--view=')] or [2, 1]
+    markers = json.loads((ROOT / 'build/sd-markers.json').read_text())['markers']
+    crowded = {p for p in pages if sum(1 for m in markers if m['page'] == p and m['centre']) >= CROWDED}
     only = [int(a) for a in sys.argv[1:] if not a.startswith('--')]
     path = ROOT / 'data/sd-layout.json'
     result = json.loads(path.read_text()) if path.exists() and (only or views != [2, 1]) else {}
-    jobs = [(p, v, l) for l in ('en', 'ko') for v in views for p in (only or pages)]
+    jobs = [(p, v, l) for l in ('en', 'ko') for v in views for p in (only or pages) if not (v == 1 and p in crowded)]
     for p in only or pages:
-        for v in views: result.setdefault(str(p), {})[str(v)] = {}
+        for v in views:
+            result.setdefault(str(p), {}).pop(str(v), None)
+            if not (v == 1 and p in crowded): result[str(p)][str(v)] = {}
     with ProcessPoolExecutor() as pool:
         for page, view, lang, out in pool.map(_job, jobs):
             for slot, by in out.items(): result[str(page)].setdefault(str(view), {}).setdefault(slot, {})[lang] = by
+    for p in crowded: result.get(str(p), {}).pop('1', None)   # no full-screen names on crowded pages
     path.write_text(json.dumps(result, ensure_ascii=False, indent=0, sort_keys=True) + '\n')
 
 

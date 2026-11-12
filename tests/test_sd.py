@@ -34,6 +34,11 @@ for page in sorted({m['page'] for m in named}):
     px = L.map_pixels(pg['file'])
     for view, spec in L.VIEWS.items():
         z, W, H = spec['z'], spec['W'], spec['H']
+        mx, my = L.MARGIN if view == 2 else (0, 0)   # zoom names are stored in map coordinates and may lie in the pan margin
+        crowded = sum(1 for m in named if m['page'] == page) >= L.CROWDED
+        if view == 1 and crowded:
+            assert not layout[str(page)].get('1'), ('crowded page has full-screen names', page)
+            continue
         ox, oy = sd['origin'][page] if view == 1 else (0, 0)
         scale = lambda cs: {(ox + x * z + i, oy + y * z + j) for x, y in cs for i in range(z) for j in range(z)}
         pix = scale((i % 128, i // 128) for i, v in enumerate(px) if v == 7 or v >= 13)
@@ -44,23 +49,26 @@ for page in sorted({m['page'] for m in named}):
         for lang in ('en', 'ko'):
             placed = []
             for m in (m for m in named if m['page'] == page):
-                o = layout[str(page)][str(view)].get(str(m['slot']), {}).get(lang)
+                o = layout[str(page)][str(view)].get(str(m['slot']), {}).get(lang)   # (the check below also covers inside names)
                 tag = (page, view, lang, m['text']['en'])
                 if o is None:
                     problems.append(('no layout', tag)); continue
                 b = box(o)
                 if o['forced']: forced.append(tag)
-                if b[0] < 0 or b[1] < 0 or b[2] > W or b[3] > (L.LEGEND_TOP if view == 1 else H): problems.append(('name off screen', tag, b))
+                if b[0] < -mx or b[1] < -my or b[2] > W - mx or b[3] > (L.LEGEND_TOP if view == 1 else H - my): problems.append(('name off screen', tag, b))
+                if o.get('inside'):
+                    if o['leader'] or not all((x, y) in cells[m['slot']] for x in range(b[0], b[2]) for y in range(b[1], b[3])): problems.append(('inside name not on its room', tag))
+                    if view != 2: problems.append(('inside name on the 1x view', tag))
                 if any(hit(b, h) for h in hud): problems.append(('name on the HUD', tag, b))
                 if o.get('loose'): loose.append(tag + (o['loose'],))
-                elif any(b[0] <= x < b[2] and b[1] <= y < b[3] for x, y in pix): problems.append(('name over the map', tag))
+                elif not o.get('inside') and any(b[0] <= x < b[2] and b[1] <= y < b[3] for x, y in pix): problems.append(('name over the map', tag))
                 covers = {k for x, y, k in icons if hit(b, (x, y, x + 9, y + 9))}
                 allowed = {0: set(), 1: set(), 2: {4, 6}, 3: {2, 4, 6}}[o.get('loose', 0)]
                 if covers - allowed: problems.append(('name over an icon', tag, covers))
                 for other_tag, other in placed:
                     if hit(b, other, 1): problems.append(('names closer than 2 px', tag, other_tag))
                 placed.append((tag, b))
-                if o['leader']:
+                if o['leader'] and not o.get('inside'):
                     sx, sy = o['leader'][0]; ex, ey = o['leader'][-1]
                     if (sx, sy) not in cells[m['slot']]: problems.append(('leader starts outside its room', tag, (sx, sy)))
                     gap = max(b[0] - ex, ex - (b[2] - 1), b[1] - ey, ey - (b[3] - 1))
@@ -98,6 +106,6 @@ assert hdr.count('{') > 100
 if problems:
     for p in problems[:40]: print(p)
     sys.exit(f'{len(problems)} SD layout problems')
-print(f'SD layout ok: {len(named)} rooms x 2 views x 2 languages, no name on a key item, puzzle, event or save icon, the HUD or another name; {len(loose)} names (crowded Mansion 1F/2F, full-screen view) lie over the floor of another room (one over a padlock) instead of empty space; atlas ok')
+print(f'SD layout ok: {len(named)} rooms x 2 views x 2 languages, no name on a key item, puzzle, event or save icon, the HUD or another name; {len(loose)} fallback names; atlas ok')
 print('  loose:', loose)
 print('  centred on their room (no free place):', forced)

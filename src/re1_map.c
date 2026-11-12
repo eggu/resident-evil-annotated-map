@@ -968,6 +968,7 @@ static void draw_tiles(void) {
         if (outline.used) draw_part(&outline, ov_full_origin[cached_page][0], ov_full_origin[cached_page][1], 0, 0, 256, 200);
         drawing_background = 0;
     }
+    blink_alpha = (GetTickCount() / 400) & 1 ? 0.85f : 0.35f;   /* the floor / area arrows pulse (as in HD); unset, they were fully transparent in SD */
     if (sd_mode) { sd_draw_layers(); if (ov_fullscreen && sd_arrows.used) draw_player(); memcpy(TEX_SLOT, saved, SLOT_SIZE); return; }
     if (zoomed()) draw_zoom_map();
     blink_alpha = (GetTickCount() / 400) & 1 ? 0.85f : 0.35f;   /* arrows pulse bright/dim, never vanish */

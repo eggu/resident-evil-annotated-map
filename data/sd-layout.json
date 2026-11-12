@@ -1,1111 +1,28 @@
 {
 "0": {
-"1": {
-"0": {
-"en": {
-"forced": false,
-"leader": [
-[
-56,
-83
-],
-[
-56,
-65
-]
-],
-"loose": 0,
-"text": "Mansion Save Rm",
-"x": 15,
-"y": 54
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-56,
-83
-],
-[
-56,
-65
-]
-],
-"loose": 0,
-"text": "저택 세이브 룸",
-"x": 22,
-"y": 54
-}
-},
-"1": {
-"en": {
-"forced": false,
-"leader": [
-[
-37,
-91
-],
-[
-12,
-91
-],
-[
-12,
-52
-]
-],
-"loose": 0,
-"text": "W. Stairs 1F",
-"x": 6,
-"y": 41
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-48,
-110
-],
-[
-81,
-166
-]
-],
-"loose": 0,
-"text": "서쪽\n계단",
-"x": 62,
-"y": 167
-}
-},
-"10": {
-"en": {
-"forced": false,
-"leader": [
-[
-199,
-90
-],
-[
-193,
-94
-]
-],
-"loose": 0,
-"text": "Back Pass.",
-"x": 139,
-"y": 93
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-199,
-90
-],
-[
-193,
-94
-]
-],
-"loose": 0,
-"text": "뒤쪽 복도",
-"x": 148,
-"y": 93
-}
-},
-"11": {
-"en": {
-"forced": false,
-"leader": [
-[
-220,
-88
-],
-[
-207,
-124
-]
-],
-"loose": 3,
-"text": "E. Stairs 1F",
-"x": 161,
-"y": 125
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-219,
-76
-],
-[
-185,
-65
-]
-],
-"loose": 0,
-"text": "동쪽 계단",
-"x": 140,
-"y": 56
-}
-},
-"12": {
-"en": {
-"forced": false,
-"leader": [
-[
-117,
-93
-],
-[
-122,
-89
-]
-],
-"loose": 0,
-"text": "Greenhouse",
-"x": 123,
-"y": 80
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-103,
-89
-],
-[
-31,
-89
-]
-],
-"loose": 0,
-"text": "온실",
-"x": 10,
-"y": 84
-}
-},
-"13": {
-"en": {
-"forced": false,
-"leader": [
-[
-89,
-86
-],
-[
-89,
-166
-]
-],
-"loose": 0,
-"text": "Tiger Statue Rm",
-"x": 46,
-"y": 167
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-90,
-86
-],
-[
-123,
-86
-]
-],
-"loose": 0,
-"text": "호랑이\n석상실",
-"x": 124,
-"y": 69
-}
-},
-"14": {
-"en": {
-"forced": false,
-"leader": [
-[
-63,
-120
-],
-[
-55,
-140
-]
-],
-"loose": 0,
-"text": "Keeper's\nBedroom",
-"x": 15,
-"y": 141
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-63,
-120
-],
-[
-57,
-136
-]
-],
-"loose": 0,
-"text": "사육사\n침실",
-"x": 28,
-"y": 137
-}
-},
-"15": {
-"en": {
-"forced": false,
-"leader": [
-[
-87,
-111
-],
-[
-31,
-111
-]
-],
-"loose": 0,
-"text": "Bar",
-"x": 13,
-"y": 102
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-116,
-101
-],
-[
-130,
-101
-]
-],
-"loose": 0,
-"text": "바",
-"x": 131,
-"y": 96
-}
-},
-"16": {
-"en": {
-"forced": false,
-"leader": [
-[
-124,
-120
-],
-[
-130,
-120
-]
-],
-"loose": 0,
-"text": "Elev. Stairs",
-"x": 131,
-"y": 112
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-124,
-120
-],
-[
-130,
-120
-]
-],
-"loose": 0,
-"text": "승강기 계단",
-"x": 131,
-"y": 112
-}
-},
-"17": {
-"en": {
-"forced": false,
-"leader": [
-[
-207,
-144
-],
-[
-203,
-185
-]
-],
-"loose": 0,
-"text": "Dressing Rm",
-"x": 173,
-"y": 186
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-207,
-144
-],
-[
-207,
-172
-]
-],
-"loose": 0,
-"text": "탈의실",
-"x": 197,
-"y": 173
-}
-},
-"18": {
-"en": {
-"forced": false,
-"leader": [
-[
-257,
-144
-],
-[
-257,
-172
-]
-],
-"loose": 0,
-"text": "Wardrobe",
-"x": 241,
-"y": 173
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-264,
-137
-],
-[
-282,
-137
-]
-],
-"loose": 0,
-"text": "옷장",
-"x": 283,
-"y": 132
-}
-},
-"19": {
-"en": {
-"forced": false,
-"leader": [
-[
-270,
-87
-],
-[
-270,
-73
-]
-],
-"loose": 0,
-"text": "Bathroom",
-"x": 246,
-"y": 62
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-276,
-90
-],
-[
-288,
-90
-]
-],
-"loose": 0,
-"text": "욕실",
-"x": 289,
-"y": 85
-}
-},
-"2": {
-"en": {
-"forced": false,
-"leader": [
-[
-72,
-83
-],
-[
-99,
-69
-]
-],
-"loose": 0,
-"text": "Vacant Rm",
-"x": 100,
-"y": 60
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-72,
-83
-],
-[
-96,
-69
-]
-],
-"loose": 0,
-"text": "빈 방",
-"x": 97,
-"y": 60
-}
-},
-"20": {
-"en": {
-"forced": false,
-"leader": [
-[
-282,
-90
-],
-[
-310,
-60
-]
-],
-"loose": 0,
-"text": "Outside\nBoiler",
-"x": 277,
-"y": 38
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-263,
-79
-],
-[
-260,
-79
-],
-[
-260,
-49
-]
-],
-"loose": 0,
-"text": "실외\n보일러",
-"x": 245,
-"y": 27
-}
-},
-"21": {
-"en": {
-"forced": false,
-"leader": [
-[
-248,
-95
-],
-[
-240,
-59
-]
-],
-"loose": 0,
-"text": "Trap\nRm",
-"x": 228,
-"y": 37
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-248,
-95
-],
-[
-248,
-73
-]
-],
-"loose": 0,
-"text": "함정\n방",
-"x": 238,
-"y": 51
-}
-},
-"22": {
-"en": {
-"forced": false,
-"leader": [
-[
-264,
-114
-],
-[
-282,
-128
-]
-],
-"loose": 0,
-"text": "Living\nRm",
-"x": 283,
-"y": 127
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-264,
-114
-],
-[
-282,
-114
-]
-],
-"loose": 0,
-"text": "거실",
-"x": 283,
-"y": 109
-}
-},
-"23": {
-"en": {
-"forced": false,
-"leader": [
-[
-201,
-105
-],
-[
-217,
-29
-]
-],
-"loose": 0,
-"text": "Large\nGallery",
-"x": 184,
-"y": 7
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-242,
-114
-],
-[
-275,
-73
-]
-],
-"loose": 0,
-"text": "대미술관",
-"x": 261,
-"y": 62
-}
-},
-"24": {
-"en": {
-"forced": false,
-"leader": [
-[
-227,
-81
-],
-[
-223,
-35
-]
-],
-"loose": 0,
-"text": "Mansion\nStore Rm",
-"x": 222,
-"y": 13
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-227,
-81
-],
-[
-227,
-49
-]
-],
-"loose": 0,
-"text": "저택\n창고",
-"x": 222,
-"y": 27
-}
-},
-"25": {
-"en": {
-"forced": false,
-"leader": [
-[
-209,
-81
-],
-[
-184,
-56
-]
-],
-"loose": 0,
-"text": "Courtyard Study",
-"x": 100,
-"y": 47
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-207,
-84
-],
-[
-185,
-84
-]
-],
-"loose": 0,
-"text": "정원\n서재",
-"x": 164,
-"y": 69
-}
-},
-"26": {
-"en": {
-"forced": false,
-"leader": [
-[
-194,
-41
-],
-[
-185,
-36
-]
-],
-"loose": 0,
-"text": "Roofed Pass.",
-"x": 119,
-"y": 32
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-196,
-42
-],
-[
-185,
-47
-]
-],
-"loose": 0,
-"text": "지붕 통로",
-"x": 140,
-"y": 42
-}
-},
-"27": {
-"en": {
-"forced": false,
-"leader": [
-[
-209,
-46
-],
-[
-209,
-73
-],
-[
-48,
-73
-]
-],
-"loose": 1,
-"text": "Store\nRm",
-"x": 20,
-"y": 67
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-203,
-41
-],
-[
-194,
-32
-]
-],
-"loose": 0,
-"text": "창고",
-"x": 173,
-"y": 23
-}
-},
-"28": {
-"en": {
-"forced": false,
-"leader": [
-[
-249,
-155
-],
-[
-237,
-172
-]
-],
-"loose": 0,
-"text": "Closet",
-"x": 207,
-"y": 173
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-257,
-156
-],
-[
-257,
-172
-]
-],
-"loose": 0,
-"text": "숨겨진 옷장",
-"x": 230,
-"y": 173
-}
-},
-"3": {
-"en": {
-"forced": false,
-"leader": [
-[
-78,
-122
-],
-[
-112,
-135
-]
-],
-"loose": 1,
-"text": "Central\nCorr.",
-"x": 113,
-"y": 125
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-88,
-92
-],
-[
-112,
-179
-]
-],
-"loose": 0,
-"text": "중앙\n복도",
-"x": 95,
-"y": 180
-}
-},
-"31": {
-"en": {
-"forced": false,
-"leader": [
-[
-232,
-136
-],
-[
-241,
-186
-]
-],
-"loose": 1,
-"text": "Isol. Pass.",
-"x": 235,
-"y": 187
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-240,
-136
-],
-[
-282,
-146
-]
-],
-"loose": 0,
-"text": "고립된\n통로",
-"x": 283,
-"y": 145
-}
-},
-"4": {
-"en": {
-"forced": false,
-"leader": [
-[
-51,
-125
-],
-[
-45,
-125
-]
-],
-"loose": 0,
-"text": "Tea\nRm",
-"x": 26,
-"y": 117
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-51,
-125
-],
-[
-45,
-125
-]
-],
-"loose": 0,
-"text": "다실",
-"x": 24,
-"y": 120
-}
-},
-"5": {
-"en": {
-"forced": false,
-"leader": [
-[
-124,
-150
-],
-[
-128,
-154
-]
-],
-"loose": 1,
-"text": "Dining\nRm",
-"x": 129,
-"y": 153
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-95,
-160
-],
-[
-95,
-166
-]
-],
-"loose": 0,
-"text": "식당",
-"x": 85,
-"y": 167
-}
-},
-"6": {
-"en": {
-"forced": false,
-"leader": [
-[
-162,
-178
-],
-[
-153,
-187
-]
-],
-"loose": 0,
-"text": "Main Hall 1F",
-"x": 97,
-"y": 185
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-162,
-178
-],
-[
-153,
-187
-]
-],
-"loose": 0,
-"text": "중앙 홀",
-"x": 118,
-"y": 185
-}
-},
-"7": {
-"en": {
-"forced": false,
-"leader": [
-[
-228,
-151
-],
-[
-291,
-112
-]
-],
-"loose": 0,
-"text": "Art\nRm",
-"x": 292,
-"y": 91
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-199,
-160
-],
-[
-181,
-186
-]
-],
-"loose": 0,
-"text": "미술실",
-"x": 167,
-"y": 187
-}
-},
-"8": {
-"en": {
-"forced": false,
-"leader": [
-[
-255,
-166
-],
-[
-258,
-168
-]
-],
-"loose": 1,
-"text": "'L' Pass.",
-"x": 259,
-"y": 160
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-233,
-166
-],
-[
-220,
-166
-],
-[
-220,
-25
-]
-],
-"loose": 0,
-"text": "L자 복도",
-"x": 200,
-"y": 14
-}
-},
-"9": {
-"en": {
-"forced": false,
-"leader": [
-[
-235,
-98
-],
-[
-235,
-102
-]
-],
-"loose": 1,
-"text": "Winding\nPass.",
-"x": 218,
-"y": 103
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-273,
-107
-],
-[
-268,
-107
-],
-[
-268,
-119
-]
-],
-"loose": 1,
-"text": "굽은 복도",
-"x": 236,
-"y": 120
-}
-}
-},
 "2": {
 "0": {
 "en": {
 "forced": false,
+"inside": false,
+"leader": [
+[
+48,
+103
+],
+[
+36,
+71
+]
+],
+"loose": 0,
+"text": "Mansion\nSave Room",
+"x": -17,
+"y": 49
+},
+"ko": {
+"forced": false,
+"inside": false,
 "leader": [
 [
 48,
@@ -1116,22 +33,7 @@
 71
 ]
 ],
-"text": "Mansion Save Rm",
-"x": 7,
-"y": 60
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-48,
-103
-],
-[
-48,
-71
-]
-],
+"loose": 0,
 "text": "저택 세이브 룸",
 "x": 14,
 "y": 60
@@ -1140,98 +42,56 @@
 "1": {
 "en": {
 "forced": false,
-"leader": [
-[
-7,
-122
-],
-[
-4,
-122
-],
-[
-4,
-58
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "West\nStairway 1F",
-"x": 0,
-"y": 36
+"x": 5,
+"y": 132
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-7,
-122
-],
-[
-4,
-122
-],
-[
-4,
-58
-]
-],
-"text": "서쪽\n계단",
-"x": 0,
-"y": 36
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "서쪽 계단",
+"x": 10,
+"y": 132
 }
 },
 "10": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
-334,
-99
+331,
+120
 ],
 [
-334,
-91
+323,
+126
 ]
 ],
-"text": "Back\nPass.",
-"x": 329,
-"y": 69
+"loose": 0,
+"text": "Back Passage",
+"x": 255,
+"y": 125
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-334,
-99
-],
-[
-334,
-91
-]
-],
-"text": "뒤쪽\n복도",
-"x": 329,
-"y": 69
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "뒤쪽 복도",
+"x": 343,
+"y": 128
 }
 },
 "11": {
 "en": {
 "forced": false,
-"leader": [
-[
-400,
-78
-],
-[
-433,
-49
-]
-],
-"text": "East\nStairway 1F",
-"x": 434,
-"y": 28
-},
-"ko": {
-"forced": false,
+"inside": false,
 "leader": [
 [
 386,
@@ -1242,14 +102,34 @@
 59
 ]
 ],
+"loose": 0,
+"text": "East Stairway 1F",
+"x": 331,
+"y": 48
+},
+"ko": {
+"forced": false,
+"inside": false,
+"leader": [
+[
+386,
+67
+],
+[
+386,
+59
+]
+],
+"loose": 0,
 "text": "동쪽 계단",
-"x": 365,
+"x": 364,
 "y": 48
 }
 },
 "12": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 172,
@@ -1260,56 +140,58 @@
 126
 ]
 ],
+"loose": 0,
 "text": "Greenhouse",
 "x": 181,
 "y": 121
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-172,
-126
-],
-[
-180,
-126
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "온실",
-"x": 181,
-"y": 121
+"x": 144,
+"y": 120
 }
 },
 "13": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
-114,
-107
+120,
+112
 ],
 [
-131,
-83
+180,
+112
 ]
 ],
-"text": "Tiger\nStatue Rm",
-"x": 130,
-"y": 61
+"loose": 0,
+"text": "Tiger Statue Room",
+"x": 181,
+"y": 107
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
-114,
-107
+120,
+112
 ],
 [
-130,
+139,
+112
+],
+[
+139,
 83
 ]
 ],
+"loose": 0,
 "text": "호랑이\n석상실",
 "x": 129,
 "y": 61
@@ -1318,74 +200,65 @@
 "14": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
-70,
-184
+59,
+180
 ],
 [
-54,
-212
+27,
+180
 ]
 ],
-"text": "Keeper's\nBedroom",
-"x": 11,
-"y": 213
+"loose": 0,
+"text": "Keeper's Bedroom",
+"x": -63,
+"y": 175
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
-70,
-184
+59,
+180
 ],
 [
-53,
-212
+27,
+180
 ]
 ],
-"text": "사육사\n침실",
-"x": 24,
-"y": 213
+"loose": 0,
+"text": "사육사 침실",
+"x": -28,
+"y": 175
 }
 },
 "15": {
 "en": {
 "forced": false,
-"leader": [
-[
-172,
-142
-],
-[
-180,
-142
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Bar",
-"x": 181,
-"y": 136
+"x": 124,
+"y": 146
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-172,
-142
-],
-[
-180,
-142
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "바",
-"x": 181,
-"y": 136
+"x": 132,
+"y": 148
 }
 },
 "16": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 188,
@@ -1396,12 +269,14 @@
 180
 ]
 ],
-"text": "Elev. Stairway",
+"loose": 0,
+"text": "Elevator\nStairway",
 "x": 197,
-"y": 175
+"y": 165
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 188,
@@ -1412,6 +287,7 @@
 180
 ]
 ],
+"loose": 0,
 "text": "승강기 계단",
 "x": 197,
 "y": 175
@@ -1420,6 +296,7 @@
 "17": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 331,
@@ -1430,114 +307,110 @@
 187
 ]
 ],
-"text": "Dressing\nRm",
+"loose": 0,
+"text": "Dressing\nRoom",
 "x": 281,
 "y": 165
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-331,
-214
-],
-[
-308,
-187
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "탈의실",
-"x": 292,
-"y": 176
+"x": 341,
+"y": 198
 }
 },
 "18": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
-450,
-232
+468,
+214
 ],
 [
-420,
-308
+500,
+214
 ]
 ],
+"loose": 0,
 "text": "Wardrobe",
-"x": 397,
-"y": 309
+"x": 501,
+"y": 209
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-450,
-232
-],
-[
-450,
-284
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "옷장",
-"x": 440,
-"y": 285
+"x": 439,
+"y": 203
 }
 },
 "19": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
-476,
-111
+492,
+120
 ],
 [
-476,
-87
+512,
+120
 ]
 ],
+"loose": 0,
 "text": "Bathroom",
-"x": 452,
-"y": 76
+"x": 513,
+"y": 115
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
-476,
-111
+492,
+120
 ],
 [
-476,
-87
+512,
+120
 ]
 ],
+"loose": 0,
 "text": "욕실",
-"x": 466,
-"y": 76
+"x": 513,
+"y": 115
 }
 },
 "2": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 72,
-98
+99
 ],
 [
-93,
+72,
 71
 ]
 ],
-"text": "Vacant\nRm",
-"x": 92,
-"y": 49
+"loose": 0,
+"text": "Vacant Room",
+"x": 39,
+"y": 60
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 72,
@@ -1548,6 +421,7 @@
 71
 ]
 ],
+"loose": 0,
 "text": "빈\n방",
 "x": 85,
 "y": 49
@@ -1556,44 +430,45 @@
 "20": {
 "en": {
 "forced": false,
-"leader": [
-[
-504,
-120
-],
-[
-507,
-120
-],
-[
-507,
-74
-]
-],
-"text": "Outside\nBoiler",
-"x": 475,
-"y": 52
-},
-"ko": {
-"forced": false,
+"inside": false,
 "leader": [
 [
 482,
 95
 ],
 [
-502,
-74
+482,
+87
 ]
 ],
-"text": "실외\n보일러",
-"x": 481,
-"y": 52
+"loose": 0,
+"text": "Outside\nBoiler",
+"x": 468,
+"y": 65
+},
+"ko": {
+"forced": false,
+"inside": false,
+"leader": [
+[
+482,
+95
+],
+[
+482,
+87
+]
+],
+"loose": 0,
+"text": "실외 보일러",
+"x": 455,
+"y": 76
 }
 },
 "21": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 432,
@@ -1604,12 +479,14 @@
 103
 ]
 ],
-"text": "Trap\nRm",
-"x": 420,
+"loose": 0,
+"text": "Trap\nRoom",
+"x": 419,
 "y": 81
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 432,
@@ -1620,6 +497,7 @@
 103
 ]
 ],
+"loose": 0,
 "text": "함정 방",
 "x": 415,
 "y": 92
@@ -1628,94 +506,65 @@
 "22": {
 "en": {
 "forced": false,
-"leader": [
-[
-436,
-147
-],
-[
-436,
-142
-],
-[
-323,
-142
-]
-],
-"text": "Living Rm",
-"x": 277,
-"y": 137
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "Living\nRoom",
+"x": 437,
+"y": 156
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-456,
-151
-],
-[
-456,
-87
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "거실",
-"x": 443,
-"y": 76
+"x": 441,
+"y": 162
 }
 },
 "23": {
 "en": {
 "forced": false,
-"leader": [
-[
-331,
-168
-],
-[
-323,
-161
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Large Gallery",
-"x": 255,
-"y": 152
+"x": 343,
+"y": 162
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-331,
-168
-],
-[
-323,
-168
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "대미술관",
-"x": 282,
-"y": 163
+"x": 357,
+"y": 162
 }
 },
 "24": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
-398,
-95
+396,
+94
 ],
 [
-398,
-57
+412,
+78
 ]
 ],
-"text": "Mansion\nStore Rm",
-"x": 377,
-"y": 35
+"loose": 0,
+"text": "Mansion\nStoreroom",
+"x": 413,
+"y": 57
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 402,
@@ -1726,6 +575,7 @@
 89
 ]
 ],
+"loose": 0,
 "text": "저택\n창고",
 "x": 413,
 "y": 68
@@ -1734,22 +584,25 @@
 "25": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
-347,
-108
+348,
+116
 ],
 [
-307,
-108
+323,
+140
 ]
 ],
+"loose": 0,
 "text": "Courtyard Study",
-"x": 223,
-"y": 103
+"x": 239,
+"y": 138
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 354,
@@ -1757,17 +610,19 @@
 ],
 [
 354,
-67
+91
 ]
 ],
+"loose": 0,
 "text": "정원\n서재",
 "x": 342,
-"y": 45
+"y": 69
 }
 },
 "26": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 315,
@@ -1778,12 +633,14 @@
 70
 ]
 ],
-"text": "Roofed Pass.",
-"x": 241,
+"loose": 0,
+"text": "Roofed Passage",
+"x": 227,
 "y": 65
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 315,
@@ -1794,6 +651,7 @@
 70
 ]
 ],
+"loose": 0,
 "text": "지붕 통로",
 "x": 262,
 "y": 65
@@ -1802,124 +660,112 @@
 "27": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
-368,
-22
+354,
+7
 ],
 [
-376,
-22
+354,
+-1
 ]
 ],
-"text": "Store Rm",
-"x": 377,
-"y": 17
+"loose": 0,
+"text": "Store Room",
+"x": 325,
+"y": -12
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-368,
-22
-],
-[
-376,
-22
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "창고",
-"x": 377,
-"y": 17
+"x": 342,
+"y": 16
 }
 },
 "28": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
-450,
-256
+468,
+250
 ],
 [
-463,
-284
+500,
+250
 ]
 ],
-"text": "Wardrobe\nCloset",
-"x": 462,
-"y": 285
+"loose": 0,
+"text": "Wardrobe Closet",
+"x": 501,
+"y": 245
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
-450,
-256
+468,
+250
 ],
 [
-435,
-284
+500,
+250
 ]
 ],
-"text": "숨겨진\n옷장",
-"x": 407,
-"y": 285
+"loose": 0,
+"text": "숨겨진 옷장",
+"x": 501,
+"y": 245
 }
 },
 "3": {
 "en": {
 "forced": false,
-"leader": [
-[
-172,
-102
-],
-[
-180,
-102
-]
-],
-"text": "Central\nCorr.",
-"x": 181,
-"y": 91
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "Central Corridor",
+"x": 88,
+"y": 89
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-172,
-102
-],
-[
-180,
-102
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "중앙 복도",
-"x": 181,
-"y": 97
+"x": 91,
+"y": 89
 }
 },
 "31": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 400,
 216
 ],
 [
-375,
+400,
 284
 ]
 ],
-"text": "Isolated\nPass.",
-"x": 336,
+"loose": 0,
+"text": "Isolated Passage",
+"x": 358,
 "y": 285
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 400,
@@ -1930,1190 +776,178 @@
 284
 ]
 ],
-"text": "고립된\n통로",
-"x": 374,
+"loose": 0,
+"text": "고립된 통로",
+"x": 373,
 "y": 285
 }
 },
 "4": {
 "en": {
 "forced": false,
-"leader": [
-[
-35,
-190
-],
-[
-27,
-190
-]
-],
-"text": "Tea\nRm",
-"x": 8,
-"y": 179
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "Tea Room",
+"x": 63,
+"y": 192
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-35,
-190
-],
-[
-27,
-190
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "다실",
-"x": 6,
-"y": 185
+"x": 77,
+"y": 192
 }
 },
 "5": {
 "en": {
 "forced": false,
-"leader": [
-[
-126,
-264
-],
-[
-126,
-272
-]
-],
-"text": "Dining Rm",
-"x": 103,
-"y": 273
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "Dining Room",
+"x": 86,
+"y": 234
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-126,
-264
-],
-[
-126,
-272
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "식당",
-"x": 116,
-"y": 273
+"x": 115,
+"y": 234
 }
 },
 "6": {
 "en": {
 "forced": false,
-"leader": [
-[
-260,
-300
-],
-[
-260,
-308
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Main Hall 1F",
 "x": 232,
-"y": 309
+"y": 252
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-260,
-300
-],
-[
-260,
-308
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "중앙 홀",
-"x": 243,
-"y": 309
+"x": 242,
+"y": 252
 }
 },
 "7": {
 "en": {
 "forced": false,
-"leader": [
-[
-388,
-278
-],
-[
-391,
-284
-]
-],
-"text": "Art\nRm",
-"x": 383,
-"y": 285
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "Art Room",
+"x": 339,
+"y": 242
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-360,
-276
-],
-[
-360,
-284
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "미술실",
-"x": 341,
-"y": 285
+"x": 347,
+"y": 242
 }
 },
 "8": {
 "en": {
 "forced": false,
-"leader": [
-[
-446,
-276
-],
-[
-446,
-284
-]
-],
-"text": "'L'\nPass.",
-"x": 433,
-"y": 285
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "'L' Passage",
+"x": 440,
+"y": 264
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-479,
-216
-],
-[
-476,
-216
-],
-[
-476,
-284
-]
-],
-"text": "L자\n복도",
-"x": 466,
-"y": 285
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "L자 복도",
+"x": 447,
+"y": 264
 }
 },
 "9": {
 "en": {
 "forced": false,
-"leader": [
-[
-451,
-132
-],
-[
-448,
-132
-],
-[
-448,
-74
-]
-],
-"text": "Winding\nPass.",
-"x": 433,
-"y": 52
-},
-"ko": {
-"forced": false,
+"inside": false,
 "leader": [
 [
 492,
 154
 ],
 [
-501,
+500,
+154
+]
+],
+"loose": 0,
+"text": "Winding Passage",
+"x": 501,
+"y": 153
+},
+"ko": {
+"forced": false,
+"inside": false,
+"leader": [
+[
+492,
 154
 ],
 [
-501,
-284
+500,
+154
 ]
 ],
-"text": "굽은\n복도",
-"x": 491,
-"y": 285
+"loose": 0,
+"text": "굽은 복도",
+"x": 501,
+"y": 153
 }
 }
 }
 },
 "1": {
-"1": {
-"1": {
-"en": {
-"forced": false,
-"leader": [
-[
-65,
-111
-],
-[
-58,
-111
-],
-[
-58,
-166
-]
-],
-"loose": 0,
-"text": "West Stairway 2F",
-"x": 17,
-"y": 167
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-48,
-99
-],
-[
-48,
-105
-]
-],
-"loose": 0,
-"text": "서쪽\n계단",
-"x": 38,
-"y": 106
-}
-},
-"10": {
-"en": {
-"forced": false,
-"leader": [
-[
-273,
-72
-],
-[
-273,
-60
-]
-],
-"loose": 0,
-"text": "Study",
-"x": 269,
-"y": 49
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-273,
-72
-],
-[
-273,
-60
-]
-],
-"loose": 0,
-"text": "서재",
-"x": 267,
-"y": 49
-}
-},
-"11": {
-"en": {
-"forced": false,
-"leader": [
-[
-271,
-87
-],
-[
-268,
-87
-],
-[
-268,
-36
-]
-],
-"loose": 0,
-"text": "Lesson\nRm Entry",
-"x": 245,
-"y": 14
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-284,
-86
-],
-[
-312,
-47
-]
-],
-"loose": 0,
-"text": "강의실\n입구",
-"x": 283,
-"y": 25
-}
-},
-"12": {
-"en": {
-"forced": false,
-"leader": [
-[
-256,
-119
-],
-[
-257,
-183
-]
-],
-"loose": 0,
-"text": "Lesson Rm",
-"x": 231,
-"y": 184
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-256,
-119
-],
-[
-256,
-159
-]
-],
-"loose": 0,
-"text": "강의실",
-"x": 241,
-"y": 160
-}
-},
-"13": {
-"en": {
-"forced": false,
-"leader": [
-[
-234,
-153
-],
-[
-234,
-159
-]
-],
-"loose": 0,
-"text": "Pillar\nPass.",
-"x": 230,
-"y": 160
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-223,
-144
-],
-[
-203,
-173
-]
-],
-"loose": 0,
-"text": "기둥\n복도",
-"x": 193,
-"y": 174
-}
-},
-"14": {
-"en": {
-"forced": false,
-"leader": [
-[
-262,
-154
-],
-[
-264,
-159
-]
-],
-"loose": 0,
-"text": "Attic\nEntry",
-"x": 259,
-"y": 160
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-262,
-154
-],
-[
-275,
-154
-],
-[
-275,
-159
-]
-],
-"loose": 0,
-"text": "다락\n입구",
-"x": 274,
-"y": 160
-}
-},
-"15": {
-"en": {
-"forced": false,
-"leader": [
-[
-239,
-137
-],
-[
-220,
-171
-]
-],
-"loose": 0,
-"text": "Small\nDining Rm",
-"x": 181,
-"y": 172
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-241,
-146
-],
-[
-236,
-159
-]
-],
-"loose": 0,
-"text": "작은\n식당",
-"x": 218,
-"y": 160
-}
-},
-"16": {
-"en": {
-"forced": false,
-"leader": [
-[
-282,
-131
-],
-[
-288,
-131
-]
-],
-"loose": 0,
-"text": "Attic",
-"x": 289,
-"y": 127
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-282,
-131
-],
-[
-288,
-131
-]
-],
-"loose": 0,
-"text": "다락",
-"x": 289,
-"y": 127
-}
-},
-"17": {
-"en": {
-"forced": false,
-"leader": [
-[
-203,
-153
-],
-[
-179,
-173
-]
-],
-"loose": 0,
-"text": "Terrace Entry",
-"x": 107,
-"y": 172
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-203,
-153
-],
-[
-189,
-159
-]
-],
-"loose": 0,
-"text": "테라스\n입구",
-"x": 158,
-"y": 146
-}
-},
-"18": {
-"en": {
-"forced": false,
-"leader": [
-[
-213,
-134
-],
-[
-210,
-132
-]
-],
-"loose": 1,
-"text": "Terrace",
-"x": 169,
-"y": 127
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-216,
-153
-],
-[
-186,
-174
-]
-],
-"loose": 0,
-"text": "테라스",
-"x": 155,
-"y": 172
-}
-},
-"19": {
-"en": {
-"forced": false,
-"leader": [
-[
-128,
-72
-],
-[
-134,
-69
-]
-],
-"loose": 0,
-"text": "Elev. 2F",
-"x": 135,
-"y": 68
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-128,
-72
-],
-[
-134,
-69
-]
-],
-"loose": 0,
-"text": "승강기 복도",
-"x": 135,
-"y": 68
-}
-},
-"2": {
-"en": {
-"forced": false,
-"leader": [
-[
-97,
-147
-],
-[
-97,
-153
-]
-],
-"loose": 0,
-"text": "Dining Rm 2F",
-"x": 63,
-"y": 154
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-97,
-147
-],
-[
-97,
-153
-]
-],
-"loose": 0,
-"text": "식당 위층",
-"x": 75,
-"y": 154
-}
-},
-"20": {
-"en": {
-"forced": false,
-"leader": [
-[
-77,
-105
-],
-[
-77,
-108
-],
-[
-57,
-108
-]
-],
-"loose": 0,
-"text": "Rough\nPass.",
-"x": 26,
-"y": 106
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-53,
-56
-],
-[
-47,
-56
-]
-],
-"loose": 0,
-"text": "거친\n통로",
-"x": 26,
-"y": 39
-}
-},
-"21": {
-"en": {
-"forced": false,
-"leader": [
-[
-53,
-72
-],
-[
-46,
-72
-]
-],
-"loose": 0,
-"text": "Trophy\nRm",
-"x": 10,
-"y": 60
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-53,
-72
-],
-[
-46,
-72
-]
-],
-"loose": 0,
-"text": "박제실",
-"x": 15,
-"y": 67
-}
-},
-"22": {
-"en": {
-"forced": false,
-"leader": [
-[
-118,
-72
-],
-[
-121,
-66
-]
-],
-"loose": 0,
-"text": "Large\nLibrary",
-"x": 115,
-"y": 44
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-118,
-72
-],
-[
-121,
-66
-]
-],
-"loose": 0,
-"text": "서재",
-"x": 115,
-"y": 55
-}
-},
-"23": {
-"en": {
-"forced": false,
-"leader": [
-[
-88,
-72
-],
-[
-88,
-50
-]
-],
-"loose": 0,
-"text": "Private Library",
-"x": 37,
-"y": 39
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-88,
-72
-],
-[
-88,
-50
-]
-],
-"loose": 0,
-"text": "개인 서재",
-"x": 66,
-"y": 39
-}
-},
-"24": {
-"en": {
-"forced": false,
-"leader": [
-[
-99,
-60
-],
-[
-94,
-60
-],
-[
-94,
-87
-]
-],
-"loose": 1,
-"text": "Heliport Lookout",
-"x": 34,
-"y": 88
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-104,
-56
-],
-[
-115,
-51
-]
-],
-"loose": 0,
-"text": "헬기장 전망대",
-"x": 116,
-"y": 42
-}
-},
-"25": {
-"en": {
-"forced": false,
-"leader": [
-[
-103,
-115
-],
-[
-103,
-127
-]
-],
-"loose": 0,
-"text": "Closet",
-"x": 87,
-"y": 128
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-103,
-115
-],
-[
-103,
-127
-]
-],
-"loose": 0,
-"text": "벽장",
-"x": 93,
-"y": 128
-}
-},
-"3": {
-"en": {
-"forced": false,
-"leader": [
-[
-166,
-123
-],
-[
-166,
-145
-]
-],
-"loose": 0,
-"text": "Main\nHall 2F",
-"x": 149,
-"y": 146
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-163,
-125
-],
-[
-144,
-171
-]
-],
-"loose": 0,
-"text": "중앙\n홀",
-"x": 132,
-"y": 172
-}
-},
-"4": {
-"en": {
-"forced": false,
-"leader": [
-[
-203,
-90
-],
-[
-197,
-90
-]
-],
-"loose": 0,
-"text": "'C' Pass.",
-"x": 156,
-"y": 84
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-203,
-90
-],
-[
-197,
-90
-]
-],
-"loose": 0,
-"text": "C자 복도",
-"x": 156,
-"y": 84
-}
-},
-"5": {
-"en": {
-"forced": false,
-"leader": [
-[
-203,
-108
-],
-[
-197,
-106
-]
-],
-"loose": 0,
-"text": "Armor Rm",
-"x": 148,
-"y": 97
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-203,
-108
-],
-[
-197,
-106
-]
-],
-"loose": 0,
-"text": "갑옷실",
-"x": 166,
-"y": 97
-}
-},
-"6": {
-"en": {
-"forced": false,
-"leader": [
-[
-209,
-66
-],
-[
-209,
-60
-]
-],
-"loose": 0,
-"text": "Small\nLibrary",
-"x": 181,
-"y": 38
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-203,
-74
-],
-[
-193,
-64
-]
-],
-"loose": 0,
-"text": "작은 서재",
-"x": 148,
-"y": 55
-}
-},
-"7": {
-"en": {
-"forced": false,
-"leader": [
-[
-233,
-48
-],
-[
-233,
-36
-]
-],
-"loose": 0,
-"text": "East Stairway 2F",
-"x": 153,
-"y": 25
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-233,
-48
-],
-[
-233,
-42
-]
-],
-"loose": 0,
-"text": "동쪽\n계단",
-"x": 221,
-"y": 20
-}
-},
-"8": {
-"en": {
-"forced": false,
-"leader": [
-[
-254,
-70
-],
-[
-254,
-60
-]
-],
-"loose": 0,
-"text": "Deer\nRm",
-"x": 243,
-"y": 38
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-254,
-70
-],
-[
-254,
-60
-]
-],
-"loose": 0,
-"text": "사슴\n방",
-"x": 244,
-"y": 38
-}
-},
-"9": {
-"en": {
-"forced": false,
-"leader": [
-[
-236,
-72
-],
-[
-237,
-23
-]
-],
-"loose": 0,
-"text": "Bedroom",
-"x": 199,
-"y": 12
-},
-"ko": {
-"forced": false,
-"leader": [
-[
-236,
-72
-],
-[
-217,
-57
-]
-],
-"loose": 0,
-"text": "침실",
-"x": 196,
-"y": 49
-}
-}
-},
 "2": {
 "1": {
 "en": {
 "forced": false,
-"leader": [
-[
-32,
-87
-],
-[
-27,
-15
-]
-],
-"text": "West Stairway 2F",
-"x": 0,
-"y": 4
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "West\nStairway 2F",
+"x": 19,
+"y": 90
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-32,
-116
-],
-[
-32,
-124
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "서쪽 계단",
-"x": 10,
-"y": 125
+"x": 29,
+"y": 95
 }
 },
 "10": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 482,
@@ -3124,12 +958,14 @@
 35
 ]
 ],
+"loose": 0,
 "text": "Study",
 "x": 468,
 "y": 24
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 482,
@@ -3140,6 +976,7 @@
 35
 ]
 ],
+"loose": 0,
 "text": "서재",
 "x": 472,
 "y": 24
@@ -3148,74 +985,56 @@
 "11": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
-490,
-116
+504,
+100
 ],
 [
-490,
-269
+512,
+100
 ]
 ],
+"loose": 0,
 "text": "Lesson\nRoom Entry",
-"x": 454,
-"y": 270
+"x": 513,
+"y": 89
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-504,
-83
-],
-[
-504,
-22
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "강의실\n입구",
-"x": 481,
-"y": 0
+"x": 476,
+"y": 88
 }
 },
 "12": {
 "en": {
 "forced": false,
-"leader": [
-[
-448,
-83
-],
-[
-463,
-22
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Lesson\nRoom",
-"x": 460,
-"y": 0
+"x": 430,
+"y": 124
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-448,
-83
-],
-[
-469,
-22
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "강의실",
-"x": 448,
-"y": 11
+"x": 432,
+"y": 124
 }
 },
 "13": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 428,
@@ -3226,12 +1045,14 @@
 232
 ]
 ],
-"text": "Pillar\nPassage",
-"x": 411,
+"loose": 0,
+"text": "Pillar Passage",
+"x": 396,
 "y": 233
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 404,
@@ -3242,6 +1063,7 @@
 232
 ]
 ],
+"loose": 0,
 "text": "기둥\n복도",
 "x": 381,
 "y": 233
@@ -3250,22 +1072,25 @@
 "14": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
-452,
-224
+464,
+222
 ],
 [
-457,
-245
+469,
+232
 ]
 ],
+"loose": 0,
 "text": "Attic\nEntry",
-"x": 454,
-"y": 246
+"x": 468,
+"y": 233
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 452,
@@ -3273,33 +1098,37 @@
 ],
 [
 452,
-245
+232
 ]
 ],
-"text": "다락 입구",
-"x": 430,
-"y": 246
+"loose": 0,
+"text": "다락\n입구",
+"x": 451,
+"y": 233
 }
 },
 "15": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 415,
 206
 ],
 [
-400,
+381,
 245
 ]
 ],
+"loose": 0,
 "text": "Small\nDining Room",
-"x": 350,
+"x": 380,
 "y": 246
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 426,
@@ -3310,6 +1139,7 @@
 232
 ]
 ],
+"loose": 0,
 "text": "작은 식당",
 "x": 404,
 "y": 233
@@ -3318,56 +1148,49 @@
 "16": {
 "en": {
 "forced": false,
-"leader": [
-[
-475,
-226
-],
-[
-472,
-232
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Attic",
-"x": 460,
-"y": 233
+"x": 478,
+"y": 172
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-475,
-226
-],
-[
-472,
-232
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "다락",
-"x": 462,
-"y": 233
+"x": 478,
+"y": 172
 }
 },
 "17": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 339,
 202
 ],
 [
-315,
-210
+336,
+202
+],
+[
+336,
+256
 ]
 ],
+"loose": 0,
 "text": "Terrace Entry",
-"x": 243,
-"y": 209
+"x": 300,
+"y": 257
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 342,
@@ -3378,6 +1201,7 @@
 232
 ]
 ],
+"loose": 0,
 "text": "테라스\n입구",
 "x": 337,
 "y": 233
@@ -3386,6 +1210,7 @@
 "18": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 368,
@@ -3396,12 +1221,14 @@
 232
 ]
 ],
+"loose": 0,
 "text": "Terrace",
-"x": 348,
+"x": 340,
 "y": 233
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 368,
@@ -3412,6 +1239,7 @@
 256
 ]
 ],
+"loose": 0,
 "text": "테라스",
 "x": 360,
 "y": 257
@@ -3420,6 +1248,7 @@
 "19": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 196,
@@ -3430,114 +1259,83 @@
 102
 ]
 ],
+"loose": 0,
 "text": "Elevator 2F",
 "x": 205,
 "y": 97
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
-196,
-102
+192,
+55
 ],
 [
-204,
-102
+192,
+47
 ]
 ],
+"loose": 0,
 "text": "승강기 복도",
-"x": 205,
-"y": 97
+"x": 165,
+"y": 36
 }
 },
 "2": {
 "en": {
 "forced": false,
-"leader": [
-[
-130,
-212
-],
-[
-130,
-220
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Dining Room 2F",
-"x": 93,
-"y": 221
+"x": 92,
+"y": 204
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-130,
-207
-],
-[
-130,
-199
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "식당 위층",
-"x": 108,
-"y": 188
+"x": 107,
+"y": 204
 }
 },
 "20": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
-112,
-148
+39,
+26
 ],
 [
-112,
-168
+31,
+26
 ]
 ],
-"text": "Rough\nPassage",
-"x": 83,
-"y": 169
+"loose": 0,
+"text": "Rough Passage",
+"x": -44,
+"y": 21
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-66,
-23
-],
-[
-66,
-15
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "거친 통로",
-"x": 44,
-"y": 4
+"x": 51,
+"y": 21
 }
 },
 "21": {
 "en": {
 "forced": false,
-"leader": [
-[
-46,
-76
-],
-[
-46,
-124
-]
-],
-"text": "Trophy\nRoom",
-"x": 19,
-"y": 125
-},
-"ko": {
-"forced": false,
+"inside": false,
 "leader": [
 [
 39,
@@ -3548,6 +1346,25 @@
 58
 ]
 ],
+"loose": 0,
+"text": "Trophy Room",
+"x": -35,
+"y": 53
+},
+"ko": {
+"forced": false,
+"inside": false,
+"leader": [
+[
+39,
+58
+],
+[
+31,
+58
+]
+],
+"loose": 0,
 "text": "박제실",
 "x": 0,
 "y": 53
@@ -3556,40 +1373,27 @@
 "22": {
 "en": {
 "forced": false,
-"leader": [
-[
-176,
-58
-],
-[
-181,
-47
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Large\nLibrary",
-"x": 165,
-"y": 25
+"x": 132,
+"y": 84
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-176,
-58
-],
-[
-181,
-47
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "서재",
-"x": 171,
-"y": 36
+"x": 141,
+"y": 84
 }
 },
 "23": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 112,
@@ -3600,50 +1404,43 @@
 15
 ]
 ],
+"loose": 0,
 "text": "Private Library",
-"x": 85,
+"x": 74,
 "y": 4
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-112,
-55
-],
-[
-112,
-47
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "개인\n서재",
-"x": 102,
-"y": 25
+"x": 101,
+"y": 72
 }
 },
 "24": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
-144,
-23
-],
-[
-144,
-20
+156,
+34
 ],
 [
 164,
-20
+34
 ]
 ],
+"loose": 0,
 "text": "Heliport Lookout",
 "x": 165,
-"y": 12
+"y": 29
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 144,
@@ -3654,6 +1451,7 @@
 15
 ]
 ],
+"loose": 0,
 "text": "헬기장 전망대",
 "x": 112,
 "y": 4
@@ -3662,6 +1460,7 @@
 "25": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 142,
@@ -3672,12 +1471,14 @@
 168
 ]
 ],
+"loose": 0,
 "text": "Closet",
 "x": 126,
 "y": 169
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 142,
@@ -3688,6 +1489,7 @@
 168
 ]
 ],
+"loose": 0,
 "text": "벽장",
 "x": 132,
 "y": 169
@@ -3696,176 +1498,125 @@
 "3": {
 "en": {
 "forced": false,
-"leader": [
-[
-268,
-139
-],
-[
-267,
-131
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Main Hall 2F",
-"x": 210,
-"y": 120
+"x": 238,
+"y": 138
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-268,
-139
-],
-[
-268,
-131
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "중앙 홀",
-"x": 251,
-"y": 120
+"x": 250,
+"y": 138
 }
 },
 "4": {
 "en": {
 "forced": false,
-"leader": [
-[
-339,
-94
-],
-[
-331,
-94
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "'C' Passage",
-"x": 276,
+"x": 362,
 "y": 89
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-339,
-94
-],
-[
-331,
-94
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "C자 복도",
-"x": 290,
+"x": 369,
 "y": 89
 }
 },
 "5": {
 "en": {
 "forced": false,
-"leader": [
-[
-339,
-130
-],
-[
-331,
-129
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Armor Room",
-"x": 270,
-"y": 120
+"x": 341,
+"y": 114
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-339,
-130
-],
-[
-331,
-129
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "갑옷실",
-"x": 300,
-"y": 120
+"x": 356,
+"y": 114
 }
 },
 "6": {
 "en": {
 "forced": false,
-"leader": [
-[
-339,
-62
-],
-[
-331,
-62
-]
-],
-"text": "Small Library",
-"x": 266,
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "Small\nLibrary",
+"x": 336,
 "y": 57
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-339,
-62
-],
-[
-331,
-62
-]
-],
-"text": "작은 서재",
-"x": 286,
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "작은\n서재",
+"x": 343,
 "y": 57
 }
 },
 "7": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
-391,
-12
+402,
+7
 ],
 [
-371,
-12
+402,
+-1
 ]
 ],
+"loose": 0,
 "text": "East Stairway 2F",
-"x": 289,
-"y": 7
+"x": 361,
+"y": -12
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
-412,
-22
+402,
+7
 ],
 [
-420,
-21
+402,
+-1
 ]
 ],
-"text": "동쪽\n계단",
-"x": 421,
-"y": 0
+"loose": 0,
+"text": "동쪽 계단",
+"x": 380,
+"y": -12
 }
 },
 "8": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 444,
@@ -3876,30 +1627,25 @@
 35
 ]
 ],
+"loose": 0,
 "text": "Deer\nRoom",
 "x": 431,
 "y": 13
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-444,
-51
-],
-[
-444,
-35
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "사슴 방",
-"x": 427,
-"y": 24
+"x": 430,
+"y": 58
 }
 },
 "9": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 395,
@@ -3910,25 +1656,19 @@
 35
 ]
 ],
+"loose": 0,
 "text": "Bedroom",
 "x": 327,
 "y": 24
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-395,
-68
-],
-[
-367,
-35
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "침실",
-"x": 350,
-"y": 24
+"x": 397,
+"y": 62
 }
 }
 }
@@ -4012,56 +1752,36 @@
 "19": {
 "en": {
 "forced": false,
-"leader": [
-[
-224,
-296
-],
-[
-224,
-304
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Main Lab",
-"x": 203,
-"y": 305
+"x": 237,
+"y": 149
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-224,
-296
-],
-[
-224,
-304
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "중앙 연구실",
-"x": 197,
-"y": 305
+"x": 230,
+"y": 149
 }
 },
 "20": {
 "en": {
 "forced": false,
-"leader": [
-[
-242,
-87
-],
-[
-242,
-79
-]
-],
-"text": "Main Lab Entry",
-"x": 206,
-"y": 68
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "Main Lab\nEntry",
+"x": 228,
+"y": 86
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 242,
@@ -4072,6 +1792,7 @@
 79
 ]
 ],
+"loose": 0,
 "text": "중앙 연구실 입구",
 "x": 203,
 "y": 68
@@ -4230,108 +1951,67 @@
 "26": {
 "en": {
 "forced": false,
-"leader": [
-[
-406,
-95
-],
-[
-406,
-87
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Underground Passage 1",
-"x": 348,
-"y": 76
+"x": 301,
+"y": 144
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-406,
-95
-],
-[
-406,
-87
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "지하 통로 1",
-"x": 380,
-"y": 76
+"x": 333,
+"y": 144
 }
 },
 "27": {
 "en": {
 "forced": false,
-"leader": [
-[
-176,
-244
-],
-[
-176,
-252
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Underground Passage 2",
-"x": 117,
-"y": 253
+"x": 129,
+"y": 216
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-224,
-147
-],
-[
-224,
-139
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "지하 통로 2",
-"x": 197,
-"y": 128
+"x": 161,
+"y": 216
 }
 },
 "28": {
 "en": {
 "forced": false,
-"leader": [
-[
-88,
-147
-],
-[
-88,
-139
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Kitchen",
-"x": 69,
-"y": 128
+"x": 109,
+"y": 182
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-88,
-147
-],
-[
-88,
-139
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "주방",
-"x": 78,
-"y": 128
+"x": 118,
+"y": 182
 }
 },
 "30": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 146,
@@ -4342,25 +2022,19 @@
 139
 ]
 ],
-"text": "Elevator\nStairway B1",
-"x": 118,
-"y": 117
+"loose": 0,
+"text": "Elevator Stairway B1",
+"x": 95,
+"y": 128
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-146,
-147
-],
-[
-146,
-139
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "승강기 계단",
-"x": 119,
-"y": 128
+"x": 118,
+"y": 148
 }
 }
 }
@@ -4552,171 +2226,101 @@
 "0": {
 "en": {
 "forced": false,
-"leader": [
-[
-391,
-276
-],
-[
-387,
-276
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Courtyard Garden",
-"x": 296,
-"y": 271
+"x": 321,
+"y": 236
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-391,
-276
-],
-[
-387,
-276
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "중앙 정원",
-"x": 342,
-"y": 271
+"x": 349,
+"y": 236
 }
 },
 "1": {
 "en": {
 "forced": false,
-"leader": [
-[
-356,
-63
-],
-[
-356,
-55
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Water Gate",
-"x": 328,
-"y": 44
+"x": 320,
+"y": 68
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-356,
-63
-],
-[
-356,
-55
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "수문",
-"x": 346,
-"y": 44
+"x": 331,
+"y": 68
 }
 },
 "2": {
 "en": {
 "forced": false,
-"leader": [
-[
-224,
-143
-],
-[
-224,
-135
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Falls",
-"x": 213,
-"y": 124
+"x": 250,
+"y": 186
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-224,
-143
-],
-[
-224,
-135
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "폭포",
-"x": 214,
-"y": 124
+"x": 251,
+"y": 186
 }
 },
 "4": {
 "en": {
 "forced": false,
-"leader": [
-[
-86,
-7
-],
-[
-92,
-4
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Guardhouse Gate",
-"x": 93,
-"y": 0
+"x": 89,
+"y": 85
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-86,
-7
-],
-[
-92,
-4
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "기숙사 정문",
-"x": 93,
-"y": 0
+"x": 104,
+"y": 85
 }
 },
 "5": {
 "en": {
 "forced": false,
-"leader": [
-[
-196,
-283
-],
-[
-196,
-275
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Fountain",
-"x": 175,
-"y": 264
+"x": 228,
+"y": 305
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-196,
-283
-],
-[
-196,
-275
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "분수",
-"x": 186,
-"y": 264
+"x": 228,
+"y": 305
 }
 }
 }
@@ -5088,6 +2692,7 @@
 "10": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 416,
@@ -5098,12 +2703,14 @@
 292
 ]
 ],
+"loose": 0,
 "text": "Enrico Room",
 "x": 386,
 "y": 293
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 438,
@@ -5114,6 +2721,7 @@
 239
 ]
 ],
+"loose": 0,
 "text": "엔리코의 방",
 "x": 411,
 "y": 228
@@ -5122,108 +2730,67 @@
 "11": {
 "en": {
 "forced": false,
-"leader": [
-[
-139,
-168
-],
-[
-131,
-168
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Boulder Passage 1",
-"x": 40,
-"y": 163
+"x": 145,
+"y": 154
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-176,
-155
-],
-[
-176,
-147
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "바위 통로 1",
-"x": 150,
-"y": 136
+"x": 164,
+"y": 154
 }
 },
 "12": {
 "en": {
 "forced": false,
-"leader": [
-[
-226,
-227
-],
-[
-226,
-219
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Black\nTiger Room",
-"x": 179,
-"y": 197
+"x": 221,
+"y": 234
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-274,
-227
-],
-[
-274,
-219
-]
-],
-"text": "거미\n방",
-"x": 265,
-"y": 197
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "거미 방",
+"x": 232,
+"y": 240
 }
 },
 "13": {
 "en": {
 "forced": false,
-"leader": [
-[
-262,
-288
-],
-[
-262,
-296
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Straight Passage",
-"x": 220,
-"y": 297
+"x": 219,
+"y": 276
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-262,
-288
-],
-[
-262,
-296
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "직선 통로",
-"x": 240,
-"y": 297
+"x": 239,
+"y": 276
 }
 },
 "14": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 326,
@@ -5234,12 +2801,14 @@
 231
 ]
 ],
+"loose": 0,
 "text": "Underground\nSave Room",
 "x": 297,
 "y": 209
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 326,
@@ -5250,6 +2819,7 @@
 231
 ]
 ],
+"loose": 0,
 "text": "지하\n세이브 룸",
 "x": 304,
 "y": 209
@@ -5258,40 +2828,27 @@
 "15": {
 "en": {
 "forced": false,
-"leader": [
-[
-128,
-231
-],
-[
-128,
-223
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Boulder Passage 2",
-"x": 82,
-"y": 212
+"x": 92,
+"y": 237
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-184,
-290
-],
-[
-187,
-296
-]
-],
-"text": "바위\n통로 2",
-"x": 172,
-"y": 297
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "바위 통로 2",
+"x": 115,
+"y": 237
 }
 },
 "6": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 96,
@@ -5302,12 +2859,14 @@
 296
 ]
 ],
+"loose": 0,
 "text": "Item Chamber",
 "x": 62,
 "y": 297
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 96,
@@ -5318,6 +2877,7 @@
 296
 ]
 ],
+"loose": 0,
 "text": "지하 석상실",
 "x": 69,
 "y": 297
@@ -5326,6 +2886,7 @@
 "7": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 246,
@@ -5336,12 +2897,14 @@
 35
 ]
 ],
+"loose": 0,
 "text": "Underground Entry",
 "x": 198,
 "y": 24
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 246,
@@ -5352,6 +2915,7 @@
 35
 ]
 ],
+"loose": 0,
 "text": "지하 입구",
 "x": 224,
 "y": 24
@@ -5360,6 +2924,7 @@
 "8": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 344,
@@ -5370,30 +2935,25 @@
 55
 ]
 ],
+"loose": 0,
 "text": "Branched Passage",
 "x": 298,
 "y": 44
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-344,
-63
-],
-[
-344,
-55
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "갈림길",
-"x": 329,
-"y": 44
+"x": 316,
+"y": 117
 }
 },
 "9": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 396,
@@ -5404,25 +2964,19 @@
 140
 ]
 ],
+"loose": 0,
 "text": "Generator Room",
 "x": 405,
 "y": 135
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-428,
-71
-],
-[
-428,
-63
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "발전기실",
-"x": 408,
-"y": 52
+"x": 373,
+"y": 77
 }
 }
 }
@@ -5906,90 +3460,56 @@
 "0": {
 "en": {
 "forced": false,
-"leader": [
-[
-28,
-234
-],
-[
-30,
-237
-]
-],
-"text": "Guardhouse\nEntry",
-"x": 0,
-"y": 238
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "Guardhouse Entry",
+"x": 27,
+"y": 201
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-24,
-232
-],
-[
-24,
-236
-]
-],
-"text": "기숙사\n입구",
-"x": 9,
-"y": 237
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "기숙사 입구",
+"x": 45,
+"y": 201
 }
 },
 "1": {
 "en": {
 "forced": false,
-"leader": [
-[
-88,
-111
-],
-[
-88,
-103
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Room 001",
 "x": 65,
-"y": 92
+"y": 136
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-88,
-111
-],
-[
-88,
-103
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "001호실",
-"x": 70,
-"y": 92
+"x": 73,
+"y": 136
 }
 },
 "10": {
 "en": {
 "forced": false,
-"leader": [
-[
-402,
-175
-],
-[
-402,
-167
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Room\n003",
-"x": 400,
-"y": 145
+"x": 388,
+"y": 187
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 402,
@@ -6000,6 +3520,7 @@
 167
 ]
 ],
+"loose": 0,
 "text": "003호실",
 "x": 383,
 "y": 156
@@ -6008,6 +3529,7 @@
 "11": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 366,
@@ -6018,12 +3540,14 @@
 167
 ]
 ],
+"loose": 0,
 "text": "Room 003\nBathroom",
 "x": 349,
 "y": 145
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 366,
@@ -6034,6 +3558,7 @@
 167
 ]
 ],
+"loose": 0,
 "text": "003호\n욕실",
 "x": 352,
 "y": 145
@@ -6042,56 +3567,27 @@
 "12": {
 "en": {
 "forced": false,
-"leader": [
-[
-464,
-195
-],
-[
-464,
-187
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Plant 42 Room",
-"x": 427,
-"y": 176
+"x": 426,
+"y": 240
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-464,
-195
-],
-[
-464,
-187
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "식물 42 방",
-"x": 438,
-"y": 176
+"x": 437,
+"y": 240
 }
 },
 "2": {
 "en": {
 "forced": false,
-"leader": [
-[
-67,
-170
-],
-[
-59,
-166
-]
-],
-"text": "Room 001\nBathroom",
-"x": 10,
-"y": 145
-},
-"ko": {
-"forced": false,
+"inside": false,
 "leader": [
 [
 67,
@@ -6102,6 +3598,25 @@
 165
 ]
 ],
+"loose": 0,
+"text": "Room 001 Bathroom",
+"x": -40,
+"y": 156
+},
+"ko": {
+"forced": false,
+"inside": false,
+"leader": [
+[
+67,
+170
+],
+[
+59,
+165
+]
+],
+"loose": 0,
 "text": "001호 욕실",
 "x": 8,
 "y": 156
@@ -6110,124 +3625,94 @@
 "3": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
-90,
-260
+67,
+240
 ],
 [
-71,
-276
+59,
+240
 ]
 ],
-"text": "Guardhouse\nSave Room",
-"x": 12,
-"y": 269
+"loose": 0,
+"text": "Guardhouse Save Room",
+"x": -57,
+"y": 237
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
-90,
-260
+67,
+240
 ],
 [
-71,
-276
+59,
+240
 ]
 ],
-"text": "기숙사\n세이브 룸",
-"x": 26,
-"y": 269
+"loose": 0,
+"text": "기숙사 세이브 룸",
+"x": -20,
+"y": 237
 }
 },
 "4": {
 "en": {
 "forced": false,
-"leader": [
-[
-200,
-87
-],
-[
-200,
-79
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Rec Room",
-"x": 176,
-"y": 68
+"x": 154,
+"y": 163
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-200,
-87
-],
-[
-200,
-79
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "오락실",
-"x": 185,
-"y": 68
+"x": 163,
+"y": 163
 }
 },
 "5": {
 "en": {
 "forced": false,
-"leader": [
-[
-182,
-284
-],
-[
-182,
-292
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Central Corridor",
-"x": 141,
-"y": 293
+"x": 142,
+"y": 268
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-182,
-284
-],
-[
-182,
-292
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "중앙 복도",
-"x": 160,
-"y": 293
+"x": 180,
+"y": 268
 }
 },
 "6": {
 "en": {
 "forced": false,
-"leader": [
-[
-310,
-115
-],
-[
-310,
-107
-]
-],
-"text": "Room 002",
-"x": 286,
-"y": 96
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "Room\n002",
+"x": 296,
+"y": 123
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 310,
@@ -6238,6 +3723,7 @@
 107
 ]
 ],
+"loose": 0,
 "text": "002호실",
 "x": 291,
 "y": 96
@@ -6246,22 +3732,7 @@
 "7": {
 "en": {
 "forced": false,
-"leader": [
-[
-274,
-115
-],
-[
-274,
-94
-]
-],
-"text": "Room 002\nBathroom",
-"x": 250,
-"y": 72
-},
-"ko": {
-"forced": false,
+"inside": false,
 "leader": [
 [
 274,
@@ -6272,48 +3743,45 @@
 107
 ]
 ],
-"text": "002호\n욕실",
-"x": 260,
+"loose": 0,
+"text": "Room 002\nBathroom",
+"x": 250,
 "y": 85
+},
+"ko": {
+"forced": false,
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "002호\n욕실",
+"x": 256,
+"y": 117
 }
 },
 "8": {
 "en": {
 "forced": false,
-"leader": [
-[
-332,
-248
-],
-[
-332,
-256
-]
-],
-"text": "Beehive\nPassage",
-"x": 312,
-"y": 257
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "Beehive Passage",
+"x": 280,
+"y": 232
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-332,
-248
-],
-[
-332,
-256
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "벌집 복도",
-"x": 310,
-"y": 257
+"x": 299,
+"y": 228
 }
 },
 "9": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 272,
@@ -6324,12 +3792,14 @@
 256
 ]
 ],
+"loose": 0,
 "text": "Drug\nStoreroom",
 "x": 249,
 "y": 257
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 272,
@@ -6340,6 +3810,7 @@
 256
 ]
 ],
+"loose": 0,
 "text": "약품 창고",
 "x": 250,
 "y": 257
@@ -6534,108 +4005,67 @@
 "13": {
 "en": {
 "forced": false,
-"leader": [
-[
-278,
-87
-],
-[
-278,
-79
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Water Tank Entry",
-"x": 235,
-"y": 68
+"x": 306,
+"y": 121
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-278,
-87
-],
-[
-278,
-79
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "대형 수조 입구",
-"x": 244,
-"y": 68
+"x": 322,
+"y": 121
 }
 },
 "14": {
 "en": {
 "forced": false,
-"leader": [
-[
-234,
-263
-],
-[
-234,
-255
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Water Tank",
-"x": 206,
-"y": 244
+"x": 216,
+"y": 165
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-234,
-263
-],
-[
-234,
-255
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "대형 수조",
-"x": 212,
-"y": 244
+"x": 222,
+"y": 165
 }
 },
 "15": {
 "en": {
 "forced": false,
-"leader": [
-[
-360,
-139
-],
-[
-360,
-107
-]
-],
-"text": "Meeting Room",
-"x": 326,
-"y": 96
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "Meeting\nRoom",
+"x": 340,
+"y": 155
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-360,
-139
-],
-[
-360,
-107
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "회의실",
-"x": 345,
-"y": 96
+"x": 344,
+"y": 164
 }
 },
 "16": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 128,
@@ -6646,59 +4076,39 @@
 131
 ]
 ],
+"loose": 0,
 "text": "Arms Storage",
 "x": 94,
 "y": 120
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-128,
-139
-],
-[
-128,
-131
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "무기 창고",
-"x": 106,
-"y": 120
+"x": 105,
+"y": 153
 }
 },
 "17": {
 "en": {
 "forced": false,
-"leader": [
-[
-115,
-200
-],
-[
-107,
-200
-]
-],
-"text": "Control Room",
-"x": 39,
-"y": 195
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "Control\nRoom",
+"x": 112,
+"y": 188
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-132,
-228
-],
-[
-132,
-236
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "제어실",
-"x": 117,
-"y": 237
+"x": 116,
+"y": 194
 }
 }
 }
@@ -6782,69 +4192,41 @@
 "0": {
 "en": {
 "forced": false,
-"leader": [
-[
-411,
-358
-],
-[
-408,
-364
-]
-],
-"text": "Laboratory Entry",
-"x": 364,
-"y": 365
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "Laboratory\nEntry",
+"x": 367,
+"y": 296
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-411,
-358
-],
-[
-408,
-364
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "연구소 입구",
-"x": 381,
-"y": 365
+"x": 368,
+"y": 302
 }
 },
 "1": {
 "en": {
 "forced": false,
-"leader": [
-[
-132,
-51
-],
-[
-132,
-43
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Emergency Tunnel",
-"x": 86,
-"y": 32
+"x": 196,
+"y": 288
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-132,
-51
-],
-[
-132,
-43
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "비상 통로",
-"x": 110,
-"y": 32
+"x": 175,
+"y": 157
 }
 }
 }
@@ -6964,74 +4346,47 @@
 "2": {
 "en": {
 "forced": false,
-"leader": [
-[
-306,
-151
-],
-[
-306,
-143
-]
-],
-"text": "Ladder Room",
-"x": 274,
-"y": 132
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "Ladder\nRoom",
+"x": 288,
+"y": 149
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-306,
-151
-],
-[
-306,
-143
-]
-],
-"text": "사다리 방",
-"x": 284,
-"y": 132
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "사다리\n방",
+"x": 290,
+"y": 149
 }
 },
 "3": {
 "en": {
 "forced": false,
-"leader": [
-[
-236,
-151
-],
-[
-236,
-143
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Stairway",
-"x": 215,
-"y": 132
+"x": 248,
+"y": 208
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-236,
-151
-],
-[
-236,
-143
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "계단",
-"x": 226,
-"y": 132
+"x": 254,
+"y": 180
 }
 },
 "4": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 216,
@@ -7042,25 +4397,19 @@
 240
 ]
 ],
+"loose": 0,
 "text": "Visual Data Room",
 "x": 173,
 "y": 241
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-216,
-232
-],
-[
-216,
-240
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "영상 자료실",
-"x": 189,
-"y": 241
+"x": 188,
+"y": 187
 }
 }
 }
@@ -7596,6 +4945,7 @@
 "10": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 186,
@@ -7606,98 +4956,101 @@
 120
 ]
 ],
+"loose": 0,
 "text": "X-Ray\nRoom",
 "x": 171,
 "y": 121
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-186,
-112
-],
-[
-186,
-120
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "X선실",
-"x": 173,
-"y": 121
+"x": 167,
+"y": 90
 }
 },
 "11": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
-119,
-40
+138,
+7
 ],
 [
-111,
-40
+138,
+-1
 ]
 ],
+"loose": 0,
 "text": "Cell Entry",
-"x": 61,
-"y": 35
+"x": 113,
+"y": -12
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
-119,
-40
+138,
+7
 ],
 [
-111,
-40
+138,
+-1
 ]
 ],
+"loose": 0,
 "text": "감방 입구",
-"x": 66,
-"y": 35
+"x": 116,
+"y": -12
 }
 },
 "12": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
-356,
-154
+347,
+176
 ],
 [
-364,
-154
+339,
+176
 ]
 ],
+"loose": 0,
 "text": "Elevator Entry",
-"x": 365,
-"y": 149
+"x": 265,
+"y": 171
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
-382,
+356,
 79
 ],
 [
-382,
+356,
 71
 ]
 ],
+"loose": 0,
 "text": "승강기 입구",
-"x": 355,
+"x": 329,
 "y": 60
 }
 },
 "14": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 388,
@@ -7708,12 +5061,14 @@
 124
 ]
 ],
+"loose": 0,
 "text": "Lab Save Room",
 "x": 397,
 "y": 119
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 388,
@@ -7724,6 +5079,7 @@
 124
 ]
 ],
+"loose": 0,
 "text": "연구소 세이브 룸",
 "x": 397,
 "y": 119
@@ -7732,40 +5088,27 @@
 "15": {
 "en": {
 "forced": false,
-"leader": [
-[
-311,
-218
-],
-[
-303,
-218
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Power Maze 1",
-"x": 237,
+"x": 321,
 "y": 213
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-311,
-218
-],
-[
-303,
-218
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "동력 미로 1",
-"x": 250,
+"x": 328,
 "y": 213
 }
 },
 "16": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 311,
@@ -7776,12 +5119,14 @@
 330
 ]
 ],
+"loose": 0,
 "text": "Power Maze 2",
 "x": 235,
 "y": 325
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 311,
@@ -7792,6 +5137,7 @@
 330
 ]
 ],
+"loose": 0,
 "text": "동력 미로 2",
 "x": 248,
 "y": 325
@@ -7800,6 +5146,7 @@
 "17": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 352,
@@ -7810,12 +5157,14 @@
 384
 ]
 ],
+"loose": 0,
 "text": "Power Room",
 "x": 322,
 "y": 385
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 352,
@@ -7826,6 +5175,7 @@
 367
 ]
 ],
+"loose": 0,
 "text": "동력실",
 "x": 337,
 "y": 356
@@ -7834,142 +5184,87 @@
 "18": {
 "en": {
 "forced": false,
-"leader": [
-[
-156,
-27
-],
-[
-171,
-11
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Cell",
-"x": 165,
-"y": 0
+"x": 138,
+"y": 48
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-156,
-27
-],
-[
-166,
-17
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "감방",
-"x": 167,
-"y": 8
+"x": 137,
+"y": 48
 }
 },
 "22": {
 "en": {
 "forced": false,
-"leader": [
-[
-272,
-120
-],
-[
-272,
-148
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Morgue",
-"x": 254,
-"y": 149
+"x": 241,
+"y": 93
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-272,
-120
-],
-[
-272,
-148
-]
-],
-"text": "시체 안치실",
-"x": 245,
-"y": 149
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "시체\n안치실",
+"x": 242,
+"y": 83
 }
 },
 "5": {
 "en": {
 "forced": false,
-"leader": [
-[
-300,
-142
-],
-[
-303,
-148
-]
-],
-"text": "'O'\nRoom",
-"x": 292,
-"y": 149
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "'O' Room",
+"x": 232,
+"y": 65
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-300,
-142
-],
-[
-303,
-148
-]
-],
-"text": "O자\n통로",
-"x": 302,
-"y": 149
+"inside": true,
+"leader": [],
+"loose": 0,
+"text": "O자 통로",
+"x": 232,
+"y": 65
 }
 },
 "6": {
 "en": {
 "forced": false,
-"leader": [
-[
-302,
-48
-],
-[
-308,
-51
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "Small Lab",
-"x": 309,
-"y": 46
+"x": 243,
+"y": 35
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-302,
-48
-],
-[
-308,
-51
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "작은 실험실",
-"x": 309,
-"y": 46
+"x": 238,
+"y": 35
 }
 },
 "7": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 324,
@@ -7980,30 +5275,25 @@
 71
 ]
 ],
-"text": "Operating Room",
+"loose": 0,
+"text": "Operating\nRoom",
 "x": 309,
-"y": 60
+"y": 49
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-324,
-79
-],
-[
-324,
-71
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "수술실",
-"x": 309,
-"y": 60
+"x": 308,
+"y": 78
 }
 },
 "8": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 139,
@@ -8014,12 +5304,14 @@
 80
 ]
 ],
+"loose": 0,
 "text": "Private\nCorridor",
 "x": 114,
 "y": 81
 },
 "ko": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 139,
@@ -8030,6 +5322,7 @@
 80
 ]
 ],
+"loose": 0,
 "text": "개인 복도",
 "x": 113,
 "y": 81
@@ -8038,6 +5331,7 @@
 "9": {
 "en": {
 "forced": false,
+"inside": false,
 "leader": [
 [
 186,
@@ -8045,32 +5339,22 @@
 ],
 [
 186,
-2
-],
-[
-232,
-2
+19
 ]
 ],
-"text": "Private Room",
-"x": 233,
-"y": 0
+"loose": 0,
+"text": "Private\nRoom",
+"x": 168,
+"y": -3
 },
 "ko": {
 "forced": false,
-"leader": [
-[
-204,
-42
-],
-[
-232,
-17
-]
-],
+"inside": true,
+"leader": [],
+"loose": 0,
 "text": "개인실",
-"x": 233,
-"y": 8
+"x": 170,
+"y": 48
 }
 }
 }

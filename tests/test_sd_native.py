@@ -112,4 +112,43 @@ for pan in ((96, 100), (0, 0), (192, 200), (-80, 0)):
             off = icons[k['icon']][0]
             assert not (0 <= x < 320 and 0 <= y < bottom and z[y][x][3] and icon_px[off] and icon_at(z, k, 2, -pan[0], -pan[1])), ('sliced icon', i, pan)
     print('zoom pan', pan, 'overlay texels', names, 'exact icons', k_ok)
+
+# 8) names are part of the map (user 2026-11-13): panning moves every map-layer texel by exactly the pan, nothing is re-placed
+a, _ = emu.render(0, 2, pan=(96, 100))
+b, _ = emu.render(0, 2, pan=(104, 100))
+same = tot = 0
+for y in range(40, 190):
+    for x in range(40, 300):
+        if a[y][x][3] or b[y][x - 8][3]:
+            tot += 1; same += a[y][x] == b[y][x - 8]
+assert tot > 300 and same >= tot * 0.995, (same, tot)
+d, _ = emu.render(0, 2, pan=(96, 108))
+same = tot = 0
+for y in range(40, 186):
+    for x in range(40, 300):
+        if a[y + 8][x][3] or d[y][x][3]:
+            tot += 1; same += a[y + 8][x] == d[y][x]
+assert tot > 300 and same >= tot * 0.995, ('vertical pan', same, tot)
+print('zoom names scroll with the map: horizontal and vertical pan move every texel exactly', same, tot)
+
+# 9) crowded pages (Mansion 1F / 2F): names on the zoom view only; other pages keep names on the 1x full-screen view
+def names_texels(page, view):
+    on, _ = emu.render(page, view)
+    emu.press(0x31)
+    off, _ = emu.render(page, view)
+    emu.press(0x31)
+    return sum(1 for y in range(204) for x in range(320) if on[y][x][3]) - sum(1 for y in range(204) for x in range(320) if off[y][x][3])
+n0, n5 = names_texels(0, 1), names_texels(5, 1)
+assert n5 > 400 and n0 < 250, ('names on the 1x view: page 5', n5, 'page 0 (crowded)', n0)
+assert names_texels(0, 2) > 800, 'zoom view of a crowded page shows names'
+print('1x full-screen names: crowded page', n0, 'texels (room icons only), page 5', n5)
+
+# 10) floor / area arrows: drawn on the 1x full-screen map when the page has neighbours, not on the zoom view; green with a black rim
+def green(img, x0, y0, w, h): return sum(1 for y in range(y0, y0 + h) for x in range(x0, x0 + w) if img[y][x][3] and img[y][x][1] > 160 and img[y][x][0] < 120)
+img, sp = emu.render(0, 1, mapstate={12: 3, 13: 2})
+assert green(img, 154, 2, 12, 9) > 20 and green(img, 154, 194, 12, 9) > 20 and green(img, 5, 114, 9, 12) > 20, 'floor / area arrows missing'
+assert any(s['flags'] == 0x50000000 for s in sp), 'arrows are drawn semi-transparent (blinking) as in HD'
+img, _ = emu.render(0, 2, mapstate={12: 3, 13: 2})
+assert green(img, 154, 2, 12, 9) < 5, 'no floor arrows on the zoom view (as HD)'
+print('floor / area arrows ok')
 print('SD native ok')

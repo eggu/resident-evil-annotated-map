@@ -62,28 +62,19 @@ static void sd_icons_pass(unsigned page, int view, int dx, int dy, int enemies) 
         sd_icon(SD_LAYER_MAP, k->icon, x, y);
     }
 }
-/* room names and leaders (views 1, 2); on the scrolled zoom canvas a name cut by the window edge moves inside and its leader
- * is re-ended on the moved name (user 2026-11-12) */
+/* room names and leaders (views 1, 2), fixed on the map at build time (tools/sd_layout.py): they scroll with the room, nothing is
+ * pulled inside the screen or re-ended at run time, and what lies beyond the map window is cut (user 2026-11-13). A name inside its
+ * room has no leader. Crowded pages (Mansion 1F / 2F) have no names on the 1x full-screen map. */
 static void sd_names(unsigned page, int view, int dx, int dy) {
-    int lang = english ? 0 : 1, top = ZVIEW_TOP, bottom = zview_bottom();
+    int lang = english ? 0 : 1;
+    if (view == 1 && sd_crowded[page]) return;
     for (unsigned i = 0; i < SD_ROOM_COUNT; i++) {
         const SdRoom *r = &sd_rooms[i];
-        if (!marker_visible(&ov_markers[r->marker], page)) continue;
         const SdName *n = &r->v[view - 1][lang];
-        const SdText *t = &sd_texts[n->sprite];
-        int x = n->x + dx, y = n->y + dy, pts[6], c = n->n;
-        for (int k = 0; k < c; k++) { pts[2 * k] = n->pt[2 * k] + dx; pts[2 * k + 1] = n->pt[2 * k + 1] + dy; }
-        if (view == 2 && c && pts[0] >= 0 && pts[0] < 320 && pts[1] >= top && pts[1] < bottom) {
-            int nx = x < 2 ? 2 : x + t->w > 318 ? 318 - t->w : x, ny = y < top + 2 ? top + 2 : y + t->h > bottom - 2 ? bottom - 2 - t->h : y;
-            if (nx != x || ny != y) {
-                int px = pts[c > 1 ? 2 * c - 4 : 0], py = pts[c > 1 ? 2 * c - 3 : 1];
-                pts[2 * c - 2] = px < nx ? nx - 1 : px >= nx + t->w ? nx + t->w : px;
-                pts[2 * c - 1] = py < ny ? ny - 1 : py >= ny + t->h ? ny + t->h : py;
-                x = nx; y = ny;
-            }
-        }
-        for (int k = 1; k < c; k++) sd_line(SD_LAYER_MAP, pts[2 * k - 2], pts[2 * k - 1], pts[2 * k], pts[2 * k + 1], 2);
-        sd_text(SD_LAYER_MAP, n->sprite, x, y, 2);
+        if (n->sprite == 0xFFFF || !marker_visible(&ov_markers[r->marker], page)) continue;
+        for (int k = 1; k < n->n; k++)
+            sd_line(SD_LAYER_MAP, n->pt[2 * k - 2] + dx, n->pt[2 * k - 1] + dy, n->pt[2 * k] + dx, n->pt[2 * k + 1] + dy, 2);
+        sd_text(SD_LAYER_MAP, n->sprite, n->x + dx, n->y + dy, 2);
     }
 }
 /* legend: category rows in their colour (grey when off), then scope, language, zoom or tab hint and [~] */
@@ -105,6 +96,10 @@ static void sd_legend(unsigned page) {
     int lang = english ? 0 : 1;
     if (ov_fullscreen) {
         static const SdCell zoom_hint = {11, 8, 19};
+        if (zoomed()) {   /* the title and the hint lie over the scrolling map: give them a box */
+            int w = sd_texts[sd_title[page][lang]].w, hw = sd_texts[sd_zoom[1][lang]].w;
+            sd_fill(SD_LAYER_LEGEND, 0, 0, 8 + (w > hw ? w : hw) + 5, 32, 1);
+        }
         sd_text(SD_LAYER_LEGEND, sd_title[page][lang], 8, 8, 15);
         sd_cell(&zoom_hint);
     }

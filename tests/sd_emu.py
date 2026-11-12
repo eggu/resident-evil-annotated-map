@@ -56,12 +56,13 @@ class Emu:
             out[0x5000 + i + 1] = (pal, struct.unpack_from('<H', t, 60)[0] * 4, t[64:])
         return out
 
-    def render(self, page, view, lang='en', pan=(96, 0), visited=range(124)):
+    def render(self, page, view, lang='en', pan=(96, 0), visited=range(124), mapstate=None):
         """Overlay of the SD layers for `view` (0 status, 1 full, 2 zoom) as RGBA 320x240 rows of (r, g, b, a)."""
         self.poke('ov_fullscreen', 1 if view else 0)
         self.poke('ov_zoom', 1 if view == 2 else 0)
         self.poke('ov_pan_x', pan[0]); self.poke('ov_pan_y', pan[1])
         self.scene(page, visited=visited)
+        for off, v in (mapstate or {}).items(): self.g['u'].mem_write(0xB38DE0 + off, bytes([v]))   # MAP_STATE +12 floors, +13 areas
         want_english = lang == 'en'
         if getattr(self, 'english', True) != want_english:
             self.press(LANG_KEY); self.english = want_english
@@ -75,7 +76,7 @@ class Emu:
         for s in self.g['sprites_now'] if False else sp:
             if s['tex'] not in tex: continue
             pal, tw, px = tex[s['tex']]
-            if s['wh'] in ((128, 100), (256, 200)) or s['flags'] in (0x40000000,): continue   # shared terrain / walls / backdrop: drawn by the caller
+            if s['flags'] == 0x40000000 or s['wh'] not in ((256, 240), (64, 240)) or (s['x'], s['y']) not in ((0, 0), (256, 0)): continue   # only the SD layers; terrain / walls / backdrop are the caller's
             u0, v0 = s['uv']
             for y in range(s['wh'][1]):
                 for x in range(s['wh'][0]):

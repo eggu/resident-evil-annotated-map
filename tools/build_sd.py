@@ -12,6 +12,8 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 
 ROOT = Path(__file__).resolve().parents[1]
+import sys; sys.path.insert(0, str(ROOT / 'tools'))
+from sd_layout import CROWDED   # pages with this many named rooms show names on the zoom view only
 FONT = ImageFont.truetype(str(ROOT / 'fonts/Galmuri9.ttf'), 10)
 LINE_H = 11
 VIEWS = (0, 1, 2)   # 0 status screen (icons only), 1 full-screen map, 2 zoom canvas
@@ -215,6 +217,10 @@ def main():
                 tp = marks[t]['pos'][v]; marks[i]['pos'][v] = (tp[0] + 6, tp[1] + 6)
             else: marks[i]['cover'][v] = t
     # rooms -------------------------------------------------------------------------------------------------------------------
+    named_on = {}
+    for m in ms:
+        if m['centre']: named_on[m['page']] = named_on.get(m['page'], 0) + 1
+    crowded = [int(named_on.get(p, 0) >= CROWDED) for p in range(11)]
     room_rows, missing = [], []
     for i, m in enumerate(ms):
         if not m['centre']: continue
@@ -222,7 +228,9 @@ def main():
         for v in (1, 2):
             for li, lg in enumerate(('en', 'ko')):
                 o = layout.get(str(m['page']), {}).get(str(v), {}).get(str(m['slot']), {}).get(lg)
-                if o is None: missing.append((m['page'], v, m['slot'], lg)); entry.append(None); continue
+                if o is None:   # no name on the full-screen view of a crowded page
+                    if v == 1 and crowded[m['page']]: entry.append(dict(sprite=0xFFFF, x=0, y=0, n=0, pt=[0] * 6)); continue
+                    missing.append((m['page'], v, m['slot'], lg)); entry.append(None); continue
                 pts = [q for p in o['leader'][:3] for q in p]
                 entry.append(dict(sprite=add_text(o['text']), x=o['x'], y=o['y'], n=len(o['leader'][:3]), pt=pts + [0] * (6 - len(pts))))
         room_rows.append((i, entry))
@@ -256,6 +264,7 @@ def main():
          'typedef struct { unsigned short sprite; short x, y; unsigned char n; short pt[6]; } SdName;',
          'typedef struct { unsigned short marker; SdName v[2][2]; } SdRoom;   /* [view 1 full, 2 zoom][lang] */',
          f'#define SD_ROOM_COUNT {len(room_rows)}',
+         'static const unsigned char sd_crowded[11] = {%s};   /* names only on the zoom view */' % ','.join(map(str, crowded)),
          'static const SdRoom sd_rooms[SD_ROOM_COUNT] = {' + ',\n'.join('{%d,{%s}}' % (i, ','.join('{%s}' % ','.join('{%d,%d,%d,%d,{%s}}' % (e['sprite'], e['x'], e['y'], e['n'], ','.join(map(str, e['pt']))) for e in entry[a * 2:a * 2 + 2]) for a in (0, 1))) for i, entry in room_rows) + '};']
     for k in ICONS: L.append(f'#define SDI_{k.upper()} {icon_id[("icon", k)]}')
     (ROOT / 'src/sd_assets.h').write_text('\n'.join(L) + '\n')
