@@ -42,4 +42,13 @@ for label, kw, want in cases:
     got, n = draws(**kw)
     assert got == want, (label, got, n)
     print('  ', label, '->', got, f'({n} sprites)')
+# the decision is taken at the first map draw, after REbirth's boot config may have rewritten config.ini
+for first, later, want in ((0, 1, 'HD'), (1, 0, 'SD')):
+    e = boot(HDLoader=first)
+    e.g['state']['ini']['HDLoader'] = later
+    e.scene(0, visited=range(124)); e.poke('ov_fullscreen', 1)
+    e.draw(); up, sp = e.draw()
+    got = 'HD' if len(sp) >= 14 else 'SD'
+    assert got == want, ('config changed after load', first, later, got)
+print('  config.ini changed between plugin load and the first map draw: the later value counts')
 print('SD auto ok: the mod installs and draws without Classic REbirth')

@@ -151,7 +151,6 @@ static void load_colors(void) {
     }
 }
 static void load_settings(void) {
-    detect_hd_off();
     load_colors();
     for (int i = 0; i < T_COUNT; i++) toggles[i] = GetPrivateProfileIntA("AnnotatedMap", toggle_keys[i], i <= T_ROOMS, ini_path) != 0;
     scope = (int)GetPrivateProfileIntA("AnnotatedMap", "Scope", 1, ini_path);   /* 1 visited, 2 revealed, 3 all */
@@ -188,10 +187,6 @@ static void load_settings(void) {
     ov_key_side = GetPrivateProfileIntA("AnnotatedMap", "KeySide", 0, ini_path) != 0;   /* 0 door centre, 1 unvisited side */
     char dm[8]; GetPrivateProfileStringA("AnnotatedMap", "DisplayMode", "Auto", dm, sizeof dm, ini_path);
     display_mode = !lstrcmpiA(dm, "HD") ? 1 : !lstrcmpiA(dm, "SD") ? 2 : 0;
-    sd_mode = display_mode == 2 || (display_mode == 0 && hd_off);
-    if (sd_mode) { ov_key_side = 0; log_text("SD mode: 1x markers and names (HD not available or DisplayMode=SD); size, opacity and item-name settings do not apply"); }
-    else if (hd_off) log_text("WARNING: DisplayMode=HD but HD is not available (needs Classic REbirth with HDLoader=1, RetroMode and LowResEnable off): only a notice is drawn. Use DisplayMode=Auto or SD.");
-    else log_text("HD mode");
     /* Version: written on the next save. 1 -> 2 changes no scale (new keys take their defaults), so nothing is converted;
      * a later scale change converts here once, keyed on the old version. */
     int version = (int)GetPrivateProfileIntA("AnnotatedMap", "Version", 1, ini_path);
@@ -1217,8 +1212,21 @@ static int upload_pending(void) {
         }
     return 0;
 }
+/* The mode is decided at the first map draw, not in DllMain: Classic REbirth's boot-config screen can still change config.ini
+ * (HDLoader / RetroMode) after the plugin loads, and the game cannot switch HD while running (user live test 2026-11-13). */
+static int mode_resolved;
+static void resolve_mode(void) {
+    if (mode_resolved) return;
+    mode_resolved = 1;
+    detect_hd_off();
+    sd_mode = display_mode == 2 || (display_mode == 0 && hd_off);
+    if (sd_mode) { ov_key_side = 0; log_text(display_mode == 2 ? "SD mode: DisplayMode=SD; 1x markers and names, size, opacity and item-name settings do not apply" : "SD mode: HD is not available (Auto); 1x markers and names, size, opacity and item-name settings do not apply"); }
+    else if (hd_off) log_text("WARNING: DisplayMode=HD but HD is not available (needs Classic REbirth with HDLoader=1, RetroMode and LowResEnable off): only a notice is drawn. Use DisplayMode=Auto or SD.");
+    else log_text("HD mode");
+}
 static void render_overlay(unsigned page, int left, int top) {
     if (page > 10) return;
+    resolve_mode();
     if (hd_off && !sd_mode) { draw_hd_notice(); return; }
     int changed = poll_keys();
     if (compose_needed || changed || page != cached_page || ov_fullscreen != cached_fullscreen ||
