@@ -1,6 +1,6 @@
 # Changelog
 
-## Unreleased
+## 1.3.1 - 2026-11-13
 
 English
 - `DisplayMode=Auto` now uses HD mode only with Classic REbirth installed, `HDLoader=1`, and `RetroMode` and `LowResEnable` off; every other case, including no Classic REbirth, is SD (the mod no longer refuses to start without it).
